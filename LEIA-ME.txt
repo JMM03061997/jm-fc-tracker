@@ -1,0 +1,18 @@
+JM FC TRACKER - VERSÃO 2
+========================
+Novidade: aba MEU ELENCO.
+- Adicione jogadores.
+- Edite nomes.
+- Remova jogadores do elenco atual.
+- Remover do elenco não apaga estatísticas antigas.
+- Cadastro de gols, assistências e MVP usa os jogadores do elenco.
+- Backup agora inclui partidas e elenco.
+
+INSTALAÇÃO COMO APP NO ANDROID:
+O arquivo index.html aberto direto da pasta de arquivos funciona como página, mas não pode ser instalado como PWA dessa forma.
+Para instalar com ícone e tela própria:
+1. Publique TODOS os arquivos desta pasta em hospedagem HTTPS (por exemplo, GitHub Pages).
+2. Abra o endereço HTTPS no Chrome do Android.
+3. Menu ⋮ > Instalar app ou Adicionar à tela inicial.
+
+As 19 partidas já estão pré-carregadas. Dados novos são guardados localmente no navegador. Exporte backup antes de trocar de aparelho ou limpar dados.
