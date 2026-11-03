@@ -1,18 +1,17 @@
-JM FC TRACKER - VERSÃO 2
-========================
-Novidade: aba MEU ELENCO.
-- Adicione jogadores.
-- Edite nomes.
-- Remova jogadores do elenco atual.
-- Remover do elenco não apaga estatísticas antigas.
-- Cadastro de gols, assistências e MVP usa os jogadores do elenco.
-- Backup agora inclui partidas e elenco.
+JM FC TRACKER 2.1
 
-INSTALAÇÃO COMO APP NO ANDROID:
-O arquivo index.html aberto direto da pasta de arquivos funciona como página, mas não pode ser instalado como PWA dessa forma.
-Para instalar com ícone e tela própria:
-1. Publique TODOS os arquivos desta pasta em hospedagem HTTPS (por exemplo, GitHub Pages).
-2. Abra o endereço HTTPS no Chrome do Android.
-3. Menu ⋮ > Instalar app ou Adicionar à tela inicial.
+Novidades:
+- Botões + e - para gols feitos e gols sofridos.
+- Botões + e - para gols e assistências de cada jogador.
+- Primeira carta de jogador: Mbappé dourado, OVR base 122, OVR atual 127, PE, nível 30.
+- Possibilidade de trocar a imagem do Mbappé por outra imagem do aparelho.
+- Mantém o armazenamento jm-fc-tracker-v2 para preservar partidas e elenco da versão 2.
 
-As 19 partidas já estão pré-carregadas. Dados novos são guardados localmente no navegador. Exporte backup antes de trocar de aparelho ou limpar dados.
+ATUALIZAÇÃO NO GITHUB PAGES:
+1. Faça backup pelo menu Backup antes de atualizar.
+2. Envie/substitua os arquivos desta pasta na raiz do repositório existente.
+3. Inclua também mbappe-127.jpg.
+4. Não apague os dados do navegador nem altere a chave de armazenamento.
+5. Depois de publicar, feche e abra novamente o app; se necessário, atualize a página.
+
+A imagem inicial da carta foi recortada de uma captura do elenco fornecida pelo usuário.
