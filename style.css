@@ -14,11 +14,16 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .header h1 {
-  font-size: 24px;
+  font-size: 22px;
+}
+
+.header p {
+  font-size: 12px;
+  color: #94a3b8;
 }
 
 /* CAMPO DE FUTEBOL RESPONSIVO */
@@ -31,7 +36,7 @@ body {
 .campo {
   width: 100%;
   max-width: 600px;
-  height: 520px;
+  height: 480px;
   background: linear-gradient(135deg, #15803d 0%, #166534 100%);
   border: 3px solid #22c55e;
   border-radius: 16px;
@@ -76,8 +81,8 @@ body {
 }
 
 .jogador-campo img {
-  width: 60px;
-  height: 85px;
+  width: 55px;
+  height: 80px;
   object-fit: contain;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
   pointer-events: none;
@@ -94,6 +99,66 @@ body {
   border: 1px solid #334155;
   white-space: nowrap;
   pointer-events: none;
+}
+
+/* BANCO DE RESERVAS E ELENCO */
+.elenco-section {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+}
+
+.elenco-section h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: #94a3b8;
+}
+
+.elenco-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 12px;
+}
+
+.card-elenco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0f172a;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #334155;
+  transition: transform 0.15s ease;
+  min-height: 110px;
+  justify-content: center;
+}
+
+.card-elenco:active {
+  transform: scale(0.96);
+}
+
+.card-elenco img {
+  width: 55px;
+  height: 75px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.card-elenco .nome-jogador {
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 4px;
+  text-align: center;
+  word-break: break-word;
+}
+
+.card-elenco .status-tag {
+  font-size: 10px;
+  color: #94a3b8;
 }
 
 /* MODAL DE ESTATÍSTICAS */

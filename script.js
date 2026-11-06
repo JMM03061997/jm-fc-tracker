@@ -1,4 +1,4 @@
-// BANCO DE DADOS DOS JOGADORES (JM FC 2.7)
+// BANCO DE DADOS DOS JOGADORES (JM FC Tracker 2.8)
 const elenco = [
   { id: "mbappe", nome: "Mbappé", posicao: "ATA", status: "Titular", top: "18%", left: "50%", imgAnimada: "mbappe_animada.webp", imgEstatica: "mbappe_estatica.png", imgAtributos: "mbappe_atributos.png", stats: { partidas: 12, gols: 15, assistencias: 4, mvp: 3 } },
   { id: "vini", nome: "Vini Jr.", posicao: "ME", status: "Titular", top: "34%", left: "22%", imgAnimada: "vini_animada.webp", imgEstatica: "vini_estatica.png", imgAtributos: "vini_atributos.png", stats: { partidas: 12, gols: 8, assistencias: 9, mvp: 2 } },
@@ -10,7 +10,9 @@ const elenco = [
   { id: "maldini", nome: "Maldini", posicao: "ZAG", status: "Titular", top: "74%", left: "38%", imgAnimada: "maldini_animada.webp", imgEstatica: "maldini_estatica.png", imgAtributos: "maldini_atributos.png", stats: { partidas: 12, gols: 1, assistencias: 0, mvp: 1 } },
   { id: "gabriel", nome: "Gabriel", posicao: "ZAG", status: "Titular", top: "74%", left: "62%", imgAnimada: "gabriel_animada.webp", imgEstatica: "gabriel_estatica.png", imgAtributos: "gabriel_atributos.png", stats: { partidas: 12, gols: 2, assistencias: 0, mvp: 0 } },
   { id: "marcos", nome: "Marcos Llorente", posicao: "LD", status: "Titular", top: "72%", left: "84%", imgAnimada: "marcos_animada.webp", imgEstatica: "marcos_estatica.png", imgAtributos: "marcos_atributos.png", stats: { partidas: 11, gols: 1, assistencias: 3, mvp: 0 } },
-  { id: "cech", nome: "Čech", posicao: "GOL", status: "Titular", top: "88%", left: "50%", imgAnimada: "cech_animada.webp", imgEstatica: "cech_estatica.png", imgAtributos: "cech_atributos.png", stats: { partidas: 12, gols: 0, assistencias: 0, mvp: 0 } }
+  { id: "cech", nome: "Čech", posicao: "GOL", status: "Titular", top: "88%", left: "50%", imgAnimada: "cech_animada.webp", imgEstatica: "cech_estatica.png", imgAtributos: "cech_atributos.png", stats: { partidas: 12, gols: 0, assistencias: 0, mvp: 0 } },
+  { id: "ronaldinho", nome: "Ronaldinho", posicao: "PE", status: "Reserva", imgAnimada: "ronaldinho_animada.webp", imgEstatica: "ronaldinho_estatica.png", imgAtributos: "ronaldinho_atributos.png", stats: { partidas: 5, gols: 3, assistencias: 2, mvp: 1 } },
+  { id: "messi", nome: "Messi", posicao: "AD", status: "Reserva", imgAnimada: "messi_animada.webp", imgEstatica: "messi_estatica.png", imgAtributos: "messi_atributos.png", stats: { partidas: 4, gols: 2, assistencias: 1, mvp: 0 } }
 ];
 
 function renderizarCampo() {
@@ -35,6 +37,30 @@ function renderizarCampo() {
     `;
 
     campo.appendChild(el);
+  });
+}
+
+function renderizarElenco() {
+  const grid = document.getElementById("elenco-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  elenco.forEach(jogador => {
+    const card = document.createElement("div");
+    card.className = "card-elenco";
+    
+    card.addEventListener("click", (e) => {
+      e.stopPropagation();
+      abrirModal(jogador.id);
+    });
+
+    card.innerHTML = `
+      <img src="${jogador.imgEstatica}" alt="${jogador.nome}" onerror="this.style.visibility='hidden'">
+      <div class="nome-jogador">${jogador.nome}</div>
+      <div class="status-tag">(${jogador.status})</div>
+    `;
+
+    grid.appendChild(card);
   });
 }
 
@@ -73,4 +99,5 @@ function fecharModalFora(event) {
 
 document.addEventListener("DOMContentLoaded", () => {
   renderizarCampo();
+  renderizarElenco();
 });
