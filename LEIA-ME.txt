@@ -1,2 +1,2 @@
-JM FC Tracker — Versão JM 2.1
+JM FC Tracker — Versão JM 2.2
 Substitua os arquivos no GitHub Pages.

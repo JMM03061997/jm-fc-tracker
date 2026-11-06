@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827"><meta name="description" content="Controle suas partidas e estatísticas do FC Mobile.">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
-<title>JM FC Tracker — JM 2.1</title>
+<title>JM FC Tracker — JM 2.2</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--line:#26374d;--muted:#9aabc0;--text:#f4f7fb;--green:#35d08a;--red:#ff6677;--gold:#ffc857}
 *{box-sizing:border-box;touch-action:manipulation}body{margin:0;background:radial-gradient(ellipse at top,#172940 0,#0b1220 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -21,7 +21,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 .soccer-field::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border:2px solid #ffffff33;border-radius:50%}
 .pitch-position{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;cursor:pointer;user-select:none;z-index:2}
 .pitch-position.drag-over .card-slot{border-color:var(--green);box-shadow:0 0 15px var(--green);transform:scale(1.15)}
-.card-slot{width:58px;height:78px;background:#0b1523ee;border:2px solid var(--gold);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 4px 10px #0007;transition:all .15s ease}
+.card-slot{width:54px;height:74px;background:#0b1523ee;border:2px solid var(--gold);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 4px 10px #0007;transition:all .15s ease}
 .card-slot img{width:100%;height:100%;object-fit:cover;pointer-events:none}
 .card-slot.empty{border:2px dashed #ffffff66;background:#00000044;color:#ffffff99;font-size:18px;font-weight:bold}
 .pos-badge{position:absolute;top:-4px;left:-4px;background:var(--gold);color:#0b1220;font-size:9px;font-weight:900;padding:1px 4px;border-radius:4px;box-shadow:0 2px 4px #0006}
@@ -36,11 +36,11 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 .roster-card p{margin:0;font-size:10px;color:var(--muted)}
 
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#000000bb;display:flex;align-items:center;justify-content:center;z-index:90;padding:16px}
-.modal-content{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:100%;max-width:460px;padding:20px;box-shadow:0 10px 40px #0009;max-height:90vh;overflow-y:auto}
+.modal-content{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:100%;max-width:440px;padding:20px;box-shadow:0 10px 40px #0009;max-height:90vh;overflow-y:auto}
 
 @media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.match{grid-template-columns:54px 1fr auto}.soccer-field{height:460px}}
 </style></head><body>
-<header><div class="brand"><div class="logo">JM</div><div><h1>JM FC Tracker <span style="font-size:12px;color:var(--green)">JM 2.1</span></h1><p>Seu histórico. Seus números. Sua evolução.</p></div></div></header>
+<header><div class="brand"><div class="logo">JM</div><div><h1>JM FC Tracker <span style="font-size:12px;color:var(--green)">JM 2.2</span></h1><p>Seu histórico. Seus números. Sua evolução.</p></div></div></header>
 <main><nav class="tabs">
 <button class="tab active" data-tab="dashboard">Visão geral</button><button class="tab" data-tab="new">Nova partida</button><button class="tab" data-tab="history">Histórico</button><button class="tab" data-tab="ranking">Rankings</button><button class="tab" data-tab="roster">Meu elenco</button><button class="tab" data-tab="backup">Backup</button>
 </nav>
@@ -82,9 +82,9 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 </div>
 </section>
 
-<section id="backup" class="view hidden"><div class="panel"><h2>Seus dados</h2><p class="note">Partidas e elenco ficam salvos neste aparelho. Exporte um backup regularmente.</p><div class="actions" style="margin:15px 0"><button class="btn" id="exportBtn">Exportar backup (JM 2.1)</button><label class="btn secondary" style="margin:0;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label><button class="btn danger" id="resetBtn">Apagar partidas</button></div></div></section>
+<section id="backup" class="view hidden"><div class="panel"><h2>Seus dados</h2><p class="note">Partidas e elenco ficam salvos neste aparelho. Exporte um backup regularmente.</p><div class="actions" style="margin:15px 0"><button class="btn" id="exportBtn">Exportar backup (JM 2.2)</button><label class="btn secondary" style="margin:0;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label><button class="btn danger" id="resetBtn">Apagar partidas</button></div></div></section>
 
-<footer class="note" style="text-align:center;padding:16px">JM FC Tracker JM 2.1 • Dados armazenados localmente</footer></main><div class="toast" id="toast"></div>
+<footer class="note" style="text-align:center;padding:16px">JM FC Tracker JM 2.2 • Dados armazenados localmente</footer></main><div class="toast" id="toast"></div>
 
 <!-- MODAL PARA ESCALAR JOGADOR NA POSIÇÃO -->
 <div id="selectPlayerModal" class="modal-overlay hidden">
@@ -99,7 +99,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 </div>
 </div>
 
-<!-- MODAL DE DETALHES / EDIÇÃO DE JOGADOR -->
+<!-- MODAL DE ESTATÍSTICAS DO JOGADOR (SEM OVR E SEM POSIÇÃO PREFERIDA) -->
 <div id="playerModal" class="modal-overlay hidden">
 <div class="modal-content">
 <h3 id="modalPlayerName" style="margin-top:0">Jogador</h3>
@@ -108,17 +108,10 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 <br>
 <label class="btn secondary small uploadlabel" style="display:inline-block;margin-top:8px">Trocar imagem da carta<input id="modalImageUpload" type="file" accept="image/*" hidden></label>
 </div>
-<div id="modalPlayerStats" class="note" style="margin:12px 0;line-height:1.6"></div>
-<div class="formgrid" style="margin-top:12px">
-<div><label>OVR Atual</label><input id="modalPlayerOvr" type="number" placeholder="Ex.: 127"></div>
-<div><label>Posição Preferida</label><input id="modalPlayerPos" placeholder="Ex.: PE, ST, MC"></div>
-</div>
+<div id="modalPlayerStats" class="note" style="margin:14px 0;line-height:1.8;font-size:14px"></div>
 <div class="actions" style="margin-top:16px;justify-content:space-between">
 <button class="btn danger small" id="modalDeletePlayerBtn">Remover do Elenco</button>
-<div>
 <button class="btn secondary small" id="modalCloseBtn">Fechar</button>
-<button class="btn small" id="modalSaveBtn">Salvar</button>
-</div>
 </div>
 </div>
 </div>
@@ -127,23 +120,23 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 const INITIAL_MATCHES=[{"opponent": "Guilherme (Ger)", "ovr": 123, "gf": 3, "ga": 0, "goals": {"Ronaldinho": 3}, "assists": {}, "mvp": ""}, {"opponent": "Lucas (com K)", "ovr": 125, "gf": 3, "ga": 1, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "tutu", "ovr": 126, "gf": 4, "ga": 0, "goals": {"Mbappé": 3, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Ronaldinho": 2, "Vini Jr.": 1}, "mvp": ""}, {"opponent": "negu---", "ovr": 127, "gf": 4, "ga": 0, "goals": {"Ronaldinho": 2, "Rodri": 1, "Maldini": 1}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Ronaldinho", "notes": "Um gol de Ronaldinho foi de pênalti; Maldini marcou de cabeça após escanteio."}, {"opponent": "Marcelo", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Mbappé"}, {"opponent": "Marcos", "ovr": 124, "gf": 0, "ga": 1, "goals": {}, "assists": {}, "mvp": ""}, {"opponent": "italo392", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 3}, "mvp": "Mbappé"}, {"opponent": "Filipe08", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 1, "Rodri": 1}, "mvp": "Rodri"}, {"opponent": "75_.jn", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Messi": 1, "Lamine Yamal": 1, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Vini Jr.": 1, "Makélélé": 1}, "mvp": "Makélélé"}, {"opponent": "Cristiano36", "ovr": 126, "gf": 2, "ga": 0, "goals": {"Mbappé": 1, "Vini Jr.": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1}, "mvp": "Mbappé"}, {"opponent": "ney010", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "JB_THEUZX", "ovr": 126, "gf": 1, "ga": 1, "goals": {"Mbappé": 1}, "assists": {"Ronaldinho": 1}, "mvp": ""}, {"opponent": "blackcharm", "ovr": 127, "gf": 2, "ga": 0, "goals": {"Mbappé": 2}, "assists": {"Ronaldinho": 2}, "mvp": "Mbappé"}, {"opponent": "novin", "ovr": 125, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "GothamCity", "ovr": null, "gf": 2, "ga": 0, "goals": {"Gabriel": 1, "Mbappé": 1}, "assists": {"Ronaldinho": 2}, "mvp": "Ronaldinho", "notes": "Gol de Gabriel de cabeça após escanteio."}, {"opponent": "joaco", "ovr": null, "gf": 1, "ga": 0, "goals": {"Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "nzbzb", "ovr": 126, "gf": 6, "ga": 0, "goals": {"Lamine Yamal": 1, "Messi": 1, "Vini Jr.": 1, "Mbappé": 1, "Ronaldinho": 2}, "assists": {"Vini Jr.": 1, "Makélélé": 1, "Mbappé": 1, "Ronaldinho": 1}, "mvp": "Ronaldinho"}, {"opponent": "Bruninho", "ovr": null, "gf": 3, "ga": 1, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Cucurella": 1}, "mvp": "Mbappé"}, {"opponent": "PositiveGames", "ovr": null, "gf": 3, "ga": 2, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1, "Lamine Yamal": 1}, "mvp": "Mbappé"}, {"opponent": "majd", "ovr": 127, "gf": 5, "ga": 1, "goals": {"Ronaldinho": 2, "Marcos Llorente": 1, "R. Baggio": 2}, "assists": {"Mbappé": 2, "Rodri": 1, "Cucurella": 1, "Marcos Llorente": 1}, "mvp": "Marcos Llorente"}];
 
 const INITIAL_ROSTER=["Mbappé","Ronaldinho","Vini Jr.","Messi","Lamine Yamal","Rodri","Maldini","Gabriel","Makélélé","Cucurella","Marcos Llorente","Čech", "R. Baggio"];
-const KEY="jm-fc-tracker-v2.1";
+const KEY="jm-fc-tracker-v2.2";
 
 let matches=[], roster=[], playerDetails={}, currentFormation="4-3-3", lineup={}, activeModalPlayer=null, activeTargetSlot=null;
 
-// TODAS AS FORMAÇÕES DO FC MOBILE COM SUAS POSIÇÕES
+// LISTA COMPLETA DE TODAS AS FORMAÇÕES DO FC MOBILE
 const FORMATIONS = {
   "4-3-3": { name: "4-3-3 (Atacante)", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CM1", label:"MC", x:30, y:45}, {id:"CAM", label:"MEI", x:50, y:38}, {id:"CM2", label:"MC", x:70, y:45},
     {id:"LW", label:"PE", x:15, y:18}, {id:"ST", label:"ATA", x:50, y:15}, {id:"RW", label:"PD", x:85, y:18}
   ]},
-  "4-3-3-HOLD": { name: "4-3-3 (Contenção)", slots: [
+  "4-3-3-HOLD": { name: "4-3-3 (Contenção / Volante)", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CDM", label:"VOL", x:50, y:52}, {id:"CM1", label:"MC", x:32, y:38}, {id:"CM2", label:"MC", x:68, y:38},
     {id:"LW", label:"PE", x:15, y:18}, {id:"ST", label:"ATA", x:50, y:15}, {id:"RW", label:"PD", x:85, y:18}
   ]},
-  "4-3-3-DEF": { name: "4-3-3 (Defensivo)", slots: [
+  "4-3-3-DEF": { name: "4-3-3 (Defensivo / 2 Volantes)", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CDM1", label:"VOL", x:35, y:50}, {id:"CDM2", label:"VOL", x:65, y:50}, {id:"CM", label:"MC", x:50, y:36},
     {id:"LW", label:"PE", x:15, y:18}, {id:"ST", label:"ATA", x:50, y:15}, {id:"RW", label:"PD", x:85, y:18}
@@ -152,6 +145,12 @@ const FORMATIONS = {
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CM1", label:"MC", x:25, y:45}, {id:"CM2", label:"MC", x:50, y:45}, {id:"CM3", label:"MC", x:75, y:45},
     {id:"LW", label:"PE", x:15, y:18}, {id:"ST", label:"ATA", x:50, y:15}, {id:"RW", label:"PD", x:85, y:18}
+  ]},
+  "4-3-2-1": { name: "4-3-2-1 (Árvore de Natal)", slots: [
+    {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
+    {id:"CDM", label:"VOL", x:50, y:54}, {id:"CM1", label:"MC", x:32, y:42}, {id:"CM2", label:"MC", x:68, y:42},
+    {id:"CF1", label:"SA", x:35, y:26}, {id:"CF2", label:"SA", x:65, y:26},
+    {id:"ST", label:"ATA", x:50, y:14}
   ]},
   "4-2-4": { name: "4-2-4", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
@@ -163,7 +162,12 @@ const FORMATIONS = {
     {id:"LM", label:"ME", x:15, y:44}, {id:"CM1", label:"MC", x:38, y:46}, {id:"CM2", label:"MC", x:62, y:46}, {id:"RM", label:"MD", x:85, y:44},
     {id:"ST1", label:"ATA", x:40, y:16}, {id:"ST2", label:"ATA", x:60, y:16}
   ]},
-  "4-1-2-1-2-N": { name: "4-1-2-1-2 (Fechado)", slots: [
+  "4-4-2-HOLD": { name: "4-4-2 (Volantes / Contenção)", slots: [
+    {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
+    {id:"LM", label:"ME", x:15, y:44}, {id:"CDM1", label:"VOL", x:38, y:46}, {id:"CDM2", label:"VOL", x:62, y:46}, {id:"RM", label:"MD", x:85, y:44},
+    {id:"ST1", label:"ATA", x:40, y:16}, {id:"ST2", label:"ATA", x:60, y:16}
+  ]},
+  "4-1-2-1-2-N": { name: "4-1-2-1-2 (Losango Fechado)", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CDM", label:"VOL", x:50, y:56}, {id:"CM1", label:"MC", x:30, y:42}, {id:"CM2", label:"MC", x:70, y:42}, {id:"CAM", label:"MEI", x:50, y:30},
     {id:"ST1", label:"ATA", x:38, y:15}, {id:"ST2", label:"ATA", x:62, y:15}
@@ -173,10 +177,21 @@ const FORMATIONS = {
     {id:"CDM", label:"VOL", x:50, y:56}, {id:"LM", label:"ME", x:18, y:42}, {id:"RM", label:"MD", x:82, y:42}, {id:"CAM", label:"MEI", x:50, y:30},
     {id:"ST1", label:"ATA", x:38, y:15}, {id:"ST2", label:"ATA", x:62, y:15}
   ]},
-  "4-2-3-1-W": { name: "4-2-3-1 (Largo)", slots: [
+  "4-2-3-1-N": { name: "4-2-3-1 (Fechado / MEIs)", slots: [
+    {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
+    {id:"CDM1", label:"VOL", x:35, y:52}, {id:"CDM2", label:"VOL", x:65, y:52},
+    {id:"LAM", label:"MEI", x:25, y:32}, {id:"CAM", label:"MEI", x:50, y:30}, {id:"RAM", label:"MEI", x:75, y:32},
+    {id:"ST", label:"ATA", x:50, y:15}
+  ]},
+  "4-2-3-1-W": { name: "4-2-3-1 (Largo / Pontas)", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CDM1", label:"VOL", x:35, y:52}, {id:"CDM2", label:"VOL", x:65, y:52},
     {id:"LM", label:"ME", x:18, y:32}, {id:"CAM", label:"MEI", x:50, y:32}, {id:"RM", label:"MD", x:82, y:32},
+    {id:"ST", label:"ATA", x:50, y:15}
+  ]},
+  "4-5-1-FLAT": { name: "4-5-1 (Plano)", slots: [
+    {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
+    {id:"LM", label:"ME", x:15, y:45}, {id:"CM1", label:"MC", x:38, y:45}, {id:"CM2", label:"MC", x:62, y:45}, {id:"RM", label:"MD", x:85, y:45}, {id:"CAM", label:"MEI", x:50, y:30},
     {id:"ST", label:"ATA", x:50, y:15}
   ]},
   "3-4-3": { name: "3-4-3", slots: [
@@ -189,6 +204,11 @@ const FORMATIONS = {
     {id:"CDM1", label:"VOL", x:35, y:54}, {id:"CDM2", label:"VOL", x:65, y:54},
     {id:"LM", label:"ME", x:15, y:38}, {id:"CAM", label:"MEI", x:50, y:34}, {id:"RM", label:"MD", x:85, y:38},
     {id:"ST1", label:"ATA", x:38, y:15}, {id:"ST2", label:"ATA", x:62, y:15}
+  ]},
+  "5-2-2-1": { name: "5-2-2-1", slots: [
+    {id:"GK", label:"GOL", x:50, y:88}, {id:"LWB", label:"ADD", x:12, y:65}, {id:"CB1", label:"ZAG", x:32, y:72}, {id:"CB2", label:"ZAG", x:50, y:74}, {id:"CB3", label:"ZAG", x:68, y:72}, {id:"RWB", label:"ADE", x:88, y:65},
+    {id:"CM1", label:"MC", x:38, y:48}, {id:"CM2", label:"MC", x:62, y:48},
+    {id:"LW", label:"PE", x:20, y:22}, {id:"ST", label:"ATA", x:50, y:16}, {id:"RW", label:"PD", x:80, y:22}
   ]},
   "5-3-2": { name: "5-3-2", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LWB", label:"ADD", x:12, y:65}, {id:"CB1", label:"ZAG", x:30, y:72}, {id:"CB2", label:"ZAG", x:50, y:72}, {id:"CB3", label:"ZAG", x:70, y:72}, {id:"RWB", label:"ADE", x:88, y:65},
@@ -207,9 +227,7 @@ function load(){
     currentFormation = localStorage.getItem(KEY+"-form") || "4-3-3";
     lineup = JSON.parse(localStorage.getItem(KEY+"-lineup")) || {};
 
-    // Caso de padrão inicial se lineup estiver vazio
     if(Object.keys(lineup).length === 0) {
-      // Mapeamento correto padrão inicial
       lineup = {
         "GK": "Čech", "LB": "Cucurella", "CB1": "Maldini", "CB2": "Gabriel", "RB": "Marcos Llorente",
         "CM1": "Rodri", "CAM": "Ronaldinho", "CM2": "Makélélé",
@@ -220,7 +238,6 @@ function load(){
     matches = INITIAL_MATCHES; roster = INITIAL_ROSTER.slice();
   }
 
-  // Preencher Select de Formações
   let formSelect = $("formationSelect");
   formSelect.innerHTML = Object.entries(FORMATIONS).map(([k, f])=>`<option value="${k}" ${k===currentFormation?'selected':''}>${f.name}</option>`).join("");
 }
@@ -292,7 +309,6 @@ function renderRoster(){
   });
   $("soccerField").innerHTML = fieldHtml;
 
-  // Renderizar Banco de Reservas / Cartas
   $("rosterCardsGrid").innerHTML = roster.map(p=>{
     let d = playerDetails[p] || {};
     let img = d.image || (p === "Mbappé" ? "mbappe-127.jpg" : "");
@@ -300,7 +316,7 @@ function renderRoster(){
     return `<div class="roster-card ${isPitch?'on-pitch':''}" draggable="true" ondragstart="handleDragStart(event, '${esc(p)}')" onclick="openPlayerModal('${esc(p)}')">
       ${img?`<img src="${img}" alt="${esc(p)}">`:`<div style="width:52px;height:70px;background:#0b1523;margin:0 auto 4px;border-radius:8px;display:grid;place-items:center;font-weight:900;color:var(--gold)">${esc(p[0])}</div>`}
       <h4>${esc(p)}</h4>
-      <p>${d.ovr?`OVR ${d.ovr}`:''} ${isPitch?'(Titular)':''}</p>
+      <p>${isPitch?'(Titular)':''}</p>
     </div>`;
   }).join("");
 
@@ -309,7 +325,6 @@ function renderRoster(){
   $("mvp").innerHTML='<option value="">Não informado</option>'+roster.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join("");
 }
 
-// ARRASTAR E SOLTAR (DRAG AND DROP)
 let draggedPlayer = null;
 function handleDragStart(e, name){
   draggedPlayer = name;
@@ -327,7 +342,6 @@ function handleDrop(e, slotId){
   e.currentTarget.classList.remove("drag-over");
   const name = e.dataTransfer.getData("text/plain") || draggedPlayer;
   if(name && roster.includes(name)){
-    // Se o jogador já estava em outro slot, remove do anterior
     Object.keys(lineup).forEach(k=>{ if(lineup[k] === name) delete lineup[k]; });
     lineup[slotId] = name;
     save(); renderRoster();
@@ -335,15 +349,13 @@ function handleDrop(e, slotId){
   }
 }
 
-// MODAL PARA SELECIONAR QUEM VAI NA VAGA (TOQUE DIRETO NA CARTA)
 function openSelectSlotModal(slotId, slotLabel){
   activeTargetSlot = slotId;
   $("selectSlotTitle").textContent = `Escalar posição: ${slotLabel}`;
   let html = roster.map(p=>{
-    let d = playerDetails[p] || {};
     let isCurrent = lineup[slotId] === p;
     return `<div class="rosterrow" onclick="assignPlayerToSlot('${esc(p)}')">
-      <span><b>${esc(p)}</b> ${d.ovr?`(OVR ${d.ovr})`:''}</span>
+      <span><b>${esc(p)}</b></span>
       ${isCurrent?'<span class="pill">Escalado aqui</span>':'<button class="btn small">Escalar</button>'}
     </div>`;
   }).join("");
@@ -370,7 +382,7 @@ $("clearSlotBtn").addEventListener("click", ()=>{
 });
 $("closeSelectModalBtn").addEventListener("click", ()=> $("selectPlayerModal").classList.add("hidden"));
 
-// MODAL DE DETALHES DO JOGADOR
+// MODAL DE DETALHES DO JOGADOR (APENAS ESTATÍSTICAS)
 function openPlayerModal(name){
   if(!name) return;
   activeModalPlayer = name;
@@ -378,8 +390,6 @@ function openPlayerModal(name){
   let d = playerDetails[name] || {};
   let img = d.image || (name === "Mbappé" ? "mbappe-127.jpg" : "");
   $("modalPlayerImg").src = img;
-  $("modalPlayerOvr").value = d.ovr || "";
-  $("modalPlayerPos").value = d.pos || "";
 
   let gCount = 0, aCount = 0, mvpCount = 0, matchesPlayed = 0;
   matches.forEach(m=>{
@@ -392,6 +402,7 @@ function openPlayerModal(name){
   let avg = matchesPlayed ? (gCount / matchesPlayed).toFixed(2) : "0.00";
 
   $("modalPlayerStats").innerHTML = `
+    <b>Partidas com participação:</b> ${matchesPlayed}<br>
     <b>Gols marcados:</b> ${gCount}<br>
     <b>Assistências:</b> ${aCount}<br>
     <b>Prêmios de MVP:</b> ${mvpCount}<br>
@@ -401,15 +412,6 @@ function openPlayerModal(name){
 }
 
 $("modalCloseBtn").addEventListener("click",()=>$("playerModal").classList.add("hidden"));
-$("modalSaveBtn").addEventListener("click",()=>{
-  if(!activeModalPlayer) return;
-  if(!playerDetails[activeModalPlayer]) playerDetails[activeModalPlayer] = {};
-  playerDetails[activeModalPlayer].ovr = $("modalPlayerOvr").value;
-  playerDetails[activeModalPlayer].pos = $("modalPlayerPos").value;
-  save(); renderRoster();
-  $("playerModal").classList.add("hidden");
-  toast("Dados salvos!");
-});
 
 $("modalDeletePlayerBtn").addEventListener("click", ()=>{
   if(!activeModalPlayer) return;
@@ -486,8 +488,8 @@ $("matchForm").addEventListener("submit",e=>{
 $("cancelEdit").addEventListener("click",clearForm);
 
 $("exportBtn").addEventListener("click",()=>{
-  let blob=new Blob([JSON.stringify({app:"JM FC Tracker",version:"2.1",matches,roster,playerDetails,currentFormation,lineup},null,2)],{type:"application/json"});
-  let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="JM 2.1.json";a.click();URL.revokeObjectURL(a.href);
+  let blob=new Blob([JSON.stringify({app:"JM FC Tracker",version:"2.2",matches,roster,playerDetails,currentFormation,lineup},null,2)],{type:"application/json"});
+  let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="JM 2.2.json";a.click();URL.revokeObjectURL(a.href);
 });
 
 $("importFile").addEventListener("change",async e=>{
