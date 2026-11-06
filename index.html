@@ -3,25 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JM FC Tracker 2.8</title>
+  <title>JM FC Tracker 3.0</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
   <div class="header">
-    <h1>JM FC Tracker 2.8</h1>
+    <h1>JM FC Tracker 3.0</h1>
     <p>Dados armazenados localmente</p>
   </div>
 
-  <!-- Campo com Jogadores Titulares -->
-  <div class="campo-container">
-    <div id="campo" class="campo"></div>
-  </div>
+  <!-- Barra de Navegação por Abas -->
+  <nav class="nav-abas">
+    <button class="aba-btn active" onclick="trocarAba('elenco')">Campo & Elenco</button>
+    <button class="aba-btn" onclick="trocarAba('nova-partida')">Nova Partida</button>
+    <button class="aba-btn" onclick="trocarAba('historico')">Histórico</button>
+    <button class="aba-btn" onclick="trocarAba('artilharia')">Artilharia</button>
+  </nav>
 
-  <!-- Banco de Reservas e Elenco -->
-  <div class="elenco-section">
-    <h2>Banco de Reservas e Elenco</h2>
-    <div id="elenco-grid" class="elenco-grid"></div>
-  </div>
+  <!-- Conteúdo da Aba 1: Campo & Elenco -->
+  <main id="aba-elenco" class="conteudo-aba active">
+    <!-- Campo de Futebol com Titulares -->
+    <div class="campo-container">
+      <div id="campo" class="campo"></div>
+    </div>
+
+    <!-- Banco de Reservas e Elenco -->
+    <div class="elenco-section">
+      <h2>Banco de Reservas e Elenco</h2>
+      <div id="elenco-grid" class="elenco-grid"></div>
+    </div>
+  </main>
+
+  <!-- Conteúdo da Aba 2: Nova Partida -->
+  <main id="aba-nova-partida" class="conteudo-aba">
+    <div class="painel-secao">
+      <h2>Registrar Nova Partida</h2>
+      <form id="form-partida" onsubmit="salvarPartida(event)">
+        <div class="form-group">
+          <label for="adversario">Adversário:</label>
+          <input type="text" id="adversario" required placeholder="Ex: Rival FC">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="gols-pro">Gols Marcados:</label>
+            <input type="number" id="gols-pro" min="0" value="0" required>
+          </div>
+          <div class="form-group">
+            <label for="gols-contra">Gols Sofridos:</label>
+            <input type="number" id="gols-contra" min="0" value="0" required>
+          </div>
+        </div>
+
+        <h3>Desempenho dos Jogadores na Partida</h3>
+        <div id="lista-participantes" class="lista-participantes"></div>
+
+        <button type="submit" class="btn-salvar">Salvar Partida</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Conteúdo da Aba 3: Histórico de Partidas -->
+  <main id="aba-historico" class="conteudo-aba">
+    <div class="painel-secao">
+      <h2>Histórico de Partidas</h2>
+      <div id="lista-historico" class="lista-historico">
+        <p class="empty-msg">Nenhuma partida registrada ainda.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Conteúdo da Aba 4: Ranking de Artilharia -->
+  <main id="aba-artilharia" class="conteudo-aba">
+    <div class="painel-secao">
+      <h2>Ranking de Artilharia & MVPs</h2>
+      <table class="tabela-artilharia">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th>Jogador</th>
+            <th>Partidas</th>
+            <th>Gols</th>
+            <th>Assis.</th>
+            <th>MVPs</th>
+          </tr>
+        </thead>
+        <tbody id="corpo-artilharia"></tbody>
+      </table>
+    </div>
+  </main>
 
   <!-- Modal do Jogador (Estatísticas Expandidas) -->
   <div id="modal-container" class="modal-overlay hidden" onclick="fecharModalFora(event)">
@@ -70,5 +140,10 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(err => console.log('SW fail:', err));
+    }
+  </script>
 </body>
 </html>

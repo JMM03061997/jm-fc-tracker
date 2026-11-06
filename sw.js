@@ -1,25 +1,16 @@
-const CACHE_NAME = 'jm-fc-tracker-v2.5-fix-v3';
-const ASSETS = [
+const CACHE_NAME = 'jm-fc-v3-0';
+const urlsToCache = [
   './',
   './index.html',
-  './manifest.webmanifest',
-  './icon.svg'
+  './style.css',
+  './script.js',
+  './manifest.webmanifest'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-    ))
-  );
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {

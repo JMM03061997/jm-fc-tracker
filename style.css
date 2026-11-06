@@ -14,7 +14,7 @@ body {
 
 .header {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 .header h1 {
@@ -22,8 +22,61 @@ body {
 }
 
 .header p {
-  font-size: 12px;
+  font-size: 11px;
   color: #94a3b8;
+}
+
+/* NAVEGAÇÃO POR ABAS */
+.nav-abas {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.aba-btn {
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.aba-btn.active, .aba-btn:hover {
+  background: #0284c7;
+  color: #fff;
+  border-color: #0ea5e9;
+}
+
+.conteudo-aba {
+  display: none;
+}
+
+.conteudo-aba.active {
+  display: block;
+}
+
+/* PAINEL DAS ABAS */
+.painel-secao {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+}
+
+.painel-secao h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #38bdf8;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 8px;
 }
 
 /* CAMPO DE FUTEBOL RESPONSIVO */
@@ -159,6 +212,108 @@ body {
 .card-elenco .status-tag {
   font-size: 10px;
   color: #94a3b8;
+}
+
+/* FORMULÁRIO NOVA PARTIDA */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #94a3b8;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.lista-participantes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.item-participante {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f172a;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.inputs-partida {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.inputs-partida input {
+  width: 50px;
+  padding: 5px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #fff;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.btn-salvar {
+  width: 100%;
+  padding: 12px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+
+}
+
+/* ARTILHARIA E HISTÓRICO */
+.tabela-artilharia {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.tabela-artilharia th, .tabela-artilharia td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #334155;
+}
+
+.tabela-artilharia th {
+  background: #0f172a;
+  color: #38bdf8;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+  padding: 20px 0;
 }
 
 /* MODAL DE ESTATÍSTICAS */
