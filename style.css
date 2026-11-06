@@ -9,40 +9,44 @@
 body {
   background-color: #0f172a;
   color: #f8fafc;
-  padding: 15px;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .header {
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .header h1 {
-  font-size: 22px;
+  font-size: 24px;
+  color: #fff;
 }
 
 .header p {
-  font-size: 11px;
+  font-size: 12px;
   color: #94a3b8;
 }
 
-/* NAVEGAÇÃO POR ABAS */
+/* NAVEGAÇÃO POR ABAS CORRIGIDA E CENTRALIZADA */
 .nav-abas {
   display: flex;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 25px;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .aba-btn {
   background: #1e293b;
   color: #94a3b8;
   border: 1px solid #334155;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   transition: all 0.2s ease;
 }
@@ -63,8 +67,7 @@ body {
 
 /* PAINEL DAS ABAS */
 .painel-secao {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   background: #1e293b;
   padding: 20px;
   border-radius: 12px;
@@ -88,8 +91,8 @@ body {
 
 .campo {
   width: 100%;
-  max-width: 600px;
-  height: 480px;
+  max-width: 700px;
+  height: 500px;
   background: linear-gradient(135deg, #15803d 0%, #166534 100%);
   border: 3px solid #22c55e;
   border-radius: 16px;
@@ -114,8 +117,8 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
 }
@@ -134,8 +137,8 @@ body {
 }
 
 .jogador-campo img {
-  width: 55px;
-  height: 80px;
+  width: 60px;
+  height: 85px;
   object-fit: contain;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
   pointer-events: none;
@@ -156,24 +159,23 @@ body {
 
 /* BANCO DE RESERVAS E ELENCO */
 .elenco-section {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
   background: #1e293b;
-  padding: 15px;
+  padding: 20px;
   border-radius: 12px;
   border: 1px solid #334155;
 }
 
 .elenco-section h2 {
-  font-size: 16px;
-  margin-bottom: 12px;
+  font-size: 18px;
+  margin-bottom: 15px;
   color: #94a3b8;
 }
 
 .elenco-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
 }
 
 .card-elenco {
@@ -181,12 +183,12 @@ body {
   flex-direction: column;
   align-items: center;
   background: #0f172a;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
   cursor: pointer;
   border: 1px solid #334155;
   transition: transform 0.15s ease;
-  min-height: 110px;
+  min-height: 120px;
   justify-content: center;
 }
 
@@ -195,23 +197,24 @@ body {
 }
 
 .card-elenco img {
-  width: 55px;
-  height: 75px;
+  width: 60px;
+  height: 80px;
   object-fit: contain;
   pointer-events: none;
 }
 
 .card-elenco .nome-jogador {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: bold;
-  margin-top: 4px;
+  margin-top: 6px;
   text-align: center;
   word-break: break-word;
 }
 
 .card-elenco .status-tag {
-  font-size: 10px;
+  font-size: 11px;
   color: #94a3b8;
+  margin-top: 2px;
 }
 
 /* FORMULÁRIO NOVA PARTIDA */
@@ -287,7 +290,6 @@ body {
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
-
 }
 
 /* ARTILHARIA E HISTÓRICO */

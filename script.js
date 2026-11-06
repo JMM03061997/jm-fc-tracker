@@ -1,4 +1,4 @@
-// BANCO DE DADOS DOS JOGADORES (JM FC Tracker 3.0)
+// BANCO DE DADOS DOS JOGADORES (JM FC Tracker 3.1)
 let elenco = JSON.parse(localStorage.getItem('jm_elenco')) || [
   { id: "mbappe", nome: "Mbappé", posicao: "ATA", status: "Titular", top: "18%", left: "50%", imgAnimada: "mbappe_animada.webp", imgEstatica: "mbappe_estatica.png", imgAtributos: "mbappe_atributos.png", stats: { partidas: 12, gols: 15, assistencias: 4, mvp: 3 } },
   { id: "vini", nome: "Vini Jr.", posicao: "ME", status: "Titular", top: "34%", left: "22%", imgAnimada: "vini_animada.webp", imgEstatica: "vini_estatica.png", imgAtributos: "vini_atributos.png", stats: { partidas: 12, gols: 8, assistencias: 9, mvp: 2 } },
@@ -56,7 +56,7 @@ function renderizarCampo() {
     });
 
     el.innerHTML = `
-      <img src="${jogador.imgAnimada}" alt="${jogador.nome}" onerror="this.style.visibility='hidden'">
+      <img src="${jogador.imgAnimada}" alt="${jogador.nome}" onerror="this.src='${jogador.imgEstatica}'">
       <span class="tag-nome">${jogador.nome}</span>
     `;
 
