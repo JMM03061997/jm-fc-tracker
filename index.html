@@ -3,76 +3,354 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827"><meta name="description" content="Controle suas partidas e estatísticas do FC Mobile.">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
-<title>JM FC Tracker</title>
+<title>JM FC Tracker — JM 2.0</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--line:#26374d;--muted:#9aabc0;--text:#f4f7fb;--green:#35d08a;--red:#ff6677;--gold:#ffc857}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#172940 0,#0b1220 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 header{padding:24px 18px 16px;max-width:1100px;margin:auto}.brand{display:flex;align-items:center;gap:12px}.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#38d996,#137d65);display:grid;place-items:center;font-weight:900;color:#071b16;font-size:18px}h1{font-size:22px;margin:0}header p{margin:5px 0 0;color:var(--muted);font-size:13px}
-main{max-width:1100px;margin:auto;padding:0 18px 42px}.tabs{display:flex;gap:8px;overflow:auto;padding:8px 0 16px}.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:12px;padding:10px 14px;white-space:nowrap;font-weight:650}.tab.active{background:#1e473d;border-color:#2e9b73;color:#d8ffed}
+main{max-width:1100px;margin:auto;padding:0 18px 42px}.tabs{display:flex;gap:8px;overflow:auto;padding:8px 0 16px}.tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:12px;padding:10px 14px;white-space:nowrap;font-weight:650;cursor:pointer}.tab.active{background:#1e473d;border-color:#2e9b73;color:#d8ffed}
 .panel{background:linear-gradient(160deg,#152338,#111b2a);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 10px 30px #0002}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}h2{font-size:17px;margin:0}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#0e1928;border:1px solid var(--line);border-radius:14px;padding:13px}.stat strong{display:block;font-size:25px;letter-spacing:-1px}.stat span{font-size:12px;color:var(--muted)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.btn{border:0;border-radius:12px;padding:11px 15px;background:var(--green);color:#062016;font-weight:800;cursor:pointer}.btn.secondary{background:#26384f;color:var(--text);border:1px solid #3a506c}.btn.danger{background:#48232d;color:#ffdbe0;border:1px solid #763644}.btn.small{padding:7px 10px;font-size:12px}
-label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}input,select{width:100%;background:#0b1523;border:1px solid #30445e;border-radius:10px;padding:11px;color:var(--text);font:inherit;min-width:0}input:focus,select:focus{outline:2px solid #2f9c76;border-color:transparent}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.playerline{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin:9px 0}.stepper{display:flex;align-items:center;gap:6px}.stepper input{width:54px;text-align:center;padding:10px 4px;font-weight:800}.stepbtn{width:42px;height:42px;border:1px solid #3a506c;border-radius:11px;background:#26384f;color:#fff;font-size:23px;font-weight:800;line-height:1;cursor:pointer;touch-action:manipulation}.stepbtn:active{transform:scale(.96);background:#1e473d}.scorestep{display:flex;align-items:center;gap:7px}.scorestep input{width:58px;text-align:center;font-weight:900;font-size:18px}.cardprofile{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.cardprofile img{width:116px;height:160px;object-fit:contain;border-radius:12px;background:#0b1523;border:1px solid #8a6a28}.cardmeta{flex:1;min-width:160px}.cardmeta strong{display:block;font-size:19px}.cardmeta p{margin:5px 0;color:var(--muted);font-size:13px}.uploadlabel{display:inline-flex;align-items:center;gap:7px;margin-top:8px}.playerline input[type=number]{text-align:center}.list{display:flex;flex-direction:column;gap:8px}.match{display:grid;grid-template-columns:66px 1fr auto;gap:12px;align-items:center;background:#0e1928;border:1px solid var(--line);padding:12px;border-radius:13px}.score{font-size:18px;font-weight:900;text-align:center}.score.win{color:var(--green)}.score.loss{color:var(--red)}.match small{display:block;color:var(--muted);margin-top:3px}.pill{font-size:11px;padding:4px 8px;border-radius:20px;background:#203149;color:#c8d8eb;white-space:nowrap}
-table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}td:last-child,th:last-child{text-align:right}.rank{color:var(--gold);font-weight:800;width:30px}.hidden{display:none!important}.actions{display:flex;gap:8px;flex-wrap:wrap}.note{font-size:12px;color:var(--muted);line-height:1.5}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#d9ffec;color:#07301e;padding:12px 18px;border-radius:12px;font-weight:750;box-shadow:0 8px 30px #0006;display:none;z-index:5}.rosterrow{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;background:#0e1928;border:1px solid var(--line);padding:9px;border-radius:12px}.rosterrow span{font-weight:650}.fieldtitle{margin:16px 0 8px;font-weight:750}
-@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.match{grid-template-columns:54px 1fr auto}.match .btn{padding:7px}.formgrid{grid-template-columns:1fr 1fr}}@media(max-width:390px){.formgrid{grid-template-columns:1fr}.match{grid-template-columns:48px 1fr}.match .matchactions{grid-column:2}}
+label{display:block;font-size:12px;color:var(--muted);margin:10px 0 5px}input,select{width:100%;background:#0b1523;border:1px solid #30445e;border-radius:10px;padding:11px;color:var(--text);font:inherit;min-width:0}input:focus,select:focus{outline:2px solid #2f9c76;border-color:transparent}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.playerline{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;margin:9px 0}.stepper{display:flex;align-items:center;gap:6px}.stepper input{width:54px;text-align:center;padding:10px 4px;font-weight:800}.stepbtn{width:42px;height:42px;border:1px solid #3a506c;border-radius:11px;background:#26384f;color:#fff;font-size:23px;font-weight:800;line-height:1;cursor:pointer;touch-action:manipulation}.stepbtn:active{transform:scale(.96);background:#1e473d}.scorestep{display:flex;align-items:center;gap:7px}.scorestep input{width:58px;text-align:center;font-weight:900;font-size:18px}
+.list{display:flex;flex-direction:column;gap:8px}.match{display:grid;grid-template-columns:66px 1fr auto;gap:12px;align-items:center;background:#0e1928;border:1px solid var(--line);padding:12px;border-radius:13px}.score{font-size:18px;font-weight:900;text-align:center}.score.win{color:var(--green)}.score.loss{color:var(--red)}.match small{display:block;color:var(--muted);margin-top:3px}.pill{font-size:11px;padding:4px 8px;border-radius:20px;background:#203149;color:#c8d8eb;white-space:nowrap}
+table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}td:last-child,th:last-child{text-align:right}.rank{color:var(--gold);font-weight:800;width:30px}.hidden{display:none!important}.actions{display:flex;gap:8px;flex-wrap:wrap}.note{font-size:12px;color:var(--muted);line-height:1.5}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#d9ffec;color:#07301e;padding:12px 18px;border-radius:12px;font-weight:750;box-shadow:0 8px 30px #0006;display:none;z-index:5}
+
+/* ESTILOS DO CAMPO TÁTICO - JM 2.0 */
+.soccer-field{position:relative;width:100%;max-width:650px;height:450px;margin:16px auto;background:linear-gradient(180deg,#134d2a 0%,#1b6b3b 100%);border:3px solid #ffffff33;border-radius:16px;overflow:hidden;box-shadow:inset 0 0 30px #0005}
+.soccer-field::before{content:"";position:absolute;top:50%;left:0;right:0;height:2px;background:#ffffff33}
+.soccer-field::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90px;height:90px;border:2px solid #ffffff33;border-radius:50%}
+.pitch-position{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .2s}
+.pitch-position:hover{transform:translate(-50%,-50%) scale(1.08)}
+.card-slot{width:56px;height:76px;background:#0b1523cc;border:2px solid var(--gold);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 4px 10px #0007}
+.card-slot img{width:100%;height:100%;object-fit:cover}
+.card-slot.empty{border:2px dashed #ffffff55;background:#00000033;color:#ffffff88;font-size:20px}
+.player-tag{background:#071b16ee;color:var(--text);font-size:10px;padding:2px 6px;border-radius:6px;margin-top:3px;white-space:nowrap;font-weight:700;border:1px solid #2e9b73}
+
+.roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:12px}
+.roster-card{background:#0e1928;border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;cursor:pointer;transition:border-color .2s}
+.roster-card:hover{border-color:var(--green)}
+.roster-card img{width:60px;height:82px;object-fit:cover;border-radius:8px;border:1px solid var(--gold);background:#0b1523;margin-bottom:6px}
+.roster-card h4{margin:4px 0 2px;font-size:14px}
+.roster-card p{margin:0;font-size:11px;color:var(--muted)}
+
+/* MODAL DE PERFIL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:#000000bb;display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal-content{background:var(--panel);border:1px solid var(--line);border-radius:18px;width:100%;max-width:450px;padding:20px;box-shadow:0 10px 40px #0009}
+
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.match{grid-template-columns:54px 1fr auto}.soccer-field{height:390px}}
 </style></head><body>
-<header><div class="brand"><div class="logo">JM</div><div><h1>JM FC Tracker</h1><p>Seu histórico. Seus números. Sua evolução.</p></div></div></header>
+<header><div class="brand"><div class="logo">JM</div><div><h1>JM FC Tracker <span style="font-size:12px;color:var(--green)">JM 2.0</span></h1><p>Seu histórico. Seus números. Sua evolução.</p></div></div></header>
 <main><nav class="tabs">
 <button class="tab active" data-tab="dashboard">Visão geral</button><button class="tab" data-tab="new">Nova partida</button><button class="tab" data-tab="history">Histórico</button><button class="tab" data-tab="ranking">Rankings</button><button class="tab" data-tab="roster">Meu elenco</button><button class="tab" data-tab="backup">Backup</button>
 </nav>
+
 <section id="dashboard" class="view"><div class="sectionhead"><h2>Resumo da campanha</h2><span class="pill" id="recordLabel"></span></div><div class="grid" id="statsGrid"></div>
 <div class="two" style="margin-top:14px"><div class="panel"><div class="sectionhead"><h2>Artilharia</h2><span class="muted">Gols</span></div><div id="topGoals"></div></div><div class="panel"><div class="sectionhead"><h2>Garçons</h2><span class="muted">Assistências</span></div><div id="topAssists"></div></div></div>
 <div class="panel"><div class="sectionhead"><h2>Últimas partidas</h2><button class="btn secondary small" data-goto="history">Ver todas</button></div><div id="recentMatches" class="list"></div></div></section>
+
 <section id="new" class="view hidden"><div class="panel"><div class="sectionhead"><h2 id="formTitle">Registrar partida</h2><span class="pill">Novo resultado</span></div><form id="matchForm">
-<div class="formgrid"><div><label>Nome do adversário *</label><input id="opponent" required placeholder="Ex.: jogador123"></div><div><label>OVR do adversário</label><input id="ovr" type="number" min="1" max="200" placeholder="Ex.: 128"></div><div><label>Gols feitos *</label><div class="scorestep"><button class="stepbtn" type="button" data-step="-1" data-target="gf" aria-label="Diminuir gols feitos">−</button><input id="gf" type="number" min="0" max="99" value="0" required><button class="stepbtn" type="button" data-step="1" data-target="gf" aria-label="Aumentar gols feitos">+</button></div></div><div><label>Gols sofridos *</label><div class="scorestep"><button class="stepbtn" type="button" data-step="-1" data-target="ga" aria-label="Diminuir gols sofridos">−</button><input id="ga" type="number" min="0" max="99" value="0" required><button class="stepbtn" type="button" data-step="1" data-target="ga" aria-label="Aumentar gols sofridos">+</button></div></div></div>
-<p class="note">Os campos de gols e assistências são gerados pelo seu elenco. Se um jogador novo ainda não estiver cadastrado, adicione-o em “Meu elenco”.</p>
+<div class="formgrid"><div><label>Nome do adversário *</label><input id="opponent" required placeholder="Ex.: jogador123"></div><div><label>OVR do adversário</label><input id="ovr" type="number" min="1" max="200" placeholder="Ex.: 128"></div><div><label>Gols feitos *</label><div class="scorestep"><button class="stepbtn" type="button" data-step="-1" data-target="gf" aria-label="Diminuir">−</button><input id="gf" type="number" min="0" max="99" value="0" required><button class="stepbtn" type="button" data-step="1" data-target="gf" aria-label="Aumentar">+</button></div></div><div><label>Gols sofridos *</label><div class="scorestep"><button class="stepbtn" type="button" data-step="-1" data-target="ga" aria-label="Diminuir">−</button><input id="ga" type="number" min="0" max="99" value="0" required><button class="stepbtn" type="button" data-step="1" data-target="ga" aria-label="Aumentar">+</button></div></div></div>
+<p class="note">Os campos de gols e assistências são gerados pelo seu elenco.</p>
 <div class="two"><div><div class="fieldtitle">Gols por jogador</div><div id="goalInputs"></div></div><div><div class="fieldtitle">Assistências por jogador</div><div id="assistInputs"></div></div></div>
 <div class="formgrid"><div><label>MVP da partida</label><select id="mvp"><option value="">Não informado</option></select></div><div><label>Observações</label><input id="notes" placeholder="Ex.: gol de cabeça"></div></div>
 <div class="actions" style="margin-top:18px"><button class="btn" type="submit">Salvar partida</button><button class="btn secondary" type="button" id="cancelEdit">Limpar formulário</button></div></form></div></section>
+
 <section id="history" class="view hidden"><div class="panel"><div class="sectionhead"><h2>Histórico de partidas</h2><span class="pill" id="historyCount"></span></div><div id="historyList" class="list"></div></div></section>
+
 <section id="ranking" class="view hidden"><div class="two"><div class="panel"><h2>Artilharia</h2><div id="goalsTable"></div></div><div class="panel"><h2>Assistências</h2><div id="assistsTable"></div></div><div class="panel"><h2>Prêmios de MVP</h2><div id="mvpTable"></div></div></div></section>
-<section id="roster" class="view hidden"><div class="panel"><div class="sectionhead"><h2>Meu elenco</h2><span class="pill" id="rosterCount"></span></div><p class="note">Gerencie os jogadores que estão atualmente no seu time. Remover alguém do elenco não apaga gols, assistências ou MVPs antigos do histórico.</p><div class="panel" style="margin:14px 0;background:#0e1928"><div class="sectionhead"><h2>Teste de carta</h2><span class="pill">Primeira carta</span></div><div class="cardprofile"><img id="mbappeCardImage" src="mbappe-127.jpg" alt="Carta dourada do Mbappé OVR 127"><div class="cardmeta"><strong>Mbappé</strong><p>OVR base 122 → OVR atual 127</p><p>Ponta esquerda (PE) · Nível 30 · Rank máximo</p><p class="note">Imagem recortada do print do seu elenco enviado anteriormente. Você pode trocar por uma imagem mais limpa quando quiser.</p><label class="btn secondary small uploadlabel">Trocar imagem da carta<input id="mbappeImageUpload" type="file" accept="image/*" hidden></label></div></div></div><form id="rosterForm" class="formgrid"><div><label>Nome do jogador</label><input id="playerName" required placeholder="Ex.: Cristiano Ronaldo"></div><div style="display:flex;align-items:end"><button class="btn" type="submit" style="width:100%">Adicionar jogador</button></div></form><div id="rosterList" class="list" style="margin-top:14px"></div></div></section>
-<section id="backup" class="view hidden"><div class="panel"><h2>Seus dados</h2><p class="note">Partidas e elenco ficam salvos neste aparelho/navegador. Exporte um backup regularmente para não perder seus dados ao trocar de celular ou limpar o navegador.</p><div class="actions" style="margin:15px 0"><button class="btn" id="exportBtn">Exportar backup</button><label class="btn secondary" style="margin:0;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label><button class="btn danger" id="resetBtn">Apagar partidas</button></div>
-<div class="panel" style="margin-top:16px"><h2>Instalar no celular</h2><p class="note">Para o Chrome oferecer “Instalar app” corretamente, os arquivos precisam estar publicados em um endereço HTTPS. Abrir o index.html direto da pasta de Downloads não instala como PWA. Depois de hospedar, abra o endereço no Chrome e use ⋮ → Instalar app / Adicionar à tela inicial.</p></div></div></section>
-<footer class="note" style="text-align:center;padding:16px">JM FC Tracker • Dados armazenados localmente neste navegador</footer></main><div class="toast" id="toast"></div>
+
+<!-- SEÇÃO MEU ELENCO & CAMPO TÁTICO - JM 2.0 -->
+<section id="roster" class="view hidden">
+<div class="panel">
+<div class="sectionhead"><h2>Meu elenco & Campo Tático</h2><span class="pill" id="rosterCount"></span></div>
+<p class="note">Monte sua escalação escolhendo a formação e posicionando os jogadores titulares no campo. Toque em uma carta para ver o perfil ou gerenciar.</p>
+
+<div style="margin:12px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<label style="margin:0">Formação:</label>
+<select id="formationSelect" style="width:auto;flex:1;min-width:140px">
+<option value="4-3-3">4-3-3 (Atacante)</option>
+<option value="4-2-4">4-2-4</option>
+<option value="4-4-2">4-4-2</option>
+</select>
+<button class="btn small" id="addPlayerBtn">+ Novo Jogador</button>
+</div>
+
+<!-- CAMPO DE FUTEBOL VISUAL -->
+<div class="soccer-field" id="soccerField"></div>
+
+<h3 style="margin:20px 0 10px;font-size:15px">Banco de Reservas e Elenco Completo</h3>
+<div id="rosterCardsGrid" class="roster-grid"></div>
+</div>
+</section>
+
+<section id="backup" class="view hidden"><div class="panel"><h2>Seus dados</h2><p class="note">Partidas e elenco ficam salvos neste aparelho. Exporte um backup regularmente.</p><div class="actions" style="margin:15px 0"><button class="btn" id="exportBtn">Exportar backup (JM 2.0)</button><label class="btn secondary" style="margin:0;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label><button class="btn danger" id="resetBtn">Apagar partidas</button></div></div></section>
+
+<footer class="note" style="text-align:center;padding:16px">JM FC Tracker JM 2.0 • Dados armazenados localmente</footer></main><div class="toast" id="toast"></div>
+
+<!-- MODAL DE DETALHES / EDIÇÃO DE JOGADOR -->
+<div id="playerModal" class="modal-overlay hidden">
+<div class="modal-content">
+<h3 id="modalPlayerName" style="margin-top:0">Jogador</h3>
+<div style="text-align:center;margin:12px 0">
+<img id="modalPlayerImg" src="" alt="Carta" style="width:100px;height:138px;object-fit:cover;border-radius:10px;border:2px solid var(--gold);background:#0b1523">
+<label class="btn secondary small uploadlabel" style="display:inline-block;margin-top:8px">Trocar imagem da carta<input id="modalImageUpload" type="file" accept="image/*" hidden></label>
+</div>
+<div id="modalPlayerStats" class="note" style="margin:12px 0;line-height:1.6"></div>
+<div class="formgrid" style="margin-top:12px">
+<div><label>OVR Atual</label><input id="modalPlayerOvr" type="number" placeholder="Ex.: 127"></div>
+<div><label>Posição Principal</label><input id="modalPlayerPos" placeholder="Ex.: PE, ST, ME"></div>
+</div>
+<div class="actions" style="margin-top:16px;justify-content:flex-end">
+<button class="btn secondary small" id="modalCloseBtn">Fechar</button>
+<button class="btn small" id="modalSaveBtn">Salvar alterações</button>
+</div>
+</div>
+</div>
+
 <script>
 const INITIAL_MATCHES=[{"opponent": "Guilherme (Ger)", "ovr": 123, "gf": 3, "ga": 0, "goals": {"Ronaldinho": 3}, "assists": {}, "mvp": ""}, {"opponent": "Lucas (com K)", "ovr": 125, "gf": 3, "ga": 1, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "tutu", "ovr": 126, "gf": 4, "ga": 0, "goals": {"Mbappé": 3, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Ronaldinho": 2, "Vini Jr.": 1}, "mvp": ""}, {"opponent": "negu---", "ovr": 127, "gf": 4, "ga": 0, "goals": {"Ronaldinho": 2, "Rodri": 1, "Maldini": 1}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Ronaldinho", "notes": "Um gol de Ronaldinho foi de pênalti; Maldini marcou de cabeça após escanteio."}, {"opponent": "Marcelo", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Mbappé"}, {"opponent": "Marcos", "ovr": 124, "gf": 0, "ga": 1, "goals": {}, "assists": {}, "mvp": ""}, {"opponent": "italo392", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 3}, "mvp": "Mbappé"}, {"opponent": "Filipe08", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 1, "Rodri": 1}, "mvp": "Rodri"}, {"opponent": "75_.jn", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Messi": 1, "Lamine Yamal": 1, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Vini Jr.": 1, "Makélélé": 1}, "mvp": "Makélélé"}, {"opponent": "Cristiano36", "ovr": 126, "gf": 2, "ga": 0, "goals": {"Mbappé": 1, "Vini Jr.": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1}, "mvp": "Mbappé"}, {"opponent": "ney010", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "JB_THEUZX", "ovr": 126, "gf": 1, "ga": 1, "goals": {"Mbappé": 1}, "assists": {"Ronaldinho": 1}, "mvp": ""}, {"opponent": "blackcharm", "ovr": 127, "gf": 2, "ga": 0, "goals": {"Mbappé": 2}, "assists": {"Ronaldinho": 2}, "mvp": "Mbappé"}, {"opponent": "novin", "ovr": 125, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "GothamCity", "ovr": null, "gf": 2, "ga": 0, "goals": {"Gabriel": 1, "Mbappé": 1}, "assists": {"Ronaldinho": 2}, "mvp": "Ronaldinho", "notes": "Gol de Gabriel de cabeça após escanteio."}, {"opponent": "joaco", "ovr": null, "gf": 1, "ga": 0, "goals": {"Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "nzbzb", "ovr": 126, "gf": 6, "ga": 0, "goals": {"Lamine Yamal": 1, "Messi": 1, "Vini Jr.": 1, "Mbappé": 1, "Ronaldinho": 2}, "assists": {"Vini Jr.": 1, "Makélélé": 1, "Mbappé": 1, "Ronaldinho": 1}, "mvp": "Ronaldinho"}, {"opponent": "Bruninho", "ovr": null, "gf": 3, "ga": 1, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Cucurella": 1}, "mvp": "Mbappé"}, {"opponent": "PositiveGames", "ovr": null, "gf": 3, "ga": 2, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1, "Lamine Yamal": 1}, "mvp": "Mbappé"}];
-const INITIAL_ROSTER=["Mbappé","Ronaldinho","Vini Jr.","Messi","Lamine Yamal","Rodri","Maldini","Gabriel","Makélélé","Cucurella","Marcos Llorente","Čech"];
-const KEY="jm-fc-tracker-v2";
-let matches=[],roster=[],editing=null,renaming=null;
+
+const INITIAL_ROSTER=["Mbappé","Ronaldinho","Vini Jr.","Messi","Lamine Yamal","Rodri","Maldini","Gabriel","Makélélé","Cucurella","Marcos Llorente","Čech", "R. Baggio"];
+const KEY="jm-fc-tracker-v2.0";
+
+let matches=[], roster=[], playerDetails={}, currentFormation="4-3-3", activeModalPlayer=null;
+
+const FORMATIONS = {
+  "4-3-3": [
+    {pos:"GK", label:"GOL", x:50, y:88},
+    {pos:"LB", label:"LE", x:15, y:68}, {pos:"CB1", label:"ZAG", x:38, y:72}, {pos:"CB2", label:"ZAG", x:62, y:72}, {pos:"RB", label:"LD", x:85, y:68},
+    {pos:"CM1", label:"MC", x:30, y:45}, {pos:"CDM", label:"VOL", x:50, y:48}, {pos:"CM2", label:"MC", x:70, y:45},
+    {pos:"LW", label:"PE", x:15, y:20}, {pos:"ST", label:"ATA", x:50, y:16}, {pos:"RW", label:"PD", x:85, y:20}
+  ],
+  "4-2-4": [
+    {pos:"GK", label:"GOL", x:50, y:88},
+    {pos:"LB", label:"LE", x:15, y:68}, {pos:"CB1", label:"ZAG", x:38, y:72}, {pos:"CB2", label:"ZAG", x:62, y:72}, {pos:"RB", label:"LD", x:85, y:68},
+    {pos:"CM1", label:"MC", x:35, y:48}, {pos:"CM2", label:"MC", x:65, y:48},
+    {pos:"LW", label:"PE", x:12, y:20}, {pos:"ST1", label:"ATA", x:38, y:16}, {pos:"ST2", label:"ATA", x:62, y:16}, {pos:"RW", label:"PD", x:88, y:20}
+  ],
+  "4-4-2": [
+    {pos:"GK", label:"GOL", x:50, y:88},
+    {pos:"LB", label:"LE", x:15, y:68}, {pos:"CB1", label:"ZAG", x:38, y:72}, {pos:"CB2", label:"ZAG", x:62, y:72}, {pos:"RB", label:"LD", x:85, y:68},
+    {pos:"LM", label:"ME", x:15, y:44}, {pos:"CM1", label:"MC", x:38, y:46}, {pos:"CM2", label:"MC", x:62, y:46}, {pos:"RM", label:"MD", x:85, y:44},
+    {pos:"ST1", label:"ATA", x:40, y:18}, {pos:"ST2", label:"ATA", x:60, y:18}
+  ]
+};
+
 const $=id=>document.getElementById(id);
-function load(){try{const m=localStorage.getItem(KEY),r=localStorage.getItem(KEY+"-roster");matches=m?JSON.parse(m):INITIAL_MATCHES;roster=r?JSON.parse(r):INITIAL_ROSTER.slice();if(!m)save();if(!r)saveRoster()}catch(e){matches=INITIAL_MATCHES;roster=INITIAL_ROSTER.slice()}}
-function save(){localStorage.setItem(KEY,JSON.stringify(matches))}
-function saveRoster(){localStorage.setItem(KEY+"-roster",JSON.stringify(roster))}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+function load(){
+  try{
+    matches = JSON.parse(localStorage.getItem(KEY)) || INITIAL_MATCHES;
+    roster = JSON.parse(localStorage.getItem(KEY+"-roster")) || INITIAL_ROSTER.slice();
+    playerDetails = JSON.parse(localStorage.getItem(KEY+"-details")) || {};
+    currentFormation = localStorage.getItem(KEY+"-form") || "4-3-3";
+  }catch(e){
+    matches = INITIAL_MATCHES; roster = INITIAL_ROSTER.slice();
+  }
+  $("formationSelect").value = currentFormation;
+}
+function save(){
+  localStorage.setItem(KEY, JSON.stringify(matches));
+  localStorage.setItem(KEY+"-roster", JSON.stringify(roster));
+  localStorage.setItem(KEY+"-details", JSON.stringify(playerDetails));
+  localStorage.setItem(KEY+"-form", currentFormation);
+}
+
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function sumObj(key){const o={};matches.forEach(m=>Object.entries(m[key]||{}).forEach(([p,n])=>o[p]=(o[p]||0)+Number(n||0)));return Object.entries(o).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],"pt-BR"))}
 function countMVP(){const o={};matches.forEach(m=>{if(m.mvp)o[m.mvp]=(o[m.mvp]||0)+1});return Object.entries(o).sort((a,b)=>b[1]-a[1])}
 function totals(){let w=0,d=0,l=0,gf=0,ga=0;matches.forEach(m=>{gf+=+m.gf;ga+=+m.ga;if(+m.gf>+m.ga)w++;else if(+m.gf===+m.ga)d++;else l++});return{w,d,l,gf,ga,gd:gf-ga,played:matches.length,rate:matches.length?(w*3+d)/(matches.length*3)*100:0}}
 function miniTable(items,limit=5){if(!items.length)return'<p class="muted">Ainda sem registros.</p>';return'<table><tbody>'+items.slice(0,limit).map(([n,v],i)=>`<tr><td><span class="rank">${i+1}.</span> ${esc(n)}</td><td><b>${v}</b></td></tr>`).join("")+'</tbody></table>'}
-function card(m,i){let res=m.gf>m.ga?"V":m.gf<m.ga?"D":"E",cl=res==="V"?"win":res==="D"?"loss":"";return`<div class="match"><div class="score ${cl}">${m.gf} : ${m.ga}<small>${res}</small></div><div><b>${esc(m.opponent)}</b><small>${m.ovr?`OVR ${m.ovr} · `:""}${esc(Object.entries(m.goals||{}).map(([p,n])=>`${p} ${n}x`).join(", ")||"Sem gols anotados")}${m.mvp?` · MVP: ${esc(m.mvp)}`:""}</small></div><div class="matchactions actions"><button class="btn secondary small" onclick="editMatch(${i})">Editar</button><button class="btn danger small" onclick="deleteMatch(${i})">Excluir</button></div></div>`}
-function render(){let t=totals();$("recordLabel").textContent=`${t.played} partidas`;$("statsGrid").innerHTML=[[""+t.played,"Partidas"],[t.w,"Vitórias"],[t.d,"Empates"],[t.l,"Derrotas"],[t.gf,"Gols marcados"],[t.ga,"Gols sofridos"],[(t.gd>0?"+":"")+t.gd,"Saldo de gols"],[t.rate.toFixed(1).replace(".",",")+"%","Aproveitamento"]].map(([v,l])=>`<div class="stat"><strong>${v}</strong><span>${l}</span></div>`).join("");
-$("topGoals").innerHTML=miniTable(sumObj("goals"),5);$("topAssists").innerHTML=miniTable(sumObj("assists"),5);$("recentMatches").innerHTML=matches.slice(-5).reverse().map((m,j)=>card(m,matches.length-1-j)).join("")||'<div class="muted">Nenhuma partida.</div>';
-$("historyCount").textContent=`${matches.length} registros`;$("historyList").innerHTML=matches.slice().reverse().map(m=>card(m,matches.indexOf(m))).join("")||'<div class="muted">Nenhuma partida.</div>';
-$("goalsTable").innerHTML=miniTable(sumObj("goals"),99);$("assistsTable").innerHTML=miniTable(sumObj("assists"),99);$("mvpTable").innerHTML=miniTable(countMVP(),99);renderRoster()}
-function playerFields(container){const kind=container==="goalInputs"?"goals":"assists";$(container).innerHTML=roster.map((p,i)=>{const id=`${kind}_${i}`;return `<div class="playerline"><label style="align-self:center;margin:0">${esc(p)}</label><div class="stepper"><button class="stepbtn" type="button" data-step="-1" data-target="${id}" aria-label="Diminuir ${kind} de ${esc(p)}">−</button><input id="${id}" type="number" min="0" max="99" value="0" data-player="${esc(p)}" aria-label="${esc(p)} ${kind}"><button class="stepbtn" type="button" data-step="1" data-target="${id}" aria-label="Aumentar ${kind} de ${esc(p)}">+</button></div></div>`}).join("")||'<p class="note">Seu elenco está vazio. Cadastre jogadores na aba Meu elenco.</p>'}
-function renderRoster(){ $("rosterCount").textContent=`${roster.length} jogadores`;$("rosterList").innerHTML=roster.map((p,i)=>`<div class="rosterrow"><span>${esc(p)}</span><button class="btn secondary small" onclick="renamePlayer(${i})">Editar</button><button class="btn danger small" onclick="removePlayer(${i})">Remover</button></div>`).join("")||'<p class="muted">Nenhum jogador cadastrado.</p>';playerFields("goalInputs");playerFields("assistInputs");$("mvp").innerHTML='<option value="">Não informado</option>'+roster.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join("")}
-function showTab(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("hidden",v.id!==id));document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));window.scrollTo({top:0,behavior:"smooth"})}
+function card(m,i){let res=m.gf>m.ga?"V":m.gf<m.ga?"D":"E",cl=res==="V"?"win":res==="D"?"loss":"";return`<div class="match"><div class="score ${cl}">${m.gf} : ${m.ga}<small>${res}</small></div><div><b>${esc(m.opponent)}</b><small>${m.ovr?`OVR ${m.ovr} · `:""}${esc(Object.entries(m.goals||{}).map(([p,n])=>`${p} ${n}x`).join(", ")||"Sem gols")}${m.mvp?` · MVP: ${esc(m.mvp)}`:""}</small></div><div class="matchactions actions"><button class="btn secondary small" onclick="editMatch(${i})">Editar</button><button class="btn danger small" onclick="deleteMatch(${i})">Excluir</button></div></div>`}
+
+function render(){
+  let t=totals();
+  $("recordLabel").textContent=`${t.played} partidas`;
+  $("statsGrid").innerHTML=[[""+t.played,"Partidas"],[t.w,"Vitórias"],[t.d,"Empates"],[t.l,"Derrotas"],[t.gf,"Gols marcados"],[t.ga,"Gols sofridos"],[(t.gd>0?"+":"")+t.gd,"Saldo de gols"],[t.rate.toFixed(1).replace(".",",")+"%","Aproveitamento"]].map(([v,l])=>`<div class="stat"><strong>${v}</strong><span>${l}</span></div>`).join("");
+  $("topGoals").innerHTML=miniTable(sumObj("goals"),5);
+  $("topAssists").innerHTML=miniTable(sumObj("assists"),5);
+  $("recentMatches").innerHTML=matches.slice(-5).reverse().map((m,j)=>card(m,matches.length-1-j)).join("")||'<div class="muted">Nenhuma partida.</div>';
+  $("historyCount").textContent=`${matches.length} registros`;
+  $("historyList").innerHTML=matches.slice().reverse().map(m=>card(m,matches.indexOf(m))).join("")||'<div class="muted">Nenhuma partida.</div>';
+  $("goalsTable").innerHTML=miniTable(sumObj("goals"),99);
+  $("assistsTable").innerHTML=miniTable(sumObj("assists"),99);
+  $("mvpTable").innerHTML=miniTable(countMVP(),99);
+  renderRoster();
+}
+
+function playerFields(container){
+  const kind=container==="goalInputs"?"goals":"assists";
+  $(container).innerHTML=roster.map((p,i)=>{
+    const id=`${kind}_${i}`;
+    return `<div class="playerline"><label style="align-self:center;margin:0">${esc(p)}</label><div class="stepper"><button class="stepbtn" type="button" data-step="-1" data-target="${id}">−</button><input id="${id}" type="number" min="0" max="99" value="0" data-player="${esc(p)}"><button class="stepbtn" type="button" data-step="1" data-target="${id}">+</button></div></div>`
+  }).join("");
+}
+
+function renderRoster(){
+  $("rosterCount").textContent=`${roster.length} jogadores`;
+  const slots = FORMATIONS[currentFormation] || FORMATIONS["4-3-3"];
+  let fieldHtml = "";
+  slots.forEach((slot, idx)=>{
+    let playerName = roster[idx] || null;
+    let details = playerName ? (playerDetails[playerName] || {}) : {};
+    let img = details.image || (playerName === "Mbappé" ? "mbappe-127.jpg" : "");
+    
+    fieldHtml += `<div class="pitch-position" style="top:${slot.y}%;left:${slot.x}%" onclick="openPlayerModal('${esc(playerName||'')}')">
+      <div class="card-slot ${playerName?'':'empty'}">
+        ${img?`<img src="${img}" alt="${esc(playerName)}">`: (playerName?esc(playerName.substring(0,3)):"+")}
+      </div>
+      <div class="player-tag">${esc(playerName ? playerName.split(" ")[0] : slot.label)}</div>
+    </div>`;
+  });
+  $("soccerField").innerHTML = fieldHtml;
+
+  $("rosterCardsGrid").innerHTML = roster.map(p=>{
+    let d = playerDetails[p] || {};
+    let img = d.image || (p === "Mbappé" ? "mbappe-127.jpg" : "");
+    return `<div class="roster-card" onclick="openPlayerModal('${esc(p)}')">
+      ${img?`<img src="${img}" alt="${esc(p)}">`:`<div style="width:60px;height:82px;background:#0b1523;margin:0 auto 6px;border-radius:8px;display:grid;place-items:center;font-weight:900;color:var(--gold)">${esc(p[0])}</div>`}
+      <h4>${esc(p)}</h4>
+      <p>${d.ovr?`OVR ${d.ovr}`:''} ${d.pos?`· ${d.pos}`:''}</p>
+    </div>`;
+  }).join("");
+
+  playerFields("goalInputs");
+  playerFields("assistInputs");
+  $("mvp").innerHTML='<option value="">Não informado</option>'+roster.map(p=>`<option value="${esc(p)}">${esc(p)}</option>`).join("");
+}
+
+function openPlayerModal(name){
+  if(!name) return;
+  activeModalPlayer = name;
+  $("modalPlayerName").textContent = name;
+  let d = playerDetails[name] || {};
+  let img = d.image || (name === "Mbappé" ? "mbappe-127.jpg" : "");
+  $("modalPlayerImg").src = img;
+  $("modalPlayerOvr").value = d.ovr || "";
+  $("modalPlayerPos").value = d.pos || "";
+
+  let gCount = 0, aCount = 0, mvpCount = 0, matchesPlayed = 0;
+  matches.forEach(m=>{
+    let hasPlayed = false;
+    if(m.goals && m.goals[name]) { gCount += +m.goals[name]; hasPlayed = true; }
+    if(m.assists && m.assists[name]) { aCount += +m.assists[name]; hasPlayed = true; }
+    if(m.mvp === name) { mvpCount++; hasPlayed = true; }
+    if(hasPlayed) matchesPlayed++;
+  });
+  let avg = matchesPlayed ? (gCount / matchesPlayed).toFixed(2) : "0.00";
+
+  $("modalPlayerStats").innerHTML = `
+    <b>Gols marcados:</b> ${gCount}<br>
+    <b>Assistências:</b> ${aCount}<br>
+    <b>Prêmios de MVP:</b> ${mvpCount}<br>
+    <b>Média de gols/partida:</b> ${avg}
+  `;
+  $("playerModal").classList.remove("hidden");
+}
+
+$("modalCloseBtn").addEventListener("click",()=>$("playerModal").classList.add("hidden"));
+$("modalSaveBtn").addEventListener("click",()=>{
+  if(!activeModalPlayer) return;
+  if(!playerDetails[activeModalPlayer]) playerDetails[activeModalPlayer] = {};
+  playerDetails[activeModalPlayer].ovr = $("modalPlayerOvr").value;
+  playerDetails[activeModalPlayer].pos = $("modalPlayerPos").value;
+  save(); renderRoster();
+  $("playerModal").classList.add("hidden");
+  toast("Dados do jogador atualizados!");
+});
+
+$("modalImageUpload").addEventListener("change", e=>{
+  const file = e.target.files && e.target.files[0];
+  if(!file || !activeModalPlayer) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const canvas = document.createElement("canvas"), maxW=300, maxH=420, scale=Math.min(1, maxW/img.width, maxH/img.height);
+      canvas.width = Math.round(img.width * scale); canvas.height = Math.round(img.height * scale);
+      canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+      const data = canvas.toDataURL("image/jpeg", 0.82);
+      if(!playerDetails[activeModalPlayer]) playerDetails[activeModalPlayer] = {};
+      playerDetails[activeModalPlayer].image = data;
+      $("modalPlayerImg").src = data;
+      save(); renderRoster();
+      toast("Imagem da carta atualizada!");
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+$("formationSelect").addEventListener("change", e=>{
+  currentFormation = e.target.value;
+  save(); renderRoster();
+});
+
+$("addPlayerBtn").addEventListener("click", ()=>{
+  let name = prompt("Nome do novo jogador:");
+  if(!name) return;
+  name = name.trim();
+  if(roster.some(p=>p.toLowerCase()===name.toLowerCase())) return alert("Jogador já cadastrado.");
+  roster.push(name);
+  save(); renderRoster();
+  toast("Jogador adicionado!");
+});
+
+function showTab(id){
+  document.querySelectorAll(".view").forEach(v=>v.classList.toggle("hidden",v.id!==id));
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.goto)));
+
+let editing=null;
 function clearForm(){editing=null;$("matchForm").reset();$("gf").value=0;$("ga").value=0;document.querySelectorAll("#goalInputs input,#assistInputs input").forEach(x=>x.value=0);$("formTitle").textContent="Registrar partida"}
 function editMatch(i){let m=matches[i];editing=i;showTab("new");$("formTitle").textContent="Editar partida";$("opponent").value=m.opponent;$("ovr").value=m.ovr??"";$("gf").value=m.gf;$("ga").value=m.ga;$("mvp").value=m.mvp||"";$("notes").value=m.notes||"";["goals","assists"].forEach(k=>document.querySelectorAll(k==="goals"?"#goalInputs input":"#assistInputs input").forEach(x=>x.value=(m[k]||{})[x.dataset.player]||0))}
-function deleteMatch(i){if(confirm(`Excluir a partida contra ${matches[i].opponent}?`)){matches.splice(i,1);save();render();toast("Partida excluída")}}
-function renamePlayer(i){let old=roster[i],n=prompt("Novo nome do jogador:",old);if(n===null)return;n=n.trim();if(!n)return alert("Digite um nome válido.");if(roster.some((p,j)=>j!==i&&p.toLowerCase()===n.toLowerCase()))return alert("Esse jogador já está no elenco.");roster[i]=n;saveRoster();renderRoster();toast("Jogador atualizado")}
-function removePlayer(i){let p=roster[i];if(confirm(`Remover ${p} do elenco atual? Os números antigos dele continuarão no histórico.`)){roster.splice(i,1);saveRoster();renderRoster();toast("Jogador removido do elenco")}}
+function deleteMatch(i){if(confirm(`Excluir partida contra ${matches[i].opponent}?`)){matches.splice(i,1);save();render();toast("Partida excluída")}}
 function toast(s){$("toast").textContent=s;$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",2200)}
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.goto)));
-$("matchForm").addEventListener("submit",e=>{e.preventDefault();const read=sel=>{let o={};document.querySelectorAll(sel).forEach(x=>{let n=+x.value;if(n>0)o[x.dataset.player]=n});return o};let m={opponent:$("opponent").value.trim(),ovr:$("ovr").value?+$("ovr").value:null,gf:+$("gf").value,ga:+$("ga").value,goals:read("#goalInputs input"),assists:read("#assistInputs input"),mvp:$("mvp").value,notes:$("notes").value.trim()};if(!m.opponent)return;if(editing===null)matches.push(m);else matches[editing]=m;save();render();clearForm();showTab("dashboard");toast("Partida salva!")});
-$("rosterForm").addEventListener("submit",e=>{e.preventDefault();let n=$("playerName").value.trim();if(!n)return;if(roster.some(p=>p.toLowerCase()===n.toLowerCase()))return alert("Esse jogador já está cadastrado.");roster.push(n);saveRoster();$("playerName").value="";renderRoster();toast("Jogador adicionado ao elenco!")});
+
+$("matchForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const read=sel=>{let o={};document.querySelectorAll(sel).forEach(x=>{let n=+x.value;if(n>0)o[x.dataset.player]=n});return o};
+  let m={opponent:$("opponent").value.trim(),ovr:$("ovr").value?+$("ovr").value:null,gf:+$("gf").value,ga:+$("ga").value,goals:read("#goalInputs input"),assists:read("#assistInputs input"),mvp:$("mvp").value,notes:$("notes").value.trim()};
+  if(!m.opponent)return;
+  if(editing===null)matches.push(m);else matches[editing]=m;
+  save();render();clearForm();showTab("dashboard");toast("Partida salva!");
+});
+
 $("cancelEdit").addEventListener("click",clearForm);
-$("exportBtn").addEventListener("click",()=>{let blob=new Blob([JSON.stringify({app:"JM FC Tracker",version:"2.1",matches,roster},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="jm-fc-tracker-backup.json";a.click();URL.revokeObjectURL(a.href)});
-$("importFile").addEventListener("change",async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Array.isArray(d.matches))throw Error();if(confirm(`Importar ${d.matches.length} partidas e o elenco? Isso substituirá os dados atuais.`)){matches=d.matches;roster=Array.isArray(d.roster)?d.roster:INITIAL_ROSTER.slice();save();saveRoster();render();toast("Backup importado")}}catch(_){alert("Backup inválido.")}e.target.value=""});
-$("resetBtn").addEventListener("click",()=>{if(confirm("Apagar todas as partidas? O elenco será mantido.")){matches=[];save();render();toast("Partidas apagadas")}});
-// Controles +/−: nunca permitem valores negativos nem acima de 99.
-document.addEventListener("click",e=>{const b=e.target.closest("button[data-step][data-target]");if(!b)return;const input=$(b.dataset.target);if(!input)return;const next=Math.max(0,Math.min(99,(Number(input.value)||0)+Number(b.dataset.step)));input.value=next;input.dispatchEvent(new Event("input",{bubbles:true}));});
-// Imagem da carta: comprime antes de guardar para não ocupar espaço excessivo no navegador.
-try{const savedCard=localStorage.getItem(KEY+"-mbappe-card");if(savedCard)$ ("mbappeCardImage").src=savedCard;}catch(e){}
-$("mbappeImageUpload").addEventListener("change",e=>{const file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith("image/")){alert("Escolha um arquivo de imagem.");return;}const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const canvas=document.createElement("canvas"),maxW=420,maxH=600,scale=Math.min(1,maxW/img.width,maxH/img.height);canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);const data=canvas.toDataURL("image/jpeg",0.82);try{localStorage.setItem(KEY+"-mbappe-card",data);$("mbappeCardImage").src=data;toast("Imagem do Mbappé atualizada!");}catch(err){alert("Não foi possível guardar a imagem. Tente uma imagem menor.");}};img.src=reader.result;};reader.readAsDataURL(file);e.target.value="";});
-load();render();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+
+$("exportBtn").addEventListener("click",()=>{
+  let blob=new Blob([JSON.stringify({app:"JM FC Tracker",version:"2.0",matches,roster,playerDetails},null,2)],{type:"application/json"});
+  let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="JM 2.0.json";a.click();URL.revokeObjectURL(a.href);
+});
+
+$("importFile").addEventListener("change",async e=>{
+  let f=e.target.files[0];if(!f)return;
+  try{
+    let d=JSON.parse(await f.text());
+    if(!Array.isArray(d.matches))throw Error();
+    if(confirm(`Importar ${d.matches.length} partidas e dados do elenco?`)){
+      matches=d.matches; roster=Array.isArray(d.roster)?d.roster:INITIAL_ROSTER.slice();
+      playerDetails=d.playerDetails||{};
+      save();render();toast("Backup importado com sucesso!");
+    }
+  }catch(_){alert("Backup inválido.")}
+  e.target.value="";
+});
+
+$("resetBtn").addEventListener("click",()=>{if(confirm("Apagar todas as partidas? Elenco será mantido.")){matches=[];save();render();toast("Partidas apagadas")}});
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-step][data-target]");
+  if(!b)return;
+  const input=$(b.dataset.target);if(!input)return;
+  const next=Math.max(0,Math.min(99,(Number(input.value)||0)+Number(b.dataset.step)));
+  input.value=next;
+});
+
+load(); render();
+if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
 </script></body></html>

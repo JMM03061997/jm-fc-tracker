@@ -1,17 +1,6 @@
-JM FC TRACKER 2.1
+JM FC Tracker — Versão JM 2.0
 
-Novidades:
-- Botões + e - para gols feitos e gols sofridos.
-- Botões + e - para gols e assistências de cada jogador.
-- Primeira carta de jogador: Mbappé dourado, OVR base 122, OVR atual 127, PE, nível 30.
-- Possibilidade de trocar a imagem do Mbappé por outra imagem do aparelho.
-- Mantém o armazenamento jm-fc-tracker-v2 para preservar partidas e elenco da versão 2.
-
-ATUALIZAÇÃO NO GITHUB PAGES:
-1. Faça backup pelo menu Backup antes de atualizar.
-2. Envie/substitua os arquivos desta pasta na raiz do repositório existente.
-3. Inclua também mbappe-127.jpg.
-4. Não apague os dados do navegador nem altere a chave de armazenamento.
-5. Depois de publicar, feche e abra novamente o app; se necessário, atualize a página.
-
-A imagem inicial da carta foi recortada de uma captura do elenco fornecida pelo usuário.
+Para atualizar no GitHub Pages:
+1. Extraia o conteúdo deste arquivo ZIP.
+2. Substitua os arquivos no repositório GitHub (JMM03061997/jm-fc-tracker).
+3. Aguarde a publicação do GitHub Pages.
