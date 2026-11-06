@@ -3,7 +3,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101827"><meta name="description" content="Controle suas partidas e estatísticas do FC Mobile.">
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
-<title>JM FC Tracker — JM 2.3</title>
+<title>JM FC Tracker — JM 2.3.1</title>
 <style>
 :root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--line:#26374d;--muted:#9aabc0;--text:#f4f7fb;--green:#35d08a;--red:#ff6677;--gold:#ffc857}
 *{box-sizing:border-box;touch-action:manipulation}body{margin:0;background:radial-gradient(ellipse at top,#172940 0,#0b1220 55%);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -40,7 +40,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 
 @media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.match{grid-template-columns:54px 1fr auto}.soccer-field{height:460px}}
 </style></head><body>
-<header><div class="brand"><div class="logo">JM</div><div><h1>JM FC Tracker <span style="font-size:12px;color:var(--green)">JM 2.3</span></h1><p>Seu histórico. Seus números. Sua evolução.</p></div></div></header>
+<header><div class="brand"><div class="logo">JM</div><div><h1>JM FC Tracker <span style="font-size:12px;color:var(--green)">JM 2.3.1</span></h1><p>Seu histórico. Seus números. Sua evolução.</p></div></div></header>
 <main><nav class="tabs">
 <button class="tab active" data-tab="dashboard">Visão geral</button><button class="tab" data-tab="new">Nova partida</button><button class="tab" data-tab="history">Histórico</button><button class="tab" data-tab="ranking">Rankings</button><button class="tab" data-tab="roster">Meu elenco</button><button class="tab" data-tab="retired">Jogadores Antigos</button><button class="tab" data-tab="backup">Backup</button>
 </nav>
@@ -51,7 +51,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 
 <section id="new" class="view hidden"><div class="panel"><div class="sectionhead"><h2 id="formTitle">Registrar partida</h2><span class="pill">Novo resultado</span></div><form id="matchForm">
 <div class="formgrid"><div><label>Nome do adversário *</label><input id="opponent" required placeholder="Ex.: jogador123"></div><div><label>OVR do adversário</label><input id="ovr" type="number" min="1" max="200" placeholder="Ex.: 128"></div><div><label>Gols feitos *</label><div class="scorestep"><button class="stepbtn" type="button" data-step="-1" data-target="gf">−</button><input id="gf" type="number" min="0" max="99" value="0" required><button class="stepbtn" type="button" data-step="1" data-target="gf">+</button></div></div><div><label>Gols sofridos *</label><div class="scorestep"><button class="stepbtn" type="button" data-step="-1" data-target="ga">−</button><input id="ga" type="number" min="0" max="99" value="0" required><button class="stepbtn" type="button" data-step="1" data-target="ga">+</button></div></div></div>
-<p class="note"><b>Contagem Automática de Jogos:</b> Ao salvar, o app dará <b>+1 partida jogada</b> automaticamente aos 11 titulares do campo tático!</p>
+<p class="note"><b>Contagem Automática de Jogos:</b> Ao salvar, os 11 titulares do campo ganham <b>+1 partida jogada</b> automaticamente!</p>
 <div class="two"><div><div class="fieldtitle">Gols por jogador</div><div id="goalInputs"></div></div><div><div class="fieldtitle">Assistências por jogador</div><div id="assistInputs"></div></div></div>
 <div class="formgrid"><div><label>MVP da partida</label><select id="mvp"><option value="">Não informado</option></select></div><div><label>Observações</label><input id="notes" placeholder="Ex.: gol de cabeça"></div></div>
 <div class="actions" style="margin-top:18px"><button class="btn" type="submit">Salvar partida</button><button class="btn secondary" type="button" id="cancelEdit">Limpar formulário</button></div></form></div></section>
@@ -64,7 +64,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 <section id="roster" class="view hidden">
 <div class="panel">
 <div class="sectionhead"><h2>Meu elenco & Campo Tático</h2><span class="pill" id="rosterCount"></span></div>
-<p class="note"><b>Dica:</b> Você pode adicionar a versão/evento entre parênteses ao nome (ex: <i>Mbappé (OVR 127 - Evento)</i>) para diferenciar cartas!</p>
+<p class="note"><b>Dica:</b> Toque na posição para escalar ou arraste o jogador do banco para o campo!</p>
 
 <div style="margin:12px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
 <label style="margin:0">Formação:</label>
@@ -74,23 +74,23 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 
 <div class="soccer-field" id="soccerField"></div>
 
-<h3 style="margin:20px 0 10px;font-size:15px">Banco de Reservas e Elenco (Arraste para o campo)</h3>
+<h3 style="margin:20px 0 10px;font-size:15px">Banco de Reservas e Elenco</h3>
 <div id="rosterCardsGrid" class="roster-grid"></div>
 </div>
 </section>
 
-<!-- ABA JOGADORES ANTIGOS (REMOVIDOS) -->
+<!-- ABA JOGADORES ANTIGOS -->
 <section id="retired" class="view hidden">
 <div class="panel">
 <div class="sectionhead"><h2>Jogadores Antigos / Histórico</h2><span class="pill" id="retiredCount">0</span></div>
-<p class="note">Jogadores que você removeu do elenco atual continuam com suas estatísticas e fotos salvas aqui. Você pode recontratá-los a qualquer momento!</p>
+<p class="note">Jogadores removidos do elenco atual ficam salvos aqui com suas estatísticas e fotos. Você pode recontratá-los quando quiser!</p>
 <div id="retiredCardsGrid" class="roster-grid" style="margin-top:14px"></div>
 </div>
 </section>
 
-<section id="backup" class="view hidden"><div class="panel"><h2>Seus dados</h2><p class="note">Partidas e elenco ficam salvos neste aparelho. Exporte um backup regularmente.</p><div class="actions" style="margin:15px 0"><button class="btn" id="exportBtn">Exportar backup (JM 2.3)</button><label class="btn secondary" style="margin:0;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label><button class="btn danger" id="resetBtn">Apagar partidas</button></div></div></section>
+<section id="backup" class="view hidden"><div class="panel"><h2>Seus dados</h2><p class="note">Partidas e elenco ficam salvos neste aparelho. Exporte um backup regularmente.</p><div class="actions" style="margin:15px 0"><button class="btn" id="exportBtn">Exportar backup (JM 2.3.1)</button><label class="btn secondary" style="margin:0;cursor:pointer">Importar backup<input id="importFile" type="file" accept="application/json" hidden></label><button class="btn danger" id="resetBtn">Apagar partidas</button></div></div></section>
 
-<footer class="note" style="text-align:center;padding:16px">JM FC Tracker JM 2.3 • Dados armazenados localmente</footer></main><div class="toast" id="toast"></div>
+<footer class="note" style="text-align:center;padding:16px">JM FC Tracker JM 2.3.1 • Dados armazenados localmente</footer></main><div class="toast" id="toast"></div>
 
 <!-- MODAL PARA ESCALAR JOGADOR NA POSIÇÃO -->
 <div id="selectPlayerModal" class="modal-overlay hidden">
@@ -105,7 +105,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 </div>
 </div>
 
-<!-- MODAL DE ESTATÍSTICAS E FICHA DO JOGADOR -->
+<!-- MODAL DE FICHA E ESTATÍSTICAS DO JOGADOR -->
 <div id="playerModal" class="modal-overlay hidden">
 <div class="modal-content">
 <h3 id="modalPlayerName" style="margin-top:0">Jogador</h3>
@@ -115,10 +115,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 <label class="btn secondary small uploadlabel" style="display:inline-block;margin-top:8px">Trocar imagem da carta<input id="modalImageUpload" type="file" accept="image/*" hidden></label>
 </div>
 <div id="modalPlayerStats" class="note" style="margin:14px 0;line-height:1.8;font-size:14px"></div>
-<div class="actions" style="margin-top:16px;justify-content:space-between" id="modalActionsArea">
-<button class="btn danger small" id="modalDeletePlayerBtn">Remover do Elenco</button>
-<button class="btn secondary small" id="modalCloseBtn">Fechar</button>
-</div>
+<div class="actions" style="margin-top:16px;justify-content:space-between" id="modalActionsArea"></div>
 </div>
 </div>
 
@@ -126,7 +123,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 const INITIAL_MATCHES=[{"opponent": "Guilherme (Ger)", "ovr": 123, "gf": 3, "ga": 0, "goals": {"Ronaldinho": 3}, "assists": {}, "mvp": ""}, {"opponent": "Lucas (com K)", "ovr": 125, "gf": 3, "ga": 1, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "tutu", "ovr": 126, "gf": 4, "ga": 0, "goals": {"Mbappé": 3, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Ronaldinho": 2, "Vini Jr.": 1}, "mvp": ""}, {"opponent": "negu---", "ovr": 127, "gf": 4, "ga": 0, "goals": {"Ronaldinho": 2, "Rodri": 1, "Maldini": 1}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Ronaldinho", "notes": "Um gol de Ronaldinho foi de pênalti; Maldini marcou de cabeça após escanteio."}, {"opponent": "Marcelo", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Mbappé"}, {"opponent": "Marcos", "ovr": 124, "gf": 0, "ga": 1, "goals": {}, "assists": {}, "mvp": ""}, {"opponent": "italo392", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 3}, "mvp": "Mbappé"}, {"opponent": "Filipe08", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 1, "Rodri": 1}, "mvp": "Rodri"}, {"opponent": "75_.jn", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Messi": 1, "Lamine Yamal": 1, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Vini Jr.": 1, "Makélélé": 1}, "mvp": "Makélélé"}, {"opponent": "Cristiano36", "ovr": 126, "gf": 2, "ga": 0, "goals": {"Mbappé": 1, "Vini Jr.": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1}, "mvp": "Mbappé"}, {"opponent": "ney010", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "JB_THEUZX", "ovr": 126, "gf": 1, "ga": 1, "goals": {"Mbappé": 1}, "assists": {"Ronaldinho": 1}, "mvp": ""}, {"opponent": "blackcharm", "ovr": 127, "gf": 2, "ga": 0, "goals": {"Mbappé": 2}, "assists": {"Ronaldinho": 2}, "mvp": "Mbappé"}, {"opponent": "novin", "ovr": 125, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "GothamCity", "ovr": null, "gf": 2, "ga": 0, "goals": {"Gabriel": 1, "Mbappé": 1}, "assists": {"Ronaldinho": 2}, "mvp": "Ronaldinho", "notes": "Gol de Gabriel de cabeça após escanteio."}, {"opponent": "joaco", "ovr": null, "gf": 1, "ga": 0, "goals": {"Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "nzbzb", "ovr": 126, "gf": 6, "ga": 0, "goals": {"Lamine Yamal": 1, "Messi": 1, "Vini Jr.": 1, "Mbappé": 1, "Ronaldinho": 2}, "assists": {"Vini Jr.": 1, "Makélélé": 1, "Mbappé": 1, "Ronaldinho": 1}, "mvp": "Ronaldinho"}, {"opponent": "Bruninho", "ovr": null, "gf": 3, "ga": 1, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Cucurella": 1}, "mvp": "Mbappé"}, {"opponent": "PositiveGames", "ovr": null, "gf": 3, "ga": 2, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1, "Lamine Yamal": 1}, "mvp": "Mbappé"}, {"opponent": "majd", "ovr": 127, "gf": 5, "ga": 1, "goals": {"Ronaldinho": 2, "Marcos Llorente": 1, "R. Baggio": 2}, "assists": {"Mbappé": 2, "Rodri": 1, "Cucurella": 1, "Marcos Llorente": 1}, "mvp": "Marcos Llorente"}];
 
 const INITIAL_ROSTER=["Mbappé","Ronaldinho","Vini Jr.","Messi","Lamine Yamal","Rodri","Maldini","Gabriel","Makélélé","Cucurella","Marcos Llorente","Čech", "R. Baggio"];
-const KEY="jm-fc-tracker-v2.3";
+const KEY="jm-fc-tracker-v2.3.1";
 
 let matches=[], roster=[], retiredRoster=[], playerDetails={}, currentFormation="4-3-3", lineup={}, playerMatchesPlayed={}, activeModalPlayer=null, activeTargetSlot=null;
 
@@ -336,7 +333,6 @@ $("clearSlotBtn").addEventListener("click", ()=>{
 });
 $("closeSelectModalBtn").addEventListener("click", ()=> $("selectPlayerModal").classList.add("hidden"));
 
-// MODAL DE FICHA E ESTATÍSTICAS
 function openPlayerModal(name, isRetired=false){
   if(!name) return;
   activeModalPlayer = name;
@@ -368,12 +364,12 @@ function openPlayerModal(name, isRetired=false){
   if(isRetired){
     $("modalActionsArea").innerHTML = `
       <button class="btn small" onclick="rehirePlayer('${esc(name)}')">Recontratar para o Elenco</button>
-      <button class="btn secondary small" id="modalCloseBtn" onclick="$('playerModal').classList.add('hidden')">Fechar</button>
+      <button class="btn secondary small" onclick="$('playerModal').classList.add('hidden')">Fechar</button>
     `;
   } else {
     $("modalActionsArea").innerHTML = `
-      <button class="btn danger small" id="modalDeletePlayerBtn" onclick="retirePlayer('${esc(name)}')">Mover p/ Antigos</button>
-      <button class="btn secondary small" id="modalCloseBtn" onclick="$('playerModal').classList.add('hidden')">Fechar</button>
+      <button class="btn danger small" onclick="retirePlayer('${esc(name)}')">Mover p/ Antigos</button>
+      <button class="btn secondary small" onclick="$('playerModal').classList.add('hidden')">Fechar</button>
     `;
   }
 
@@ -381,13 +377,13 @@ function openPlayerModal(name, isRetired=false){
 }
 
 function retirePlayer(name){
-  if(confirm(`Mover ${name} para a aba de Jogadores Antigos? O histórico e foto dele serão mantidos.`)){
+  if(confirm(`Mover ${name} para Jogadores Antigos?`)){
     roster = roster.filter(p=>p!==name);
     if(!retiredRoster.includes(name)) retiredRoster.push(name);
     Object.keys(lineup).forEach(k=>{ if(lineup[k]===name) delete lineup[k]; });
     save(); render();
     $("playerModal").classList.add("hidden");
-    toast(`${name} movido para Jogadores Antigos!`);
+    toast(`${name} movido para Antigos!`);
   }
 }
 
@@ -396,10 +392,8 @@ function rehirePlayer(name){
   if(!roster.includes(name)) roster.push(name);
   save(); render();
   $("playerModal").classList.add("hidden");
-  toast(`${name} recontratado para o Elenco!`);
+  toast(`${name} recontratado!`);
 }
-
-$("modalCloseBtn").addEventListener("click",()=>$("playerModal").classList.add("hidden"));
 
 $("modalImageUpload").addEventListener("change", e=>{
   const file = e.target.files && e.target.files[0];
@@ -429,10 +423,10 @@ $("formationSelect").addEventListener("change", e=>{
 });
 
 $("addPlayerBtn").addEventListener("click", ()=>{
-  let name = prompt("Nome do jogador (Você pode incluir a versão entre parênteses, ex: Mbappé (OVR 127)):");
+  let name = prompt("Nome do jogador (Ex: Mbappé (OVR 127 - TOTY)):");
   if(!name) return;
   name = name.trim();
-  if(roster.some(p=>p.toLowerCase()===name.toLowerCase())) return alert("Jogador já cadastrado.");
+  if(roster.some(p=>p.toLowerCase()===name.toLowerCase()) || retiredRoster.some(p=>p.toLowerCase()===name.toLowerCase())) return alert("Jogador já cadastrado.");
   roster.push(name);
   save(); renderRoster();
   toast("Jogador adicionado!");
@@ -461,7 +455,6 @@ $("matchForm").addEventListener("submit",e=>{
   
   if(editing===null) {
     matches.push(m);
-    // Somar +1 partida jogada automaticamente aos 11 titulares do campo
     Object.values(lineup).forEach(pName=>{
       if(pName && roster.includes(pName)){
         playerMatchesPlayed[pName] = (playerMatchesPlayed[pName] || 0) + 1;
@@ -477,8 +470,8 @@ $("matchForm").addEventListener("submit",e=>{
 $("cancelEdit").addEventListener("click",clearForm);
 
 $("exportBtn").addEventListener("click",()=>{
-  let blob=new Blob([JSON.stringify({app:"JM FC Tracker",version:"2.3",matches,roster,retiredRoster,playerDetails,currentFormation,lineup,playerMatchesPlayed},null,2)],{type:"application/json"});
-  let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="JM 2.3.json";a.click();URL.revokeObjectURL(a.href);
+  let blob=new Blob([JSON.stringify({app:"JM FC Tracker",version:"2.3.1",matches,roster,retiredRoster,playerDetails,currentFormation,lineup,playerMatchesPlayed},null,2)],{type:"application/json"});
+  let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="JM 2.3.1.json";a.click();URL.revokeObjectURL(a.href);
 });
 
 $("importFile").addEventListener("change",async e=>{
