@@ -3,43 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JM FC Tracker 2.5 - Atualizado</title>
+  <title>JM FC 2.7</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="header">
-    <h1>JM FC Tracker 2.5</h1>
-    <p>Dados armazenados localmente</p>
+    <h1>JM FC 2.7</h1>
   </div>
 
-  <!-- Campo com Jogadores Titulares (Cartas Animadas WebP) -->
+  <!-- Campo com Jogadores Titulares -->
   <div class="campo-container">
-    <div id="campo" class="campo">
-      <!-- Inserido dinamicamente via JS -->
-    </div>
-  </div>
-
-  <!-- Banco de Reservas e Elenco (Cartas PNG Fixas) -->
-  <div class="elenco-section">
-    <h2>Banco de Reservas e Elenco</h2>
-    <div id="elenco-grid" class="elenco-grid">
-      <!-- Inserido dinamicamente via JS -->
-    </div>
+    <div id="campo" class="campo"></div>
   </div>
 
   <!-- Modal do Jogador (Estatísticas Expandidas) -->
-  <div id="modal-container" class="modal-overlay hidden">
+  <div id="modal-container" class="modal-overlay hidden" onclick="fecharModalFora(event)">
     <div class="modal-card">
       <button class="fechar-btn" onclick="fecharModal()">✕</button>
       <h2 id="modal-nome">Nome do Jogador</h2>
       
       <div class="modal-body">
-        <!-- Lado Esquerdo: Imagem Completa de Atributos/Estatísticas -->
         <div class="modal-imagem-container">
-          <img id="modal-img-atributos" src="" alt="Atributos do Jogador" class="img-atributos-detalhada">
+          <img id="modal-img-atributos" src="" alt="Atributos do Jogador" class="img-atributos-detalhada" onerror="this.src='https://via.placeholder.com/300x420?text=Sem+Imagem'">
         </div>
         
-        <!-- Lado Direito: Dados de Desempenho no App -->
         <div class="modal-stats-container">
           <div class="stat-box">
             <span class="stat-label">Partidas Totais Jogadas:</span>

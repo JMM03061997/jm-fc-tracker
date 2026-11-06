@@ -3,12 +3,13 @@
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
 }
 
 body {
   background-color: #0f172a;
   color: #f8fafc;
-  padding: 20px;
+  padding: 15px;
 }
 
 .header {
@@ -16,19 +17,23 @@ body {
   margin-bottom: 20px;
 }
 
-/* CAMPO DE FUTEBOL */
+.header h1 {
+  font-size: 24px;
+}
+
+/* CAMPO DE FUTEBOL RESPONSIVO */
 .campo-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .campo {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   height: 520px;
   background: linear-gradient(135deg, #15803d 0%, #166534 100%);
-  border: 4px solid #22c55e;
+  border: 3px solid #22c55e;
   border-radius: 16px;
   position: relative;
   overflow: hidden;
@@ -51,12 +56,13 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border: 2px solid rgba(255, 255, 255, 0.4);
   border-radius: 50%;
 }
 
+/* CARTAS NO CAMPO */
 .jogador-campo {
   position: absolute;
   display: flex;
@@ -64,101 +70,46 @@ body {
   align-items: center;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.jogador-campo:hover {
-  transform: translate(-50%, -55%) scale(1.05);
+  z-index: 10;
+  min-width: 60px;
+  min-height: 80px;
 }
 
 .jogador-campo img {
-  width: 65px;
-  height: 95px;
+  width: 60px;
+  height: 85px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+  pointer-events: none;
 }
 
 .jogador-campo .tag-nome {
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(15, 23, 42, 0.9);
   color: #fff;
   font-size: 11px;
   font-weight: bold;
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
-  margin-top: -4px;
+  margin-top: -2px;
   border: 1px solid #334155;
+  white-space: nowrap;
+  pointer-events: none;
 }
 
-/* BANCO DE RESERVAS E ELENCO */
-.elenco-section {
-  max-width: 1000px;
-  margin: 0 auto;
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #334155;
-}
-
-.elenco-section h2 {
-  font-size: 18px;
-  margin-bottom: 16px;
-  color: #94a3b8;
-}
-
-.elenco-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 16px;
-}
-
-.card-elenco {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #0f172a;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid #334155;
-  transition: all 0.2s ease;
-}
-
-.card-elenco:hover {
-  border-color: #38bdf8;
-  transform: translateY(-3px);
-}
-
-.card-elenco img {
-  width: 70px;
-  height: 100px;
-  object-fit: contain;
-}
-
-.card-elenco .nome-jogador {
-  font-size: 12px;
-  font-weight: bold;
-  margin-top: 6px;
-  text-align: center;
-}
-
-.card-elenco .status-tag {
-  font-size: 11px;
-  color: #94a3b8;
-}
-
-/* MODAL DE ESTATÍSTICAS DETALHADAS */
+/* MODAL DE ESTATÍSTICAS */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 15px;
 }
 
 .hidden {
@@ -168,41 +119,45 @@ body {
 .modal-card {
   background: #1e293b;
   border-radius: 16px;
-  width: 90%;
-  max-width: 750px;
-  padding: 24px;
+  width: 100%;
+  max-width: 650px;
+  padding: 20px;
   position: relative;
   border: 1px solid #475569;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .fechar-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  background: transparent;
+  top: 12px;
+  right: 12px;
+  background: #334155;
   border: none;
-  color: #94a3b8;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.fechar-btn:hover {
   color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-card h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding-right: 30px;
 }
 
 .modal-body {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   align-items: center;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
   .modal-body {
     flex-direction: column;
   }
@@ -212,30 +167,31 @@ body {
   flex: 1;
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .img-atributos-detalhada {
   width: 100%;
-  max-width: 320px;
-  border-radius: 12px;
+  max-width: 260px;
+  border-radius: 10px;
   border: 1px solid #334155;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
 }
 
 .modal-stats-container {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  width: 100%;
 }
 
 .stat-box {
   display: flex;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 8px 10px;
   background: #0f172a;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .stat-box.highlight {
@@ -245,18 +201,18 @@ body {
 
 .modal-acoes {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .btn-trocar, .btn-antigos {
   flex: 1;
   padding: 10px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .btn-trocar {
