@@ -1,4 +1,4 @@
-const CACHE_NAME = 'jm-fc-tracker-v2.4-stable-29';
+const CACHE_NAME = 'jm-fc-tracker-v2.5-fix-v3';
 const ASSETS = [
   './',
   './index.html',
