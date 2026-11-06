@@ -1,6 +1,2 @@
-JM FC Tracker — Versão JM 2.0
-
-Para atualizar no GitHub Pages:
-1. Extraia o conteúdo deste arquivo ZIP.
-2. Substitua os arquivos no repositório GitHub (JMM03061997/jm-fc-tracker).
-3. Aguarde a publicação do GitHub Pages.
+JM FC Tracker — Versão JM 2.1
+Substitua os arquivos no GitHub Pages.
