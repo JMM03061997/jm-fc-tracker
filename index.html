@@ -64,7 +64,7 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 <section id="roster" class="view hidden">
 <div class="panel">
 <div class="sectionhead"><h2>Meu elenco & Campo Tático</h2><span class="pill" id="rosterCount"></span></div>
-<p class="note"><b>Formações do RenderZ / EA FC Mobile:</b> Todas as formações oficiais disponíveis!</p>
+<p class="note"><b>Formações do RenderZ / EA FC Mobile:</b> Todas as 28+ formações oficiais disponíveis!</p>
 
 <div style="margin:12px 0;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
 <label style="margin:0">Formação:</label>
@@ -120,16 +120,15 @@ table{width:100%;border-collapse:collapse}td,th{text-align:left;padding:10px 8px
 </div>
 
 <script>
-const INITIAL_MATCHES=[{"opponent": "Guilherme (Ger)", "ovr": 123, "gf": 3, "ga": 0, "goals": {"Ronaldinho": 3}, "assists": {}, "mvp": ""}, {"opponent": "Lucas (com K)", "ovr": 125, "gf": 3, "ga": 1, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "tutu", "ovr": 126, "gf": 4, "ga": 0, "goals": {"Mbappé": 3, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Ronaldinho": 2, "Vini Jr.": 1}, "mvp": ""}, {"opponent": "negu---", "ovr": 127, "gf": 4, "ga": 0, "goals": {"Ronaldinho": 2, "Rodri": 1, "Maldini": 1}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Ronaldinho", "notes": "Um gol de Ronaldinho foi de pênalti; Maldini marcou de cabeça após escanteio."}, {"opponent": "Marcelo", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Mbappé"}, {"opponent": "Marcos", "ovr": 124, "gf": 0, "ga": 1, "goals": {}, "assists": {}, "mvp": ""}, {"opponent": "italo392", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 3}, "mvp": "Mbappé"}, {"opponent": "Filipe08", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 1, "Rodri": 1}, "mvp": "Rodri"}, {"opponent": "75_.jn", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Messi": 1, "Lamine Yamal": 1, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Vini Jr.": 1, "Makélélé": 1}, "mvp": "Makélélé"}, {"opponent": "Cristiano36", "ovr": 126, "gf": 2, "ga": 0, "goals": {"Mbappé": 1, "Vini Jr.": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1}, "mvp": "Mbappé"}, {"opponent": "ney010", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "JB_THEUZX", "ovr": 126, "gf": 1, "ga": 1, "goals": {"Mbappé": 1}, "assists": {"Ronaldinho": 1}, "mvp": ""}, {"opponent": "blackcharm", "ovr": 127, "gf": 2, "ga": 0, "goals": {"Mbappé": 2}, "assists": {"Ronaldinho": 2}, "mvp": "Mbappé"}, {"opponent": "novin", "ovr": 125, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "GothamCity", "ovr": null, "gf": 2, "ga": 0, "goals": {"Gabriel": 1, "Mbappé": 1}, "assists": {"Ronaldinho": 2}, "mvp": "Ronaldinho", "notes": "Gol de Gabriel de cabeça após escanteio."}, {"opponent": "joaco", "ovr": null, "gf": 1, "ga": 0, "goals": {"Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "nzbzb", "ovr": 126, "gf": 6, "ga": 0, "goals": {"Lamine Yamal": 1, "Messi": 1, "Vini Jr.": 1, "Mbappé": 1, "Ronaldinho": 2}, "assists": {"Vini Jr.": 1, "Makélélé": 1, "Mbappé": 1, "Ronaldinho": 1}, "mvp": "Ronaldinho"}, {"opponent": "Bruninho", "ovr": null, "gf": 3, "ga": 1, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Cucurella": 1}, "mvp": "Mbappé"}, {"opponent": "PositiveGames", "ovr": null, "gf": 3, "ga": 2, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1, "Lamine Yamal": 1}, "mvp": "Mbappé"}, {"opponent": "majd", "ovr": 127, "gf": 5, "ga": 1, "goals": {"Ronaldinho": 2, "Marcos Llorente": 1, "R. Baggio": 2}, "assists": {"Mbappé": 2, "Rodri": 1, "Cucurella": 1, "Marcos Llorente": 1}, "mvp": "Marcos Llorente"}];
+const INITIAL_MATCHES = [{"opponent": "Guilherme (Ger)", "ovr": 123, "gf": 3, "ga": 0, "goals": {"Ronaldinho": 3}, "assists": {}, "mvp": ""}, {"opponent": "Lucas (com K)", "ovr": 125, "gf": 3, "ga": 1, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "tutu", "ovr": 126, "gf": 4, "ga": 0, "goals": {"Mbappé": 3, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Ronaldinho": 2, "Vini Jr.": 1}, "mvp": ""}, {"opponent": "negu---", "ovr": 127, "gf": 4, "ga": 0, "goals": {"Ronaldinho": 2, "Rodri": 1, "Maldini": 1}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Ronaldinho", "notes": "Um gol de Ronaldinho foi de pênalti; Maldini marcou de cabeça após escanteio."}, {"opponent": "Marcelo", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Vini Jr.": 1}, "mvp": "Mbappé"}, {"opponent": "Marcos", "ovr": 124, "gf": 0, "ga": 1, "goals": {}, "assists": {}, "mvp": ""}, {"opponent": "italo392", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 3}, "mvp": "Mbappé"}, {"opponent": "Filipe08", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 1, "Rodri": 1}, "mvp": "Rodri"}, {"opponent": "75_.jn", "ovr": 126, "gf": 3, "ga": 0, "goals": {"Messi": 1, "Lamine Yamal": 1, "Ronaldinho": 1}, "assists": {"Mbappé": 1, "Vini Jr.": 1, "Makélélé": 1}, "mvp": "Makélélé"}, {"opponent": "Cristiano36", "ovr": 126, "gf": 2, "ga": 0, "goals": {"Mbappé": 1, "Vini Jr.": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1}, "mvp": "Mbappé"}, {"opponent": "ney010", "ovr": 128, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "JB_THEUZX", "ovr": 126, "gf": 1, "ga": 1, "goals": {"Mbappé": 1}, "assists": {"Ronaldinho": 1}, "mvp": ""}, {"opponent": "blackcharm", "ovr": 127, "gf": 2, "ga": 0, "goals": {"Mbappé": 2}, "assists": {"Ronaldinho": 2}, "mvp": "Mbappé"}, {"opponent": "novin", "ovr": 125, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 2}, "assists": {"Mbappé": 2}, "mvp": "Ronaldinho"}, {"opponent": "GothamCity", "ovr": null, "gf": 2, "ga": 0, "goals": {"Gabriel": 1, "Mbappé": 1}, "assists": {"Ronaldinho": 2}, "mvp": "Ronaldinho", "notes": "Gol de Gabriel de cabeça após escanteio."}, {"opponent": "joaco", "ovr": null, "gf": 1, "ga": 0, "goals": {"Ronaldinho": 1}, "assists": {}, "mvp": "Ronaldinho"}, {"opponent": "nzbzb", "ovr": 126, "gf": 6, "ga": 0, "goals": {"Lamine Yamal": 1, "Messi": 1, "Vini Jr.": 1, "Mbappé": 1, "Ronaldinho": 2}, "assists": {"Vini Jr.": 1, "Makélélé": 1, "Mbappé": 1, "Ronaldinho": 1}, "mvp": "Ronaldinho"}, {"opponent": "Bruninho", "ovr": null, "gf": 3, "ga": 1, "goals": {"Mbappé": 3}, "assists": {"Ronaldinho": 2, "Cucurella": 1}, "mvp": "Mbappé"}, {"opponent": "PositiveGames", "ovr": null, "gf": 3, "ga": 2, "goals": {"Mbappé": 2, "Ronaldinho": 1}, "assists": {"Ronaldinho": 1, "Mbappé": 1, "Lamine Yamal": 1}, "mvp": "Mbappé"}, {"opponent": "ALESHOW", "ovr": 127, "gf": 2, "ga": 0, "goals": {"Mbappé": 1, "Ronaldinho": 1}, "assists": {"Ronaldinho": 1, "Cucurella": 1}, "mvp": "Ronaldinho", "notes": ""}, {"opponent": "jhunior", "ovr": 124, "gf": 2, "ga": 1, "goals": {"Ronaldinho": 1, "Maldini": 1}, "assists": {"Ronaldinho": 1, "Vini Jr.": 1}, "mvp": "Ronaldinho", "notes": "Gol de cabeça do Maldini no escanteio"}, {"opponent": "Zucolotto", "ovr": 127, "gf": 1, "ga": 2, "goals": {"Ronaldinho": 1}, "assists": {"Cucurella": 1}, "mvp": "", "notes": ""}, {"opponent": "mahrecha", "ovr": 126, "gf": 2, "ga": 3, "goals": {"Vini Jr.": 1, "Maldini": 1}, "assists": {"Ronaldinho": 1, "Rodri": 1}, "mvp": "", "notes": "Gol de cabeça do Maldini no escanteio"}, {"opponent": "realrei", "ovr": 126, "gf": 2, "ga": 1, "goals": {"Ronaldinho": 1, "Messi": 1}, "assists": {"Mbappé": 1, "Lamine Yamal": 1}, "mvp": "Ronaldinho", "notes": ""}, {"opponent": "021_rlkcabelinho", "ovr": 125, "gf": 4, "ga": 4, "goals": {"Ronaldinho": 3, "Vini Jr.": 1}, "assists": {"Mbappé": 1, "Rodri": 1, "Cucurella": 1}, "mvp": "Ronaldinho", "notes": ""}, {"opponent": "Davi", "ovr": 125, "gf": 2, "ga": 0, "goals": {"Ronaldinho": 1, "Vini Jr.": 1}, "assists": {"Lamine Yamal": 1, "Cucurella": 1}, "mvp": "Ronaldinho", "notes": ""}, {"opponent": "ESPANCA_PATO", "ovr": 126, "gf": 2, "ga": 1, "goals": {"Maldini": 2}, "assists": {"Ronaldinho": 2}, "mvp": "Maldini", "notes": ""}, {"opponent": "ManchestCDD", "ovr": 126, "gf": 3, "ga": 1, "goals": {"Mbappé": 2, "Vini Jr.": 1}, "assists": {"Ronaldinho": 1, "Vini Jr.": 1, "Lamine Yamal": 1}, "mvp": "Mbappé", "notes": ""}, {"opponent": "majd", "ovr": 127, "gf": 5, "ga": 1, "goals": {"Ronaldinho": 2, "Marcos Llorente": 1, "R. Baggio": 2}, "assists": {"Mbappé": 2, "Rodri": 1, "Cucurella": 1, "Marcos Llorente": 1}, "mvp": "Marcos Llorente", "notes": ""}];
 
 const INITIAL_ROSTER=["Mbappé","Ronaldinho","Vini Jr.","Messi","Lamine Yamal","Rodri","Maldini","Gabriel","Makélélé","Cucurella","Marcos Llorente","Čech", "R. Baggio"];
-const KEY="jm-fc-tracker-v2.4";
+const KEY="jm-fc-tracker-v2.4-stable-29";
 
 let matches=[], roster=[], retiredRoster=[], playerDetails={}, currentFormation="4-2-3-1-W", lineup={}, playerMatchesPlayed={}, activeModalPlayer=null, activeTargetSlot=null;
 
 // LISTA COMPLETA DE TODAS AS FORMAÇÕES DO RENDERZ & EA FC MOBILE
 const FORMATIONS = {
-  // LINHA DE 3 ZAGUEIROS
   "3-4-1-2": { name: "3-4-1-2", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"CB1", label:"ZAG", x:25, y:72}, {id:"CB2", label:"ZAG", x:50, y:72}, {id:"CB3", label:"ZAG", x:75, y:72},
     {id:"LM", label:"ME", x:15, y:46}, {id:"CM1", label:"MC", x:38, y:48}, {id:"CM2", label:"MC", x:62, y:48}, {id:"RM", label:"MD", x:85, y:46},
@@ -161,8 +160,6 @@ const FORMATIONS = {
     {id:"LM", label:"ME", x:15, y:38}, {id:"CAM", label:"MEI", x:50, y:34}, {id:"RM", label:"MD", x:85, y:38},
     {id:"ST1", label:"ATA", x:38, y:15}, {id:"ST2", label:"ATA", x:62, y:15}
   ]},
-
-  // LINHA DE 4 DEFESAS - VARIAÇÕES DE 4-1-x e 4-2-x
   "4-1-2-1-2-N": { name: "4-1-2-1-2 (Narrow / Fechado)", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CDM", label:"VOL", x:50, y:56}, {id:"CM1", label:"MC", x:30, y:42}, {id:"CM2", label:"MC", x:70, y:42}, {id:"CAM", label:"MEI", x:50, y:30},
@@ -211,8 +208,6 @@ const FORMATIONS = {
     {id:"CM1", label:"MC", x:35, y:48}, {id:"CM2", label:"MC", x:65, y:48},
     {id:"LW", label:"PE", x:12, y:18}, {id:"ST1", label:"ATA", x:38, y:15}, {id:"ST2", label:"ATA", x:62, y:15}, {id:"RW", label:"PD", x:88, y:18}
   ]},
-
-  // VARIAÇÕES DO 4-3-x
   "4-3-1-2": { name: "4-3-1-2", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"CM1", label:"MC", x:25, y:45}, {id:"CM2", label:"MC", x:50, y:45}, {id:"CM3", label:"MC", x:75, y:45},
@@ -249,8 +244,6 @@ const FORMATIONS = {
     {id:"CDM", label:"VOL", x:50, y:52}, {id:"CM1", label:"MC", x:32, y:38}, {id:"CM2", label:"MC", x:68, y:38},
     {id:"LW", label:"PE", x:15, y:18}, {id:"ST", label:"ATA", x:50, y:15}, {id:"RW", label:"PD", x:85, y:18}
   ]},
-
-  // VARIAÇÕES DO 4-4-x e 4-5-x
   "4-4-1-1": { name: "4-4-1-1", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LB", label:"LE", x:15, y:68}, {id:"CB1", label:"ZAG", x:38, y:72}, {id:"CB2", label:"ZAG", x:62, y:72}, {id:"RB", label:"LD", x:85, y:68},
     {id:"LM", label:"ME", x:15, y:44}, {id:"CM1", label:"MC", x:38, y:46}, {id:"CM2", label:"MC", x:62, y:46}, {id:"RM", label:"MD", x:85, y:44},
@@ -282,8 +275,6 @@ const FORMATIONS = {
     {id:"LM", label:"ME", x:15, y:44}, {id:"CM1", label:"MC", x:32, y:44}, {id:"CM2", label:"MC", x:50, y:44}, {id:"CM3", label:"MC", x:68, y:44}, {id:"RM", label:"MD", x:85, y:44},
     {id:"ST", label:"ATA", x:50, y:15}
   ]},
-
-  // LINHA DE 5 DEFESAS
   "5-2-1-2": { name: "5-2-1-2", slots: [
     {id:"GK", label:"GOL", x:50, y:88}, {id:"LWB", label:"ADD", x:12, y:65}, {id:"CB1", label:"ZAG", x:30, y:72}, {id:"CB2", label:"ZAG", x:50, y:74}, {id:"CB3", label:"ZAG", x:70, y:72}, {id:"RWB", label:"ADE", x:88, y:65},
     {id:"CM1", label:"MC", x:35, y:48}, {id:"CM2", label:"MC", x:65, y:48},
