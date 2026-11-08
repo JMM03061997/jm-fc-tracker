@@ -1,1 +1,1 @@
-{"name":"JM FC Tracker 2.1","short_name":"JM FC","start_url":"./","display":"standalone","background_color":"#071321","theme_color":"#071321","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{"name": "JM FC Tracker 2.2", "short_name": "JM FC", "start_url": "./", "display": "standalone", "background_color": "#071321", "theme_color": "#071321", "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}]}
