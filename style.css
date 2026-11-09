@@ -166,3 +166,11 @@
  .podium-item .podium-avatar,.podium-item .podium-empty{width:72px;height:94px;}
  .podium-item.gold .podium-avatar,.podium-item.gold .podium-empty{width:82px;height:106px;}
 }
+
+/* JM FC Tracker 2.8 — controles e prévia dos efeitos sonoros */
+.volume-setting{display:block;margin:12px 0 0;padding:12px;background:#0a1928;border:1px solid var(--line);border-radius:10px;}
+.volume-setting span{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--text);}
+.volume-setting output{color:var(--green);font-weight:750;font-variant-numeric:tabular-nums;}
+.volume-setting input{width:100%;margin:12px 0 0;accent-color:#55c987;padding:0;}
+.sound-tests{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
+.sound-tests button{flex:1 1 105px;font-size:11px;padding:9px 8px;}
