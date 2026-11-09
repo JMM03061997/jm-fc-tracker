@@ -23,11 +23,13 @@
 /* JM 2.4 — cartas do campo maiores e visualização ampliada */
 .field-player{width:88px;min-height:86px;gap:2px;z-index:1}
 .field-player img,.field-player video{width:62px;height:66px;object-fit:contain;border-radius:9px;border:2px solid #c5f5d7;background:#132}
-.field-media{display:block;line-height:0;cursor:zoom-in;pointer-events:auto}
-.field-media img,.field-media video{pointer-events:auto}
+.field-media{display:block;line-height:0;cursor:grab;pointer-events:none}
+.field-media img,.field-media video{pointer-events:none;user-select:none;-webkit-user-drag:none}
+.field-player{touch-action:none;user-select:none;-webkit-user-select:none}
 .player-open img{width:56px;height:72px;object-fit:contain}
 .profile-head{align-items:center}
 .image-preview{border:0;background:transparent;color:var(--muted);padding:0;cursor:zoom-in;text-align:center}
+.profile-card-image{width:86px;height:110px;object-fit:contain;border-radius:10px}
 .profile-card-preview{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
 .profile-card-preview img{width:112px;height:146px;object-fit:contain;border-radius:10px;background:#091827}
 .image-preview span{display:block;font-size:11px;color:#a8d9bd;margin-top:5px}
@@ -38,4 +40,4 @@
 .image-viewer-title{color:#eef5fa;font-weight:700;text-align:center}
 .image-viewer-content img,.image-viewer-content video{display:block;max-width:100%;max-height:calc(100% - 42px);width:auto;height:auto;object-fit:contain;border-radius:8px}
 .image-viewer-close{position:absolute;right:16px;top:14px;border:1px solid #ffffff55;border-radius:10px;background:#20384c;color:white;padding:10px 13px;font-size:18px;z-index:2}
-@media(max-width:680px){.field-player{width:72px;min-height:76px}.field-player img,.field-player video{width:52px;height:56px}.player-open img{width:45px;height:60px}.profile-card-preview img{width:92px;height:122px}.image-viewer{padding:16px}}
+@media(max-width:680px){.field-player{width:72px;min-height:76px}.field-player img,.field-player video{width:52px;height:56px}.player-open img{width:45px;height:60px}.profile-card-image{width:92px;height:122px}.image-viewer{padding:16px}}
