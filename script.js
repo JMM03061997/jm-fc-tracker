@@ -3,8 +3,8 @@ function openDB(){if(!('indexedDB'in window))return Promise.reject(new Error('In
 function loadStoredData(){return openDB().then(db=>new Promise((resolve,reject)=>{let tx=db.transaction('appData','readonly'),req=tx.objectStore('appData').get('state');req.onsuccess=()=>resolve(req.result??null);req.onerror=()=>reject(req.error||new Error('Falha ao ler dados locais'))}));}
 const FORMATIONS={
 '4-3-3 Attack':['GK','LB CB CB RB','CDM CM CM','LW ST RW'],'4-3-3':['GK','LB CB CB RB','CM CM CM','LW ST RW'],'4-5-1':['GK','LB CB CB RB','LM CM CDM CM RM','ST'],'4-1-2-1-2 Wide':['GK','LB CB CB RB','CDM','LM CAM RM','ST ST'],'4-2-4':['GK','LB CB CB RB','CDM CM','LW ST ST RW'],'4-3-3 Defend':['GK','LB CB CB RB','CDM CM CM','LW ST RW'],'4-3-3 False 9':['GK','LB CB CB RB','CM CM CM','LW CF RW'],'4-2-3-1 Narrow':['GK','LB CB CB RB','CDM CDM','CAM CAM CAM','ST'],'4-5-1 Flat':['GK','LB CB CB RB','LM CM CM CM RM','ST'],'4-3-3 Holding':['GK','LB CB CB RB','CDM CM CM','LW ST RW'],'4-2-2-2':['GK','LB CB CB RB','CDM CDM','CAM CAM','ST ST'],'4-2-3-1 Wide':['GK','LB CB CB RB','CDM CDM','LM CAM RM','ST'],'4-3-1-2':['GK','LB CB CB RB','CDM CM CM','CAM','ST ST'],'4-1-2-1-2 Narrow':['GK','LB CB CB RB','CDM','CM CM','CAM','ST ST'],'5-2-2-1':['GK','LWB CB CB CB RWB','CDM CM','CAM CAM','ST'],'5-2-1-2':['GK','LWB CB CB CB RWB','CDM CM','CAM','ST ST'],'4-1-4-1':['GK','LB CB CB RB','CDM','LM CM CM RM','ST'],'5-3-2':['GK','LWB CB CB CB RWB','CM CM CM','ST ST'],'4-4-2 Flat':['GK','LB CB CB RB','LM CM CM RM','ST ST'],'3-4-3 Flat':['GK','CB CB CB','LM CM CM RM','LW ST RW'],'3-4-3 Diamond':['GK','CB CB CB','LM CM CAM RM','LW ST RW'],'4-4-2 Holding':['GK','LB CB CB RB','CDM CDM','LM RM','ST ST'],'4-4-1-1 Attack':['GK','LB CB CB RB','LM CM CM RM','CF','ST'],'4-4-1-1 Flat':['GK','LB CB CB RB','LM CM CM RM','CF','ST'],'3-4-1-2':['GK','CB CB CB','LM CM CM RM','CAM','ST ST'],'5-4-1 Holding':['GK','LWB CB CB CB RWB','LM CM CM RM','ST'],'5-4-1 Defend':['GK','LWB CB CB CB RWB','LM CM CM RM','ST'],'3-5-1-1':['GK','CB CB CB','LM CM CDM CM RM','CAM','ST'],'3-5-2':['GK','CB CB CB','LM CM CDM CM RM','ST ST'],'4-3-2-1':['GK','LB CB CB RB','CM CM CM','CF CF','ST'],'3-4-2-1':['GK','CB CB CB','LM CM CM RM','CF CF','ST'],'4-2-1-3':['GK','LB CB CB RB','CDM CDM','CAM','LW ST RW'],'4-1-3-2':['GK','LB CB CB RB','CDM','LM CM RM','ST ST'],'3-1-4-2':['GK','CB CB CB','CDM','LM CM CM RM','ST ST']};
-const fallback={app:'JM FC Tracker',version:'2.6',matches:[],roster:[],retiredRoster:[],playerDetails:{},currentFormation:'4-2-3-1 Wide',lineup:{},playerMatchesPlayed:{}};
-function normalize(){data.matches??=[];data.roster??=[];data.retiredRoster??=[];data.playerDetails??={};data.playerMatchesPlayed??={};data.lineup??={};data.teamName??='JM FC';data.currentFormation=FORMATIONS[data.currentFormation]?data.currentFormation:'4-2-3-1 Wide';Object.keys(data.playerDetails).forEach(n=>{data.playerDetails[n]??={};if(data.playerDetails[n].image&&!data.playerDetails[n].cardImage)data.playerDetails[n].cardImage=data.playerDetails[n].image;});data.roster=[...new Set(data.roster)];data.retiredRoster=[...new Set(data.retiredRoster.filter(n=>!data.roster.includes(n)))];}
+const fallback={app:'JM FC Tracker',version:'2.7',settings:{soundEnabled:true},matches:[],roster:[],retiredRoster:[],playerDetails:{},currentFormation:'4-2-3-1 Wide',lineup:{},playerMatchesPlayed:{}};
+function normalize(){data.version='2.7';data.settings??={};data.settings.soundEnabled??=true;data.matches??=[];data.roster??=[];data.retiredRoster??=[];data.playerDetails??={};data.playerMatchesPlayed??={};data.lineup??={};data.teamName??='JM FC';data.currentFormation=FORMATIONS[data.currentFormation]?data.currentFormation:'4-2-3-1 Wide';Object.keys(data.playerDetails).forEach(n=>{data.playerDetails[n]??={};if(data.playerDetails[n].image&&!data.playerDetails[n].cardImage)data.playerDetails[n].cardImage=data.playerDetails[n].image;});data.roster=[...new Set(data.roster)];data.retiredRoster=[...new Set(data.retiredRoster.filter(n=>!data.roster.includes(n)))];}
 async function start(){try{let saved=null;try{saved=await loadStoredData()}catch(dbError){console.warn('Banco local indisponível:',dbError)}if(saved)data=JSON.parse(saved);else{let legacy=localStorage.getItem(STORE);if(legacy)data=JSON.parse(legacy);else{let r=await fetch('./backup.json');if(!r.ok)throw Error('backup');data=await r.json();}}}catch(e){data=fallback;alert('Não foi possível carregar os dados salvos. Importe um arquivo JSON de backup.')}normalize();await save();$('teamName').value=data.teamName;$('formationSelect').innerHTML=Object.keys(FORMATIONS).map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');$('formationSelect').value=data.currentFormation;render();}
 function save(){let snapshot=JSON.stringify(data);saveQueue=saveQueue.then(()=>openDB()).then(db=>new Promise((resolve,reject)=>{let tx=db.transaction('appData','readwrite');tx.objectStore('appData').put(snapshot,'state');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error||new Error('Falha ao salvar'));tx.onabort=()=>reject(tx.error||new Error('Gravação cancelada'))})).catch(e=>{console.error('Falha ao salvar dados:',e);alert('Não foi possível salvar os dados neste dispositivo. Exporte um backup e verifique o espaço disponível no navegador.')});return saveQueue;}
 function allNames(){return [...new Set([...(data.roster||[]),...(data.retiredRoster||[]),...Object.keys(data.playerDetails||{}),...data.matches.flatMap(m=>[...Object.keys(m.goals||{}),...Object.keys(m.assists||{})])])];}
@@ -12,51 +12,115 @@ function emptyStat(){return {matches:0,goals:0,assists:0,mvp:0,conceded:0,clean:
 function stats(){let s={};allNames().forEach(n=>s[n]=emptyStat());data.matches.forEach(m=>{let played=Array.isArray(m.played)?m.played:(m.played&&typeof m.played==='object'?Object.keys(m.played).filter(n=>m.played[n]):[]);if(!Array.isArray(m.played)&&!m.played){played=[...new Set([...Object.keys(m.goals||{}),...Object.keys(m.assists||{}),...(m.mvp?[m.mvp]:[])])];}played.forEach(n=>{s[n]??=emptyStat();s[n].matches++});Object.entries(m.goals||{}).forEach(([n,v])=>{s[n]??=emptyStat();s[n].goals+=Number(v)||0});Object.entries(m.assists||{}).forEach(([n,v])=>{s[n]??=emptyStat();s[n].assists+=Number(v)||0});if(m.mvp){s[m.mvp]??=emptyStat();s[m.mvp].mvp++}if(m.goalkeeper&&played.includes(m.goalkeeper)){s[m.goalkeeper].conceded+=Number(m.ga)||0;if(Number(m.ga)===0)s[m.goalkeeper].clean++}});Object.entries(data.playerMatchesPlayed||{}).forEach(([n,v])=>{s[n]??=emptyStat();s[n].matches=Math.max(s[n].matches,Number(v)||0)});return s;}
 function summary(){let w=0,d=0,l=0,gf=0,ga=0;data.matches.forEach(m=>{gf+=+m.gf||0;ga+=+m.ga||0;if(+m.gf>+m.ga)w++;else if(+m.gf===+m.ga)d++;else l++});return{w,d,l,gf,ga,n:data.matches.length,rate:data.matches.length?(w/data.matches.length*100).toFixed(1):'0.0'};}
 function image(n){let d=data.playerDetails?.[n]||{};return d.cardImage||d.image||'';}function fieldImage(n){return data.playerDetails?.[n]?.fieldImage||'';}
-function render(){normalize();$('squadCount').textContent=data.roster.length+' jogadores';$('teamName').value=data.teamName||'JM FC';$('teamHeading').textContent=data.teamName||'Meu elenco';$('formationSelect').value=data.currentFormation;renderField();let st=stats();$('roster').innerHTML=data.roster.map(n=>playerCard(n,st[n])).join('')||'<p class="muted">Nenhum jogador no elenco.</p>';$('archive').innerHTML=data.retiredRoster.map(n=>playerCard(n,st[n],true)).join('')||'<p class="muted">Nenhum jogador arquivado.</p>';renderHistory();renderRanking();renderMatchPlayers();renderOverview();}
-function playerCard(n,s={},archived=false){let im=image(n),selected=!archived&&Object.values(data.lineup||{}).includes(n);return `<article class="player ${selected?'selected-player':''}" draggable="${!archived}" data-player="${esc(n)}"><button class="player-open" data-open-player="${esc(n)}">${im?`<img src="${im}" alt="">`:'<div class="avatar">⚽</div>'}<span class="player-info"><strong title="${esc(n)}">${esc(n)}</strong><small class="squad-status ${selected?'is-starter':''}">${selected?'TITULAR':archived?'ARQUIVADO':'RESERVA'}</small><small>${s.matches||0} partidas · ${s.goals||0} gols</small><small class="mini">${s.assists||0} AST · ${s.mvp||0} MVP</small></span></button><button class="tiny ${archived?'return':'archive'}" data-action="${archived?'restore':'archive'}" data-name="${esc(n)}">${archived?'Retornar':'Arquivar'}</button></article>`;}
-function coords(rowIndex,count,index){let y=[91,74,52,31,15][rowIndex]??50;let spread=count===1?[50]:count===2?[38,62]:count===3?[20,50,80]:count===4?[10,36,64,90]:count===5?[7,28,50,72,93]:Array.from({length:count},(_,i)=>7+i*86/(count-1));return [spread[index],y];}
-// Coordenadas táticas por função: o mapa é independente do formato visual do slot.
+function render(){normalize();let starters=[...new Set(Object.values(data.lineup||{}).filter(Boolean))],reserves=data.roster.filter(n=>!starters.includes(n));$('squadCount').textContent=`${starters.length} titulares · ${reserves.length} reservas`;$('teamName').value=data.teamName||'JM FC';$('teamHeading').textContent=data.teamName||'Escalação';$('formationSelect').value=data.currentFormation;renderField();let st=stats();$('roster').innerHTML=data.roster.map(n=>playerCard(n,st[n])).join('')||'<p class="muted">Nenhum jogador no elenco.</p>';$('archive').innerHTML=data.retiredRoster.map(n=>playerCard(n,st[n],true)).join('')||'<p class="muted">Nenhum jogador arquivado.</p>';$('rosterSummary').textContent=`${data.roster.length} jogadores ativos · ${starters.length} titulares · ${reserves.length} reservas`;$('soundEnabled').checked=data.settings.soundEnabled!==false;renderHistory();renderRanking();renderMatchPlayers();renderOverview();}
+function playerCard(n,s={},archived=false){let im=image(n),selected=!archived&&Object.values(data.lineup||{}).includes(n);return `<article class="player ${selected?'selected-player':''}" draggable="${!archived}" data-player="${archived?'':esc(n)}"><button class="player-open" data-open-player="${esc(n)}">${im?`<img src="${im}" alt="">`:'<div class="avatar">⚽</div>'}<span class="player-info"><strong title="${esc(n)}">${esc(n)}</strong><small class="squad-status ${selected?'is-starter':''}">${selected?'TITULAR':archived?'ARQUIVADO':'RESERVA'}</small><small>${s.matches||0} partidas · ${s.goals||0} gols</small><small class="mini">${s.assists||0} AST · ${s.mvp||0} MVP</small></span></button><button class="tiny ${archived?'return':'archive'}" data-action="${archived?'restore':'archive'}" data-name="${esc(n)}">${archived?'Retornar':'Arquivar'}</button></article>`;}
+// Mapa tático com coordenadas por função. O espaçamento vertical considera o tamanho real das cartas no campo.
 function rolePosition(role,rowIndex,row,i,count,formation){
- const spread=(n)=>n===1?[50]:n===2?[39,61]:n===3?[17,50,83]:n===4?[10,37,63,90]:n===5?[7,28,50,72,93]:Array.from({length:n},(_,j)=>7+j*86/(n-1));
- let x=spread(count)[i]??50,y=[91,74,52,31,15][rowIndex]??50;
- if(role==='GK')return [50,91];
- if(['LB','LWB'].includes(role))return [role==='LWB'?8:12,74];
- if(['RB','RWB'].includes(role))return [role==='RWB'?92:88,74];
- if(role==='CB'){let cbs=row.filter(r=>r==='CB'),idx=row.slice(0,i).filter(r=>r==='CB').length;let xs=row.includes('LWB')||row.includes('RWB')?[29,50,71]:cbs.length===1?[50]:cbs.length===2?[37,63]:[18,50,82];return [xs[Math.max(0,idx)],74];}
- if(role==='CDM'){let peers=row.filter(r=>r==='CDM');let idx=row.slice(0,i).filter(r=>r==='CDM').length;return [(peers.length===1?50:peers.length===2?[39,61][idx]:spread(peers.length)[idx]),61];}
- if(role==='LM')return [12,49]; if(role==='RM')return [88,49];
- if(role==='LW')return [16,24]; if(role==='RW')return [84,24];
- if(role==='LWB')return [10,68]; if(role==='RWB')return [90,68];
- if(role==='CAM'){let peers=row.filter(r=>r==='CAM'),idx=row.slice(0,i).filter(r=>r==='CAM').length;return [peers.length===1?50:peers.length===2?[31,69][idx]:spread(peers.length)[idx],36];}
- if(role==='CF'){let peers=row.filter(r=>r==='CF'),idx=row.slice(0,i).filter(r=>r==='CF').length;return [peers.length===1?50:peers.length===2?[37,63][idx]:spread(peers.length)[idx],25];}
- if(role==='ST'){let peers=row.filter(r=>r==='ST'),idx=row.slice(0,i).filter(r=>r==='ST').length;return [peers.length===1?50:peers.length===2?[39,61][idx]:spread(peers.length)[idx],15];}
- if(role==='CM'){let peers=row.filter(r=>r==='CM'),idx=row.slice(0,i).filter(r=>r==='CM').length;let xs=peers.length===1?[50]:peers.length===2?[37,63]:peers.length===3?[25,50,75]:[12,37,63,88];return [xs[idx]??x,50];}
- return [x,y];
+ const peer=r=>row.filter(v=>v===r), idx=r=>row.slice(0,i).filter(v=>v===r).length;
+ if(role==='GK')return [50,90];
+ if(role==='LB')return [14,72]; if(role==='RB')return [86,72];
+ if(role==='LWB')return [10,72]; if(role==='RWB')return [90,72];
+ if(role==='CB'){
+  const n=peer('CB').length,k=idx('CB');
+  const vals=(row.includes('LWB')||row.includes('RWB'))?[30,50,70]:n===1?[50]:n===2?[38,62]:[20,50,80];
+  return [vals[k]??50,72];
+ }
+ if(role==='CDM'){
+  const n=peer('CDM').length,k=idx('CDM');
+  if(row.includes('LM')&&row.includes('RM')&&peer('CM').length>=2)return [50,54];
+  if(row.length===2&&row.includes('CM'))return [k===0?38:62,54];
+  return [n===1?50:(n===2?[37,63][k]:[22,50,78][k]),54];
+ }
+ if(role==='LM')return [10,46]; if(role==='RM')return [90,46];
+ if(role==='LW')return [15,18]; if(role==='RW')return [85,18];
+ if(role==='CAM'){
+  const n=peer('CAM').length,k=idx('CAM');
+  const vals=n===1?[50]:n===2?[33,67]:[20,50,80];
+  return [vals[k]??50,33];
+ }
+ if(role==='CF'){
+  const n=peer('CF').length,k=idx('CF');
+  return [n===1?50:(n===2?[30,70][k]:[20,50,80][k]),30];
+ }
+ if(role==='ST'){
+  const n=peer('ST').length,k=idx('ST');
+  const vals=n===1?[50]:n===2?[37,63]:n===3?[25,50,75]:[18,39,61,82];
+  return [vals[k]??50,12];
+ }
+ if(role==='CM'){
+  const n=peer('CM').length,k=idx('CM');
+  if(row.includes('LM')&&row.includes('RM')&&n===2)return [[30,70][k],48];
+  if(row.includes('LM')&&row.includes('RM')&&n===3)return [[30,50,70][k],48];
+  if(row.includes('CDM')&&n===2)return [[30,70][k],54];
+  const vals=n===1?[50]:n===2?[30,70]:n===3?[25,50,75]:[18,39,61,82];
+  return [vals[k]??50,n===3?48:44];
+ }
+ return [50,[90,72,54,33,12][rowIndex]??50];
 }
-function getSlots(){let rows=FORMATIONS[data.currentFormation].map(x=>x.split(' '));let out=[];rows.forEach((row,ri)=>row.forEach((role,i)=>{let id=`${ri}-${i}-${role}`;let [x,y]=rolePosition(role,ri,row,i,row.length,data.currentFormation);
- // Ajustes individuais de desenhos muito característicos do FC Mobile.
- if(data.currentFormation==='4-2-2-2'){
-  if(ri===2){x=[39,61][i];y=61;} if(ri===3){x=[31,69][i];y=37;} if(ri===4){x=[39,61][i];y=15;}
- }
- if(data.currentFormation==='4-2-3-1 Wide'){
-  if(ri===2){x=[39,61][i];y=61;}
-  if(ri===3){const map={LM:[12,39],CAM:[50,35],RM:[88,39]};[x,y]=map[role]||[x,y];}
-  if(ri===4){x=50;y=15;}
- }
- if(data.currentFormation==='4-2-3-1 Narrow'){
-  if(ri===2){x=[39,61][i];y=61;} if(ri===3){x=[22,50,78][i];y=36;} if(ri===4){x=50;y=15;}
- }
- if(data.currentFormation==='3-4-1-2'){
-  if(ri===1){x=[18,50,82][i];y=74;} if(ri===2){x=[10,37,63,90][i];y=51;} if(ri===3){x=50;y=35;} if(ri===4){x=[39,61][i];y=15;}
- }
- if(data.currentFormation==='3-5-1-1'){
-  if(ri===1){x=[18,50,82][i];y=74;} if(ri===2){x=[10,31,50,69,90][i];y=51;} if(ri===3){x=50;y=34;} if(ri===4){x=50;y=15;}
- }
- if(data.currentFormation==='4-3-3 Attack'||data.currentFormation==='4-3-3'||data.currentFormation==='4-3-3 Defend'||data.currentFormation==='4-3-3 Holding'||data.currentFormation==='4-3-3 False 9'){
-  if(ri===2){x=[29,50,71][i];y=51;} if(ri===3){x=50;y=15;}
- }
- out.push({id,role,x,y})}));return out;}
-function renderField(){let slots=getSlots(),old=Object.values(data.lineup||{}),mapped={};slots.forEach((s,i)=>{mapped[s.id]=data.lineup?.[s.id]||old[i]||''});data.lineup=mapped;$('fieldPlayers').innerHTML=slots.map(s=>{let n=data.lineup[s.id],im=n?image(n):'',fm=n?fieldImage(n):'',src=fm||im,media=src?(src.startsWith('data:video/')?`<video src="${src}" autoplay muted loop playsinline></video>`:`<img src="${src}" alt="Carta de ${esc(n)}">`):'';return `<button type="button" class="field-player ${n?'has-player':''}" draggable="${!!n}" data-player="${esc(n||'')}" data-slot="${s.id}" data-drop="${s.id}" style="left:${s.x}%;top:${s.y}%"><span class="field-slot-oval">${n?`<span class="field-media">${media}</span>`:'<span class="empty-slot">＋</span>'}</span><b>${esc(n||'Adicionar')}</b><small>${s.role}</small></button>`}).join('');}
+function getSlots(){
+ const rows=FORMATIONS[data.currentFormation].map(x=>x.split(' '));let out=[];
+ rows.forEach((row,ri)=>row.forEach((role,i)=>{
+  let [x,y]=rolePosition(role,ri,row,i,row.length,data.currentFormation);
+  // Ajustes de identidade tática para os esquemas mais usados; mantêm os setores e afastamentos do campo.
+  if(data.currentFormation==='4-2-2-2'){
+   if(role==='CDM'){x=[37,63][i];y=54;}
+   if(role==='CAM'){x=[33,67][i];y=33;}
+   if(role==='ST'){x=[37,63][i];y=12;}
+  }
+  if(data.currentFormation==='4-2-3-1 Wide'){
+   if(role==='CDM'){x=[37,63][i];y=54;}
+   if(role==='LM'){x=10;y=39;} if(role==='CAM'){x=50;y=33;} if(role==='RM'){x=90;y=39;}
+   if(role==='ST'){x=50;y=12;}
+  }
+  if(data.currentFormation==='4-2-3-1 Narrow'){
+   if(role==='CDM'){x=[37,63][i];y=54;}
+   if(role==='CAM'){x=[20,50,80][i];y=33;} if(role==='ST'){x=50;y=12;}
+  }
+  if(data.currentFormation==='3-4-1-2'){
+   if(role==='CB'){x=[20,50,80][i];y=72;}
+   if(role==='LM'){x=10;y=48;} if(role==='RM'){x=90;y=48;}
+   if(role==='CM'){let k=row.slice(0,i).filter(r=>r==='CM').length;x=[30,70][k];y=48;} if(role==='CAM'){x=50;y=30;}
+   if(role==='ST'){x=[37,63][i];y=12;}
+  }
+  if(data.currentFormation==='3-5-1-1'){
+   if(role==='CB'){x=[20,50,80][i];y=72;}
+   if(role==='LM'){x=10;y=48;} if(role==='RM'){x=90;y=48;}
+   if(role==='CDM'){x=50;y=54;} if(role==='CM'){let k=row.slice(0,i).filter(r=>r==='CM').length;x=[30,70][k]??50;y=48;}
+   if(role==='CAM'){x=50;y=31;} if(role==='ST'){x=50;y=12;}
+  }
+  if(data.currentFormation==='4-1-2-1-2 Narrow'){
+   if(role==='CDM'){x=50;y=54;} if(role==='CM'){x=[30,70][i];y=44;}
+   if(role==='CAM'){x=50;y=30;} if(role==='ST'){x=[37,63][i];y=12;}
+  }
+  if(data.currentFormation==='4-1-2-1-2 Wide'){
+   if(role==='CDM'){x=50;y=54;} if(role==='LM'){x=10;y=46;} if(role==='RM'){x=90;y=46;}
+   if(role==='CAM'){x=50;y=33;} if(role==='ST'){x=[37,63][i];y=12;}
+  }
+  if(data.currentFormation==='4-1-3-2'){
+   if(role==='CDM'){x=50;y=54;} if(role==='LM'){x=10;y=42;} if(role==='CM'){x=50;y=34;} if(role==='RM'){x=90;y=42;}
+   if(role==='ST'){x=[37,63][i];y=12;}
+  }
+  if(data.currentFormation==='3-4-3 Diamond'){
+   if(role==='LM'){x=10;y=46;} if(role==='RM'){x=90;y=46;} if(role==='CM'){x=50;y=52;}
+   if(role==='CAM'){x=50;y=30;} if(role==='LW'){x=15;y=18;} if(role==='RW'){x=85;y=18;} if(role==='ST'){x=50;y=12;}
+  }
+  if(['4-2-4','5-2-2-1','5-2-1-2'].includes(data.currentFormation)){
+   if(role==='CDM'){x=38;y=54;} if(role==='CM'&&row.includes('CDM')){x=62;y=54;}
+  }
+  out.push({id:`${ri}-${i}-${role}`,role,x,y});
+ }));return out;
+}
+function renderField(){
+ let slots=getSlots(),old=Object.values(data.lineup||{}),mapped={};
+ slots.forEach((s,i)=>{mapped[s.id]=data.lineup?.[s.id]||old[i]||''});data.lineup=mapped;
+ $('fieldPlayers').innerHTML=slots.map(s=>{let n=data.lineup[s.id],im=n?image(n):'',fm=n?fieldImage(n):'',src=fm||im,media=src?(src.startsWith('data:video/')?`<video src="${src}" autoplay muted loop playsinline></video>`:`<img src="${src}" alt="Carta de ${esc(n)}">`):'';return `<button type="button" class="field-player ${n?'has-player':''}" draggable="${!!n}" data-player="${esc(n||'')}" data-slot="${s.id}" data-drop="${s.id}" style="left:${s.x}%;top:${s.y}%"><span class="field-slot-oval">${n?`<span class="field-media">${media}</span>`:'<span class="empty-slot">＋</span>'}</span><b>${esc(n||'Adicionar')}</b><small>${s.role}</small></button>`}).join('');
+ renderBench();
+}
+function renderBench(){
+ const starters=[...new Set(Object.values(data.lineup||{}).filter(Boolean))],reserves=data.roster.filter(n=>!starters.includes(n));
+ $('benchCount').textContent=`${reserves.length} ${reserves.length===1?'jogador':'jogadores'}`;
+ $('benchPlayers').innerHTML=reserves.map(n=>{let im=fieldImage(n)||image(n);let media=im?(im.startsWith('data:video/')?`<video src="${im}" autoplay muted loop playsinline></video>`:`<img src="${im}" alt="Carta de ${esc(n)}">`):'<span class="bench-avatar">⚽</span>';return `<button type="button" class="bench-player" draggable="true" data-player="${esc(n)}" data-open-player="${esc(n)}">${media}<span>${esc(n)}</span><small>RESERVA</small></button>`}).join('')||'<span class="bench-empty">Nenhum reserva cadastrado</span>';
+}
 function renderMatchPlayers(){let starters=[...new Set(Object.values(data.lineup).filter(Boolean))],reserves=data.roster.filter(n=>!starters.includes(n));let make=(n,isStarter)=>`<div class="match-player"><div class="mp-name">${image(n)?`<img src="${image(n)}">`:'<span>⚽</span>'}<b>${esc(n)}</b><small>${isStarter?'TITULAR':'RESERVA'}</small></div><div class="mp-step"><label>Gols</label><div class="stepper small-step"><button type="button" data-player-step="goals" data-name="${esc(n)}" data-delta="-1">−</button><b data-val="goals-${esc(n)}">0</b><button type="button" data-player-step="goals" data-name="${esc(n)}" data-delta="1">＋</button></div></div><div class="mp-step"><label>Assist.</label><div class="stepper small-step"><button type="button" data-player-step="assists" data-name="${esc(n)}" data-delta="-1">−</button><b data-val="assists-${esc(n)}">0</b><button type="button" data-player-step="assists" data-name="${esc(n)}" data-delta="1">＋</button></div></div><label class="check-label">MVP<input type="checkbox" data-mvp="${esc(n)}"></label>${isStarter?'':'<label class="check-label entered">Entrou<input type="checkbox" data-entered="'+esc(n)+'"></label>'}</div>`;$('matchPlayers').innerHTML='<h4>Titulares</h4>'+starters.map(n=>make(n,true)).join('')+'<h4>Reservas</h4>'+reserves.map(n=>make(n,false)).join('');}
 function renderHistory(){$('history').innerHTML=[...data.matches].map((m,i)=>({m,i})).reverse().map(({m,i})=>{let res=+m.gf>+m.ga?'VITÓRIA':+m.gf===+m.ga?'EMPATE':'DERROTA',cls=res==='VITÓRIA'?'result-win':res==='EMPATE'?'result-draw':'result-loss';return `<button class="match-card" data-match="${i}"><div class="match-top"><div><b>${esc(m.opponent||'Adversário')}</b><p>${m.ovr?'OVR '+m.ovr+' · ':''}${esc(m.date||'Partida registrada')}</p></div><div class="score-wrap"><div class="score">${Number(m.gf)||0} × ${Number(m.ga)||0}</div><small class="${cls}">${res}</small></div></div><p>Toque para ver os detalhes da partida</p></button>`}).join('')||'<p class="muted">Nenhuma partida registrada.</p>';}
 function showMatch(i){let m=data.matches[i],goals=Object.entries(m.goals||{}),assists=Object.entries(m.assists||{}),played=Array.isArray(m.played)?m.played:[];$('modalContent').innerHTML=`<h2>${esc(m.opponent||'Adversário')}</h2><p class="muted">${esc(m.date||'Partida registrada')} ${m.ovr?'· OVR '+m.ovr:''}</p><div class="detail-score"><span>${esc(data.teamName||'Meu time')}</span><strong>${m.gf} × ${m.ga}</strong><span>${esc(m.opponent||'Adversário')}</span></div><div class="detail-grid"><section><h3>Gols</h3>${goals.map(([n,v])=>`<p>${esc(n)} <b>${v}</b></p>`).join('')||'<p>Sem gols registrados individualmente.</p>'}</section><section><h3>Assistências</h3>${assists.map(([n,v])=>`<p>${esc(n)} <b>${v}</b></p>`).join('')||'<p>Sem assistências registradas.</p>'}</section></div><h3>MVP</h3><p>${esc(m.mvp||'Não informado')}</p><h3>Participaram</h3><p>${played.length?played.map(esc).join(', '):'Não registrado nas partidas antigas.'}</p><h3>Goleiro</h3><p>${esc(m.goalkeeper||'Não registrado')}</p><h3>Observações</h3><p>${esc(m.notes||'Nenhuma observação.')}</p>`;openModal();}
@@ -77,14 +141,33 @@ function compressImage(file,max=850){return new Promise((resolve,reject)=>{if(!f
 async function savePlayerForm(e,oldName){e.preventDefault();let n=$('pName').value.trim();if(!n)return;let existing=oldName&&oldName!==n?data.playerDetails[oldName]||{}:data.playerDetails[n]||{};let cardFile=$('pCard').files[0],fieldFile=$('pField').files[0],attrFile=$('pAttributes').files[0];if(fieldFile&&fieldFile.size>10*1024*1024){alert('A imagem animada/vídeo deve ter até 10 MB.');return}try{let card=cardFile?await compressImage(cardFile):'',field=fieldFile?await readFile(fieldFile):'',attrs=attrFile?await readFile(attrFile):'';let detail={...existing,ovr:$('pOvr').value?Number($('pOvr').value):null,position:$('pPosition').value};if(card)detail.cardImage=detail.image=card;if(field)detail.fieldImage=field;if(attrs)detail.attributesImage=attrs;if(oldName&&oldName!==n){data.roster=data.roster.map(x=>x===oldName?n:x);data.retiredRoster=data.retiredRoster.map(x=>x===oldName?n:x);Object.keys(data.lineup).forEach(k=>{if(data.lineup[k]===oldName)data.lineup[k]=n});data.matches.forEach(m=>{['goals','assists'].forEach(k=>{if(m[k]?.[oldName]!=null){m[k][n]=(m[k][n]||0)+m[k][oldName];delete m[k][oldName]}});if(m.mvp===oldName)m.mvp=n;if(Array.isArray(m.played))m.played=m.played.map(x=>x===oldName?n:x);if(m.goalkeeper===oldName)m.goalkeeper=n;});if(data.playerMatchesPlayed[oldName]!=null){data.playerMatchesPlayed[n]=data.playerMatchesPlayed[oldName];delete data.playerMatchesPlayed[oldName]}delete data.playerDetails[oldName];}data.playerDetails[n]=detail;if(!data.roster.includes(n)&&!data.retiredRoster.includes(n))data.roster.push(n);await save();closeModal();render();}catch(err){alert('Não foi possível processar uma das imagens. Tente outro arquivo.')}}
 function saveMatch(e){e.preventDefault();let goals={},assists={},starters=[...new Set(Object.values(data.lineup).filter(Boolean))],played=[...starters],mvp='';document.querySelectorAll('[data-val]').forEach(el=>{let [kind,...rest]=el.dataset.val.split('-'),n=rest.join('-'),v=Number(el.textContent)||0;if(v)(kind==='goals'?goals:assists)[n]=v});document.querySelectorAll('[data-mvp]').forEach(x=>{if(x.checked)mvp=x.dataset.mvp});document.querySelectorAll('[data-entered]').forEach(x=>{if(x.checked&&!played.includes(x.dataset.entered))played.push(x.dataset.entered)});let involved=[...Object.keys(goals),...Object.keys(assists),...(mvp?[mvp]:[])],notEntered=involved.filter(n=>data.roster.includes(n)&&!starters.includes(n)&&!played.includes(n));if(notEntered.length){alert('Marque “Entrou” para o(s) reserva(s): '+notEntered.join(', '));return}let sum=Object.values(goals).reduce((a,b)=>a+b,0);if(sum>score.gf){alert('A soma dos gols dos jogadores não pode superar o placar do seu time.');return}let goalkeeper=Object.entries(data.lineup).find(([k,n])=>n&&k.toLowerCase().includes('gk'))?.[1]||'';data.matches.push({opponent:$('opponent').value.trim(),ovr:$('ovr').value?Number($('ovr').value):null,gf:score.gf,ga:score.ga,goals,assists,mvp,notes:$('notes').value.trim(),date:new Date().toLocaleDateString('pt-BR'),played,goalkeeper});save();e.target.reset();setScore('gf',0);setScore('ga',0);render();document.querySelector('[data-tab="historico"]').click();}
 function exportBackup(){let blob=new Blob([JSON.stringify(data)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='JM FC Tracker backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}function importBackup(file){let r=new FileReader();r.onload=async()=>{try{let d=JSON.parse(r.result);if(!Array.isArray(d.matches)||!Array.isArray(d.roster))throw Error('invalid');if(!confirm('Importar este backup substituirá os dados atuais neste dispositivo. Deseja continuar?'))return;data=d;normalize();await save();render();alert('Backup importado com sucesso.')}catch(e){alert('Arquivo de backup inválido.')}};r.readAsText(file)}
-function switchStats(mode){rankMode=mode;document.querySelectorAll('.rank-tab').forEach(x=>x.classList.toggle('active',x.dataset.rank===mode));$('rankingPanel').hidden=false;renderRanking();playPodiumEffect(mode);}
+function switchStats(mode){rankMode=mode;document.querySelectorAll('.rank-tab').forEach(x=>x.classList.toggle('active',x.dataset.rank===mode));$('rankingPanel').hidden=false;renderRanking();playPodiumEffect(mode);playPodiumSound(mode);}
 function playPodiumEffect(mode){let panel=$('podium');if(!panel)return;panel.classList.remove('effect-goals','effect-assists','effect-mvp');void panel.offsetWidth;panel.classList.add(mode==='goals'?'effect-goals':mode==='assists'?'effect-assists':'effect-mvp');clearTimeout(window.podiumEffectTimer);window.podiumEffectTimer=setTimeout(()=>panel.classList.remove('effect-goals','effect-assists','effect-mvp'),1500);}
+function playPodiumSound(mode){
+ if(data?.settings?.soundEnabled===false)return;
+ const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+ let ctx;try{ctx=new AC();}catch(e){return;}
+ const now=ctx.currentTime;
+ const tone=(freq,endFreq,duration,volume,type='sine',delay=0)=>{let o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(freq,now+delay);if(endFreq)o.frequency.exponentialRampToValueAtTime(Math.max(1,endFreq),now+delay+duration);g.gain.setValueAtTime(.0001,now+delay);g.gain.exponentialRampToValueAtTime(volume,now+delay+.012);g.gain.exponentialRampToValueAtTime(.0001,now+delay+duration);o.connect(g);g.connect(ctx.destination);o.start(now+delay);o.stop(now+delay+duration+.03);};
+ try{
+  if(mode==='goals'){
+   tone(115,48,.24,.22,'sine');
+   const length=Math.floor(ctx.sampleRate*.72),buffer=ctx.createBuffer(1,length,ctx.sampleRate),arr=buffer.getChannelData(0);for(let i=0;i<length;i++)arr[i]=(Math.random()*2-1)*(.6*(1-i/length));
+   const src=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();src.buffer=buffer;filter.type='bandpass';filter.frequency.value=850;filter.Q.value=.55;gain.gain.setValueAtTime(.0001,now+.18);gain.gain.linearRampToValueAtTime(.065,now+.32);gain.gain.exponentialRampToValueAtTime(.0001,now+.9);src.connect(filter);filter.connect(gain);gain.connect(ctx.destination);src.start(now+.18);src.stop(now+.92);
+  }else if(mode==='assists'){
+   tone(190,78,.16,.16,'triangle');tone(820,420,.045,.035,'square',.015);
+  }else{
+   tone(660,660,.24,.11,'sine');tone(830,830,.25,.10,'sine',.13);tone(990,990,.38,.12,'sine',.27);
+  }
+ }catch(e){console.warn('Efeito sonoro indisponível',e)}
+ setTimeout(()=>ctx.close().catch(()=>{}),1400);
+}
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab,.view').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')}));
 document.addEventListener('click',e=>{let preview=e.target.closest('[data-preview-player][data-preview-kind="attributes"]');if(preview){e.preventDefault();e.stopPropagation();openImagePreview(preview.dataset.previewPlayer,'attributes');return}let add=e.target.closest('#addPlayerBtn');if(add){openPlayerForm();return}let edit=e.target.closest('[data-edit-player]');if(edit){openPlayerForm(edit.dataset.editPlayer);return}let pick=e.target.closest('[data-pick-player]');if(pick){swapSlot(window.pendingSlot,pick.dataset.pickPlayer);closeModal();return}let clear=e.target.closest('[data-clear-slot]');if(clear){data.lineup[window.pendingSlot]='';save();closeModal();render();return}let t=e.target.closest('[data-step]');if(t){setScore(t.dataset.step,score[t.dataset.step]+Number(t.dataset.delta));return}let ps=e.target.closest('[data-player-step]');if(ps){changePlayerStat(ps.dataset.name,ps.dataset.playerStep,Number(ps.dataset.delta));return}let slot=e.target.closest('[data-slot]');if(slot){chooseSlot(slot.dataset.slot);return}let op=e.target.closest('[data-open-player]');if(op){showPlayer(op.dataset.openPlayer);return}let act=e.target.closest('[data-action]');if(act){let n=act.dataset.name;act.dataset.action==='archive'?archivePlayer(n):restorePlayer(n);return}let mc=e.target.closest('[data-match]');if(mc){showMatch(Number(mc.dataset.match));return}let rt=e.target.closest('[data-rank]');if(rt){switchStats(rt.dataset.rank);return}});
 document.addEventListener('change',e=>{if(e.target.matches('[data-mvp]')&&e.target.checked){document.querySelectorAll('[data-mvp]').forEach(x=>{if(x!==e.target)x.checked=false})}});
 document.addEventListener('dragstart',e=>{let card=e.target.closest('[data-player]');if(card&&card.dataset.player){e.dataTransfer.setData('text/plain',card.dataset.player);e.dataTransfer.effectAllowed='move'}});document.addEventListener('dragover',e=>{if(e.target.closest('[data-drop]'))e.preventDefault()});document.addEventListener('drop',e=>{let target=e.target.closest('[data-drop]');if(!target)return;e.preventDefault();let n=e.dataTransfer.getData('text/plain');if(n)swapSlot(target.dataset.drop,n)});
 // Suporte a arrastar no celular: permite trocar jogadores no campo com toque prolongado/movimento.
 document.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')return;let card=e.target.closest('[data-player]');if(card&&card.dataset.player)touchDrag={name:card.dataset.player,x:e.clientX,y:e.clientY,moved:false};});document.addEventListener('pointermove',e=>{if(!touchDrag)return;if(Math.hypot(e.clientX-touchDrag.x,e.clientY-touchDrag.y)>12)touchDrag.moved=true;});document.addEventListener('pointerup',e=>{if(!touchDrag)return;let drag=touchDrag;touchDrag=null;if(!drag.moved)return;let target=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-drop]');if(target&&drag.name){suppressClick=true;swapSlot(target.dataset.drop,drag.name);}});document.addEventListener('click',e=>{if(suppressClick){suppressClick=false;e.preventDefault();e.stopImmediatePropagation();}},true);
-$('formationSelect').addEventListener('change',e=>{let old=Object.values(data.lineup);data.currentFormation=e.target.value;let slots=getSlots();data.lineup={};slots.forEach((s,i)=>data.lineup[s.id]=old[i]||'');save();render()});$('saveTeamName').addEventListener('click',()=>{data.teamName=$('teamName').value.trim()||'Meu time';save();render();alert('Nome do time salvo.')});$('matchForm').addEventListener('submit',saveMatch);$('backupBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''});$('closeModal').addEventListener('click',closeModal);$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
+$('soundEnabled').addEventListener('change',e=>{data.settings??={};data.settings.soundEnabled=e.target.checked;save();});$('formationSelect').addEventListener('change',e=>{let old=Object.values(data.lineup);data.currentFormation=e.target.value;let slots=getSlots();data.lineup={};slots.forEach((s,i)=>data.lineup[s.id]=old[i]||'');save();render()});$('saveTeamName').addEventListener('click',()=>{data.teamName=$('teamName').value.trim()||'Meu time';save();render();alert('Nome do time salvo.')});$('matchForm').addEventListener('submit',saveMatch);$('backupBtn').addEventListener('click',exportBackup);$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',e=>{if(e.target.files[0])importBackup(e.target.files[0]);e.target.value=''});$('closeModal').addEventListener('click',closeModal);$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});
 start();
 document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('imageViewer')?.remove()});

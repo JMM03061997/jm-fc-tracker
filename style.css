@@ -77,7 +77,7 @@
 
 
 /* JM FC Tracker 2.6 — slots ovais próprios, cartas originais e elenco compacto */
-.pitch{min-height:590px;background:repeating-linear-gradient(0deg,#176344 0,#176344 58px,#1a6c4c 58px,#1a6c4c 116px);}
+.pitch{min-height:680px;background:repeating-linear-gradient(0deg,#176344 0,#176344 58px,#1a6c4c 58px,#1a6c4c 116px);}
 .field-player{width:94px;min-height:122px;gap:3px;padding:0;z-index:2;overflow:visible;}
 .field-slot-oval{width:76px;height:96px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(191,244,213,.85);border-radius:48% / 42%;background:linear-gradient(145deg,rgba(7,37,27,.72),rgba(10,61,42,.58));box-shadow:0 4px 12px #001b10aa,inset 0 0 0 3px rgba(255,255,255,.06);overflow:hidden;}
 .field-player.has-player .field-slot-oval{border-color:rgba(220,247,230,.82);background:rgba(5,22,16,.28);box-shadow:0 5px 14px #00180eaa;}
@@ -114,10 +114,10 @@
 @keyframes passBurst{0%{opacity:0;transform:translateX(-35%) scale(.6)}25%{opacity:1}75%{opacity:1;transform:translateX(30%) scale(1.15)}100%{opacity:0;transform:translateX(45%) scale(.8)}}
 @keyframes trophyBurst{0%{opacity:0;transform:scale(.35) rotate(-12deg)}25%{opacity:1}70%{opacity:1;transform:scale(1.18) rotate(8deg)}100%{opacity:0;transform:scale(.8) rotate(0)}}
 @media(max-width:680px){
- .pitch{min-height:560px;}
- .field-player{width:76px;min-height:105px;}
+ .pitch{min-height:590px;}
+ .field-player{width:68px;min-height:105px;}
  .field-slot-oval{width:62px;height:80px;}
- .field-player b{max-width:75px;font-size:9px;}
+ .field-player b{max-width:65px;font-size:9px;}
  .field-player small{font-size:8px;}
  .player{grid-template-columns:minmax(0,1fr) auto;min-height:74px;padding:5px;gap:3px;}
  .player-open{grid-template-columns:32px minmax(0,1fr);gap:5px;}
@@ -133,4 +133,36 @@
  .podium-item img,.podium-item video{width:58px;height:76px;}
  .podium-item b{font-size:10px;}
  .podium-item strong{font-size:21px;}
+}
+
+/* JM FC Tracker 2.7 — banco de reservas e elenco completo */
+.bench-wrap{margin-top:10px;padding:10px 9px 9px;border:1px solid rgba(170,226,193,.35);border-radius:12px;background:linear-gradient(180deg,#102d24,#0b211d);}
+.bench-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 2px 8px;color:#c8f4d8;font-size:11px;letter-spacing:.8px;}
+.bench-heading small{font-size:10px;color:#9dbdab;letter-spacing:0;}
+.bench-players{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;padding:2px 1px 6px;scrollbar-width:thin;}
+.bench-player{flex:0 0 68px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 4px;border:1px solid #416a55;border-radius:9px;background:linear-gradient(160deg,#1a3d30,#10251f);color:#effaf2;cursor:grab;touch-action:pan-x;}
+.bench-player img,.bench-player video{width:49px;height:62px;object-fit:contain;border-radius:5px;background:#091b15;pointer-events:none;}
+.bench-player>span:not(.bench-avatar){display:block;max-width:100%;font-size:9px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bench-player small{font-size:8px;line-height:1;color:#a8d8b9;}
+.bench-avatar{width:49px;height:62px;display:grid;place-items:center;border:1px dashed #8bb79a;border-radius:5px;font-size:22px;}
+.bench-empty{align-self:center;padding:12px;color:#a7c2b1;font-size:11px;}
+.roster-summary{margin:10px 0 14px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#0d1c2b;color:#b9d3c4;font-size:12px;}
+.sound-setting{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0;padding:12px;background:#0a1928;border:1px solid var(--line);border-radius:10px;}
+.sound-setting span{display:flex;flex-direction:column;gap:3px;}
+.sound-setting b{font-size:13px;color:var(--text);}
+.sound-setting small{font-size:11px;color:var(--muted);}
+.sound-setting input{width:22px;height:22px;margin:0;accent-color:#55c987;}
+/* Pódio com cartas maiores, sem recortar a imagem original. */
+.podium-item img,.podium-item video{width:104px;height:132px;object-fit:contain;}
+.podium-item.gold img,.podium-item.gold video{width:116px;height:146px;}
+.podium-item .podium-avatar,.podium-item .podium-empty{width:104px;height:132px;}
+@media(max-width:680px){
+ .bench-wrap{margin-top:8px;padding:8px 7px 6px;}
+ .bench-player{flex-basis:61px;padding:4px 3px;}
+ .bench-player img,.bench-player video,.bench-avatar{width:43px;height:55px;}
+ .bench-player>span:not(.bench-avatar){font-size:8px;}
+ .podium-item img,.podium-item video{width:72px;height:94px;}
+ .podium-item.gold img,.podium-item.gold video{width:82px;height:106px;}
+ .podium-item .podium-avatar,.podium-item .podium-empty{width:72px;height:94px;}
+ .podium-item.gold .podium-avatar,.podium-item.gold .podium-empty{width:82px;height:106px;}
 }
