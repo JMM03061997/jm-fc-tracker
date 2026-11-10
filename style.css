@@ -175,7 +175,7 @@
 .sound-tests{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .sound-tests button{flex:1 1 105px;font-size:11px;padding:9px 8px;}
 
-/* JM v2.9 — reposicionamento livre e animações de gol/MVP */
+/* JM v2.10 — torcida no gol e troféus no MVP */
 .pitch{touch-action:pan-y;}
 .field-player{touch-action:none;user-select:none;-webkit-user-select:none;}
 #resetFieldPositions{white-space:nowrap;margin-bottom:10px;}
