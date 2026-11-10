@@ -174,3 +174,67 @@
 .volume-setting input{width:100%;margin:12px 0 0;accent-color:#55c987;padding:0;}
 .sound-tests{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;}
 .sound-tests button{flex:1 1 105px;font-size:11px;padding:9px 8px;}
+
+/* JM FC Tracker 2.9 — histórico editável, visão geral refinada e efeitos mais rápidos */
+.match-card{position:relative;overflow:hidden;padding:15px 16px 13px 18px;border-radius:15px;background:linear-gradient(112deg,#142b3d 0%,#102235 58%,#0d1c2b 100%);border-color:#294257;box-shadow:0 5px 16px #0002;transition:transform .16s ease,border-color .16s ease;}
+.match-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#57c98b;}
+.match-card:has(.result-draw):before{background:#e4bd5c;}
+.match-card:has(.result-loss):before{background:#e77b7b;}
+.match-card:active{transform:scale(.992);}
+.match-card .match-top>div:first-child>b{font-size:15px;letter-spacing:.1px;}
+.match-card .match-top>div:first-child>p{color:#9fb2c2;margin-top:5px;}
+.match-card .score{font-size:25px;letter-spacing:.4px;color:#e8f6ee;}
+.match-card .score-wrap small{display:inline-block;margin-top:4px;padding:4px 8px;border-radius:20px;background:#1c4937;font-size:9px;font-weight:850;letter-spacing:.5px;}
+.match-card .score-wrap small.result-draw{background:#4a3d20;color:#f4d37b;}
+.match-card .score-wrap small.result-loss{background:#4b292d;color:#ffaaaa;}
+.match-card>p:last-child{color:#91a7b8;font-size:11px;}
+.history-detail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-right:28px;}
+.history-result{flex-shrink:0;padding:6px 9px;border-radius:20px;font-size:10px;font-weight:850;letter-spacing:.5px;background:#1c4937;color:#9af0bb;}
+.history-result.draw{background:#4a3d20;color:#f4d37b;}
+.history-result.loss{background:#4b292d;color:#ffaaaa;}
+.history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;}
+.history-actions button{flex:1;min-width:130px;}
+.danger{border:1px solid #8a4148;border-radius:9px;background:#48262d;color:#ffc2c2;padding:10px 13px;font-weight:700;cursor:pointer;}
+.edit-match-players{display:grid;gap:7px;margin:8px 0 14px;}
+.edit-match-player{display:grid;grid-template-columns:minmax(0,1fr) 58px 64px 82px;align-items:center;gap:7px;padding:9px;border:1px solid var(--line);border-radius:10px;background:#0b1b2a;}
+.edit-match-player>b{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.edit-match-player label{font-size:9px;margin:0;}
+.edit-match-player input[type=number]{padding:7px 5px;text-align:center;font-size:12px;}
+.edit-match-player .check-label{display:flex;gap:4px;justify-content:center;white-space:nowrap;}
+.overview-grid{grid-template-columns:repeat(4,minmax(0,1fr));}
+.metric{position:relative;overflow:hidden;min-height:83px;background:linear-gradient(145deg,#172e41,#102235);border-color:#294257;box-shadow:0 4px 14px #0002;}
+.metric:after{content:"";position:absolute;width:48px;height:48px;right:-15px;bottom:-20px;border-radius:50%;background:currentColor;opacity:.06;}
+.metric b{font-size:26px;color:#dff6e9;}
+.metric:nth-child(1){color:#6ba9df;}
+.metric:nth-child(2){color:#55c98b;}
+.metric:nth-child(3){color:#e5bd58;}
+.metric:nth-child(4){color:#e77979;}
+.metric:nth-child(2) b{color:#7de5a6;}
+.metric:nth-child(3) b{color:#f1d27d;}
+.metric:nth-child(4) b{color:#ff9b9b;}
+.metric-draw b{color:#f1d27d;}
+.metric-loss b{color:#ff9b9b;}
+.chart-card,.record-card{background:linear-gradient(145deg,#142a3d,#0e1e2e);border-color:#294257;box-shadow:0 5px 16px #0002;}
+.chart-card h3,.record-card h3{font-size:14px;letter-spacing:.15px;}
+.record{background:#0b1c2b;border-color:#263e52;}
+.record b{color:#83dfaa;}
+.donut{box-shadow:0 0 0 5px #ffffff08,0 7px 18px #0003;}
+.bar-track{background:#081522;border:1px solid #263c50;height:12px;}
+.trend-bars i{box-shadow:0 0 8px #3fb77933;}
+.trend-bars i.draw{box-shadow:0 0 8px #d4ae5233;}
+.trend-bars i.loss{box-shadow:0 0 8px #db777733;}
+#podium.effect-goals:after{content:'⚽';display:grid;place-items:center;font-size:50px;animation:goalBurst .82s cubic-bezier(.2,.75,.3,1) both;text-shadow:0 0 12px #f8df70,0 0 28px #fff5;}
+#podium.effect-mvp:after{content:'👏';display:grid;place-items:center;font-size:48px;animation:trophyBurst .78s ease-out both;text-shadow:0 0 18px #ffdb62;}
+@keyframes goalBurst{0%{opacity:0;transform:translate(-48%,32%) scale(.42)}18%{opacity:1}70%{opacity:1;transform:translate(20%,-5%) scale(1.05)}100%{opacity:0;transform:translate(46%,-22%) scale(.72)}}
+@media(max-width:680px){
+ .overview-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+ .metric{min-height:75px;padding:11px;}
+ .metric b{font-size:23px;}
+ .edit-match-player{grid-template-columns:minmax(0,1fr) 48px 52px;gap:5px;padding:7px;}
+ .edit-match-player .check-label{grid-column:1/-1;justify-content:flex-start;}
+ .history-detail-head{align-items:flex-start;}
+ .history-actions button{min-width:0;}
+ .match-card{padding:13px 12px 12px 15px;}
+}
+/* Campo em perspectiva: base defensiva mais larga e setor ofensivo mais estreito. */
+.pitch{clip-path:polygon(13% 0,87% 0,100% 100%,0 100%);}
