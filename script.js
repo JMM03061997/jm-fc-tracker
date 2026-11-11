@@ -6,7 +6,7 @@ function loadStoredData(){return openDB().then(db=>new Promise((resolve,reject)=
 const FORMATIONS={
 '4-3-3 Attack':['GK','LB CB CB RB','CDM CM CM','LW ST RW'],'4-3-3':['GK','LB CB CB RB','CM CM CM','LW ST RW'],'4-5-1':['GK','LB CB CB RB','LM CM CDM CM RM','ST'],'4-1-2-1-2 Wide':['GK','LB CB CB RB','CDM','LM CAM RM','ST ST'],'4-2-4':['GK','LB CB CB RB','CDM CM','LW ST ST RW'],'4-3-3 Defend':['GK','LB CB CB RB','CDM CM CM','LW ST RW'],'4-3-3 False 9':['GK','LB CB CB RB','CM CM CM','LW CF RW'],'4-2-3-1 Narrow':['GK','LB CB CB RB','CDM CDM','CAM CAM CAM','ST'],'4-5-1 Flat':['GK','LB CB CB RB','LM CM CM CM RM','ST'],'4-3-3 Holding':['GK','LB CB CB RB','CDM CM CM','LW ST RW'],'4-2-2-2':['GK','LB CB CB RB','CDM CDM','CAM CAM','ST ST'],'4-2-3-1 Wide':['GK','LB CB CB RB','CDM CDM','LM CAM RM','ST'],'4-3-1-2':['GK','LB CB CB RB','CDM CM CM','CAM','ST ST'],'4-1-2-1-2 Narrow':['GK','LB CB CB RB','CDM','CM CM','CAM','ST ST'],'5-2-2-1':['GK','LWB CB CB CB RWB','CDM CM','CAM CAM','ST'],'5-2-1-2':['GK','LWB CB CB CB RWB','CDM CM','CAM','ST ST'],'4-1-4-1':['GK','LB CB CB RB','CDM','LM CM CM RM','ST'],'5-3-2':['GK','LWB CB CB CB RWB','CM CM CM','ST ST'],'4-4-2 Flat':['GK','LB CB CB RB','LM CM CM RM','ST ST'],'3-4-3 Flat':['GK','CB CB CB','LM CM CM RM','LW ST RW'],'3-4-3 Diamond':['GK','CB CB CB','LM CM CAM RM','LW ST RW'],'4-4-2 Holding':['GK','LB CB CB RB','CDM CDM','LM RM','ST ST'],'4-4-1-1 Attack':['GK','LB CB CB RB','LM CM CM RM','CF','ST'],'4-4-1-1 Flat':['GK','LB CB CB RB','LM CM CM RM','CF','ST'],'3-4-1-2':['GK','CB CB CB','LM CM CM RM','CAM','ST ST'],'5-4-1 Holding':['GK','LWB CB CB CB RWB','LM CM CM RM','ST'],'5-4-1 Defend':['GK','LWB CB CB CB RWB','LM CM CM RM','ST'],'3-5-1-1':['GK','CB CB CB','LM CM CDM CM RM','CAM','ST'],'3-5-2':['GK','CB CB CB','LM CM CDM CM RM','ST ST'],'4-3-2-1':['GK','LB CB CB RB','CM CM CM','CF CF','ST'],'3-4-2-1':['GK','CB CB CB','LM CM CM RM','CF CF','ST'],'4-2-1-3':['GK','LB CB CB RB','CDM CDM','CAM','LW ST RW'],'4-1-3-2':['GK','LB CB CB RB','CDM','LM CM RM','ST ST'],'3-1-4-2':['GK','CB CB CB','CDM','LM CM CM RM','ST ST']};
 const fallback={app:'JM FC Tracker',version:'3.2',settings:{soundEnabled:true,soundVolume:75},matches:[],roster:[],retiredRoster:[],playerDetails:{},currentFormation:'4-2-3-1 Wide',lineup:{},playerMatchesPlayed:{}};
-function normalize(){data.version='3.2';data.fieldPositions??={};data.fieldRoles??={};data.settings??={};data.settings.soundEnabled??=true;data.settings.soundVolume=Number.isFinite(Number(data.settings.soundVolume))?Math.max(0,Math.min(100,Number(data.settings.soundVolume))):75;data.matches??=[];data.roster??=[];data.retiredRoster??=[];data.playerDetails??={};data.playerMatchesPlayed??={};data.lineup??={};data.teamName??='JM FC';data.currentFormation=FORMATIONS[data.currentFormation]?data.currentFormation:'4-2-3-1 Wide';Object.keys(data.playerDetails).forEach(n=>{data.playerDetails[n]??={};if(data.playerDetails[n].image&&!data.playerDetails[n].cardImage)data.playerDetails[n].cardImage=data.playerDetails[n].image;});data.roster=[...new Set(data.roster)];data.retiredRoster=[...new Set(data.retiredRoster.filter(n=>!data.roster.includes(n)))];}
+function normalize(){data.version='3.3';data.fieldPositions??={};data.fieldRoles??={};data.settings??={};data.settings.soundEnabled??=true;data.settings.soundVolume=Number.isFinite(Number(data.settings.soundVolume))?Math.max(0,Math.min(100,Number(data.settings.soundVolume))):75;data.matches??=[];data.roster??=[];data.retiredRoster??=[];data.playerDetails??={};data.playerMatchesPlayed??={};data.lineup??={};data.teamName??='JM FC';data.currentFormation=FORMATIONS[data.currentFormation]?data.currentFormation:'4-2-3-1 Wide';migrateFieldSlotPositions();Object.keys(data.playerDetails).forEach(n=>{data.playerDetails[n]??={};if(data.playerDetails[n].image&&!data.playerDetails[n].cardImage)data.playerDetails[n].cardImage=data.playerDetails[n].image;});data.roster=[...new Set(data.roster)];data.retiredRoster=[...new Set(data.retiredRoster.filter(n=>!data.roster.includes(n)))];}
 async function start(){try{let saved=null;try{saved=await loadStoredData()}catch(dbError){console.warn('Banco local indisponível:',dbError)}if(saved)data=JSON.parse(saved);else{let legacy=localStorage.getItem(STORE);if(legacy)data=JSON.parse(legacy);else{let r=await fetch('./backup.json');if(!r.ok)throw Error('backup');data=await r.json();}}}catch(e){data=fallback;alert('Não foi possível carregar os dados salvos. Importe um arquivo JSON de backup.')}normalize();await save();$('teamName').value=data.teamName;$('formationSelect').innerHTML=Object.keys(FORMATIONS).map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join('');$('formationSelect').value=data.currentFormation;render();}
 function save(){let snapshot=JSON.stringify(data);saveQueue=saveQueue.then(()=>openDB()).then(db=>new Promise((resolve,reject)=>{let tx=db.transaction('appData','readwrite');tx.objectStore('appData').put(snapshot,'state');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error||new Error('Falha ao salvar'));tx.onabort=()=>reject(tx.error||new Error('Gravação cancelada'))})).catch(e=>{console.error('Falha ao salvar dados:',e);alert('Não foi possível salvar os dados neste dispositivo. Exporte um backup e verifique o espaço disponível no navegador.')});return saveQueue;}
 function allNames(){return [...new Set([...(data.roster||[]),...(data.retiredRoster||[]),...Object.keys(data.playerDetails||{}),...data.matches.flatMap(m=>[...Object.keys(m.goals||{}),...Object.keys(m.assists||{})])])];}
@@ -58,6 +58,40 @@ function rolePosition(role,rowIndex,row,i,count,formation){
   return [vals[k]??50,n===3?48:44];
  }
  return [50,[90,72,54,33,12][rowIndex]??50];
+}
+// Converte as antigas coordenadas vinculadas ao nome do jogador em coordenadas fixas por vaga.
+// Assim, a posição visual pertence ao slot da formação e nunca acompanha o atleta numa substituição.
+function migrateFieldSlotPositions(){
+ data.fieldSlotPositions??={};
+ const previous=data.currentFormation;
+ for(const formation of Object.keys(FORMATIONS)){
+  if(data.fieldSlotPositions[formation])continue;
+  const saved=data.fieldPositions?.[formation]||{};
+  const entries=Object.entries(saved).filter(([,p])=>p&&Number.isFinite(Number(p.x))&&Number.isFinite(Number(p.y)));
+  data.currentFormation=formation;
+  const slots=getSlots();
+  const n=Math.min(entries.length,slots.length),m=slots.length;
+  const fixed={};
+  if(n){
+   // Algoritmo Húngaro: associa cada ponto salvo à vaga-base mais próxima, sem repetir vagas.
+   const cost=Array.from({length:n+1},(_,i)=>i===0?[]:[0,...slots.map(s=>{const p=entries[i-1][1];return (Number(p.x)-s.x)**2+(Number(p.y)-s.y)**2;})]);
+   const u=Array(n+1).fill(0),v=Array(m+1).fill(0),match=Array(m+1).fill(0),way=Array(m+1).fill(0);
+   for(let i=1;i<=n;i++){
+    match[0]=i;let j0=0;const minv=Array(m+1).fill(Infinity),used=Array(m+1).fill(false);
+    do{
+     used[j0]=true;const i0=match[j0];let delta=Infinity,j1=0;
+     for(let j=1;j<=m;j++)if(!used[j]){const cur=cost[i0][j]-u[i0]-v[j];if(cur<minv[j]){minv[j]=cur;way[j]=j0;}if(minv[j]<delta){delta=minv[j];j1=j;}}
+     for(let j=0;j<=m;j++){if(used[j]){u[match[j]]+=delta;v[j]-=delta;}else minv[j]-=delta;}
+     j0=j1;
+    }while(match[j0]!==0);
+    do{const j1=way[j0];match[j0]=match[j1];j0=j1;}while(j0!==0);
+   }
+   for(let j=1;j<=m;j++)if(match[j]){const point=entries[match[j]-1][1];fixed[slots[j-1].id]={x:Number(point.x),y:Number(point.y)};}
+  }
+  data.fieldSlotPositions[formation]=fixed;
+ }
+ data.currentFormation=previous;
+ data.fieldSlotPositionsVersion=1;
 }
 function getSlots(){
  const rows=FORMATIONS[data.currentFormation].map(x=>x.split(' '));let out=[];
@@ -113,9 +147,11 @@ function getSlots(){
  }));return out;
 }
 function renderField(){
- let slots=getSlots(),old=Object.values(data.lineup||{}),mapped={};
- slots.forEach((s,i)=>{mapped[s.id]=data.lineup?.[s.id]||old[i]||''});data.lineup=mapped;
- $('fieldPlayers').innerHTML=slots.map(s=>{let n=data.lineup[s.id],im=n?image(n):'',fm=n?fieldImage(n):'',src=fm||im,media=src?(src.startsWith('data:video/')?`<video src="${src}" autoplay muted loop playsinline></video>`:`<img src="${src}" alt="Carta de ${esc(n)}">`):'',pos=n?data.fieldPositions?.[data.currentFormation]?.[n]:null,x=pos?.x??s.x,y=pos?.y??s.y;return `<button type="button" class="field-player ${n?'has-player':''}" draggable="${!!n}" data-player="${esc(n||'')}" data-slot="${s.id}" data-drop="${s.id}" style="left:${x}%;top:${y}%"><span class="field-slot-oval">${n?`<span class="field-media">${media}</span>`:'<span class="empty-slot">＋</span>'}</span><b>${esc(n||'Adicionar')}</b><small>${esc(roleLabel(s.role))}</small></button>`}).join('');
+ let slots=getSlots(),mapped={},assigned=new Set();
+ // Uma vaga vazia é um valor explícito: não reaproveitar o valor antigo por índice.
+ slots.forEach(s=>{let n=Object.prototype.hasOwnProperty.call(data.lineup||{},s.id)?(data.lineup[s.id]||''):'';if(n&&assigned.has(n))n='';if(n)assigned.add(n);mapped[s.id]=n;});data.lineup=mapped;
+ const fixedPositions=data.fieldSlotPositions?.[data.currentFormation]||{};
+ $('fieldPlayers').innerHTML=slots.map(s=>{let n=data.lineup[s.id],im=n?image(n):'',fm=n?fieldImage(n):'',src=fm||im,media=src?(src.startsWith('data:video/')?`<video src="${src}" autoplay muted loop playsinline></video>`:`<img src="${src}" alt="Carta de ${esc(n)}">`):'',pos=fixedPositions[s.id],x=pos?.x??s.x,y=pos?.y??s.y;return `<button type="button" class="field-player ${n?'has-player':''}" draggable="${!!n}" data-player="${esc(n||'')}" data-slot="${s.id}" data-drop="${s.id}" style="left:${x}%;top:${y}%"><span class="field-slot-oval">${n?`<span class="field-media">${media}</span>`:'<span class="empty-slot">＋</span>'}</span><b>${esc(n||'Adicionar')}</b><small>${esc(roleLabel(s.role))}</small></button>`}).join('');
  renderBench();
 }
 function renderBench(){
