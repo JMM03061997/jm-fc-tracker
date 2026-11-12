@@ -288,3 +288,39 @@ label{font-size:11px;font-weight:750;color:#b9c6bd}input,select,textarea{backgro
  .match-player .check-label{font-size:8px}
 }
 @media(max-width:380px){.match-player{grid-template-columns:minmax(68px,1fr) 59px 59px 34px}.mp-card{width:28px;height:37px;flex-basis:28px}.match-player .small-step button{width:19px}.match-player .small-step b{font-size:11px}}
+
+/* JM FC Tracker 3.7 — Elenco Completo: identidade tricolor, sem alterar funcionalidades */
+:root{--accent:#d71920;--accent-soft:rgba(215,25,32,.14)}
+#jogadores{--roster-red:#d71920}
+#jogadores .roster-page-head{align-items:center;margin-bottom:17px;padding:2px 0 14px;border-bottom:1px solid #ffffff12}
+#jogadores .roster-page-head .eyebrow{color:#f05259}
+#jogadores .roster-page-head h2{letter-spacing:-1px}
+#jogadores .roster-page-head p{color:#aeb2b8}
+#jogadores #addPlayerBtn{background:linear-gradient(135deg,#e3262e,#a90e17)!important;border:1px solid #f04b52!important;box-shadow:0 8px 22px #d719202b;color:#fff!important}
+#jogadores .roster-summary{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:0;align-items:center;margin:0 0 19px;padding:0;overflow:hidden;border:1px solid #343438;border-radius:16px;background:linear-gradient(115deg,#171719,#101012 60%,#191113);color:#fff;box-shadow:0 12px 30px #0003}
+#jogadores .roster-summary>div{display:flex;flex-direction:column;gap:3px;padding:13px 16px;min-width:0}
+#jogadores .roster-summary>div+div{border-left:1px solid #ffffff14}
+#jogadores .roster-summary strong{font-size:25px;line-height:1;font-weight:900;letter-spacing:-1px;color:#fff}
+#jogadores .roster-summary .roster-stat-main strong{color:#ff454d;font-size:30px}
+#jogadores .roster-summary span{font-size:8px;letter-spacing:1.1px;font-weight:900;color:#a8a8ad}
+#jogadores .roster{grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:12px}
+#jogadores .player{position:relative;min-height:118px;gap:10px;padding:10px;border:1px solid #303034;border-radius:16px;background:linear-gradient(145deg,#1b1b1e 0%,#111113 75%);box-shadow:0 8px 22px #0002;overflow:hidden}
+#jogadores .player:before{content:"";position:absolute;left:0;top:13px;bottom:13px;width:3px;border-radius:0 4px 4px 0;background:linear-gradient(180deg,#f0444b,#a90e17)}
+#jogadores .player:hover{transform:translateY(-3px);border-color:#9c3035;box-shadow:0 13px 28px #0005}
+#jogadores .player.selected-player{border-color:#b92b32;background:linear-gradient(145deg,#271719,#151214)}
+#jogadores .player-open{gap:11px;position:relative;z-index:1}
+#jogadores .player-open img{flex:0 0 67px;width:67px;height:91px;object-fit:contain;border-radius:8px;background:linear-gradient(145deg,#29292d,#151518);box-shadow:0 5px 14px #0008}
+#jogadores .player-info{display:flex;flex-direction:column;gap:4px;min-width:0}
+#jogadores .player-info strong{font-size:13px;line-height:1.2;color:#fff}
+#jogadores .player-info small{font-size:9px;color:#a9a9af;line-height:1.25}
+#jogadores .player-info .squad-status{width:max-content;max-width:100%;padding:3px 7px;border:1px solid #45454a;border-radius:20px;color:#dedee2;font-size:8px;font-weight:900;letter-spacing:.6px;background:#252529}
+#jogadores .player-info .is-starter{border-color:#a62a31;background:#42191d;color:#ffb5b8}
+#jogadores .player-info .mini{color:#ff777d}
+#jogadores .player .tiny{align-self:flex-end;position:relative;z-index:2;border-color:#48484d;background:#252529;color:#ddd;font-size:9px}
+#jogadores .player .tiny.archive{color:#ff9da1;border-color:#733238;background:#30191c}
+#jogadores .player .tiny.return{color:#fff;border-color:#a62a31;background:#4a171c}
+#jogadores>h3{margin-top:27px;padding-top:17px;border-top:1px solid #ffffff12;color:#f1f1f3}
+#jogadores>.muted{font-size:11px}
+#jogadores #archive .player{opacity:.82}
+#jogadores .avatar{flex:0 0 67px;width:67px;height:91px;display:grid;place-items:center;border-radius:8px;background:linear-gradient(145deg,#29292d,#151518);font-size:27px}
+@media(max-width:520px){#jogadores .roster-page-head{align-items:flex-start;gap:8px}#jogadores .roster-page-head h2{font-size:23px}#jogadores .roster-page-head p{max-width:220px;font-size:10px}#jogadores #addPlayerBtn{font-size:10px;padding:9px 8px}#jogadores .roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#jogadores .player{min-height:138px;display:flex;flex-direction:column;align-items:stretch;padding:9px 7px 8px;gap:7px}#jogadores .player-open{align-items:center;gap:7px}#jogadores .player-open img,#jogadores .avatar{flex-basis:75px;width:75px;height:99px}#jogadores .player-info strong{font-size:11px}#jogadores .player-info small{font-size:8px}#jogadores .player .tiny{align-self:flex-end;padding:5px 7px;font-size:8px}#jogadores .roster-summary>div{padding:11px 9px}#jogadores .roster-summary strong{font-size:21px}#jogadores .roster-summary .roster-stat-main strong{font-size:25px}#jogadores .roster-summary span{font-size:7px;letter-spacing:.6px}}
