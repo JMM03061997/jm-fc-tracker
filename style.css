@@ -324,3 +324,54 @@ label{font-size:11px;font-weight:750;color:#b9c6bd}input,select,textarea{backgro
 #jogadores #archive .player{opacity:.82}
 #jogadores .avatar{flex:0 0 67px;width:67px;height:91px;display:grid;place-items:center;border-radius:8px;background:linear-gradient(145deg,#29292d,#151518);font-size:27px}
 @media(max-width:520px){#jogadores .roster-page-head{align-items:flex-start;gap:8px}#jogadores .roster-page-head h2{font-size:23px}#jogadores .roster-page-head p{max-width:220px;font-size:10px}#jogadores #addPlayerBtn{font-size:10px;padding:9px 8px}#jogadores .roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}#jogadores .player{min-height:138px;display:flex;flex-direction:column;align-items:stretch;padding:9px 7px 8px;gap:7px}#jogadores .player-open{align-items:center;gap:7px}#jogadores .player-open img,#jogadores .avatar{flex-basis:75px;width:75px;height:99px}#jogadores .player-info strong{font-size:11px}#jogadores .player-info small{font-size:8px}#jogadores .player .tiny{align-self:flex-end;padding:5px 7px;font-size:8px}#jogadores .roster-summary>div{padding:11px 9px}#jogadores .roster-summary strong{font-size:21px}#jogadores .roster-summary .roster-stat-main strong{font-size:25px}#jogadores .roster-summary span{font-size:7px;letter-spacing:.6px}}
+
+/* JM FC Tracker 3.8 — identidade azul global */
+:root{--bg:#07152d;--panel:#0d2040;--panel2:#142d53;--line:#24466f;--green:#55b9ff;--accent:#278cff;--accent-soft:rgba(39,140,255,.16);--text:#f2f7ff;--muted:#9db5d0;--gold:#e8c978;--silver:#c7d8e8;--bronze:#bd9b83;color-scheme:dark}
+body{background:radial-gradient(ellipse at 50% -18%,rgba(36,126,220,.2),transparent 42%),linear-gradient(180deg,#061329 0%,#091a35 48%,#061329 100%);color:#f2f7ff}
+header{background:rgba(5,17,39,.96);border-bottom-color:#24466f}
+.brand small,.header-version{color:#a9c6e8}.header-version{border-color:#28558b;background:#0d2445}.header-version i{background:#39a5ff;box-shadow:0 0 10px #39a5ff}
+nav{background:rgba(5,17,39,.96);border-bottom-color:#24466f}
+.tab,.secondary,.rank-tab{background:#10284a!important;border-color:#2b5686!important;color:#d7eaff!important}
+.tab:hover,.rank-tab:hover,.secondary:hover{border-color:#55b9ff!important;color:#fff!important}
+.tab.active,.rank-tab.active{background:linear-gradient(135deg,#3ba6ff,#176bd0)!important;border-color:#64bdff!important;color:#fff!important;box-shadow:0 5px 18px #1688ff35}
+.eyebrow,.pill,.squad-hero-copy strong,.player-info .mini,.metric b,.podium-item strong,.ranking-row b,.profile-stats b,.settings-about span{color:#55b9ff!important}
+.pill{border-color:#28558b;background:#0c2343}
+.squad-hero{border-color:#28558b;background:radial-gradient(ellipse at 80% 40%,rgba(43,145,255,.2),transparent 40%),linear-gradient(115deg,#122c50,#0c2040 55%,#10294b)}
+.squad-hero-copy>span,.squad-hero-copy small,.squad-hero-stats small{color:#9fc6ed}.squad-hero-stats b{color:#f2f7ff}.hero-orb{border-color:#70c5ff25;box-shadow:0 0 0 22px #70c5ff0c,0 0 0 48px #70c5ff08}
+input,select,textarea{background:#071a35!important;border-color:#2b5686!important;color:#f2f7ff!important}input:focus,select:focus,textarea:focus{border-color:#55b9ff!important;box-shadow:0 0 0 3px #278cff25!important}
+.primary{background:linear-gradient(135deg,#45b2ff,#176bd0)!important;border:1px solid #67c3ff!important;color:#fff!important;box-shadow:0 7px 20px #1688ff28!important}
+.pitch-wrap{background:linear-gradient(145deg,#10284a,#0a1c37);border-color:#28558b}
+.pitch{border-color:#72c9ff99;background:repeating-linear-gradient(0deg,#123d72 0,#123d72 48px,#17477e 48px,#17477e 96px);box-shadow:inset 0 0 40px #001b3d55}
+.half,.center-circle,.box{border-color:#a9dcff9c}
+.empty-slot,.field-avatar{border-color:#8acfff;background:#0b2d55;color:#e8f6ff}
+.field-player img,.field-player video{border-color:#7dcaff;background:#0b2442}
+.bench-wrap{border-color:#28558b;background:linear-gradient(145deg,#102d50,#0a1e3a)}.bench-heading{color:#d9edff}.bench-player{border-color:#2e6195;background:linear-gradient(155deg,#174477,#0d2b50)}.bench-player:hover{border-color:#55b9ff}
+.roster-summary,.player,.match-card,.metric,.chart-card,.record-card,.settings-card,.podium-item,.ranking-row{background:linear-gradient(145deg,#122c4e,#0b1d39)!important;border-color:#254c78!important;color:#eaf4ff}
+.player:hover,.match-card:hover{border-color:#55b9ff!important}.player.selected-player{border-color:#3c9eff!important;background:linear-gradient(145deg,#153d69,#0b2343)!important}
+.player .tiny,.tiny{background:#16365e!important;border-color:#32689c!important;color:#dceeff!important}.player .tiny.archive,.player .tiny.return{background:#164578!important;border-color:#3c8bd0!important;color:#fff!important}.player .tiny.delete-player,.danger-action{background:#243b5a!important;border:1px solid #6685a8!important;color:#fff!important}
+.player-info .is-starter{background:#174b7b!important;border-color:#3b91d0!important;color:#c8eaff!important}
+form,#partida form{background:linear-gradient(145deg,#10294b,#0a1d38)!important;border-color:#28558b!important}
+.score-control,.match-scoreboard .score-control,.detail-score,.detail-grid section,.profile-stats>div,.record,.profile-stats>div{background:#0b2141!important;border-color:#28558b!important}
+.stepper button{background:#174477!important;border-color:#3c8bd0!important;color:#e5f5ff!important}.stepper b,.score,.detail-score strong{color:#65c2ff!important}
+.match-hero{border-color:#28558b!important;background:radial-gradient(ellipse at 50% 0%,#174b7e 0%,#102c50 38%,#0a1e3a 100%)!important}
+.match-side-label,.match-side small,.match-scoreboard .score-control>span,.match-meta-hint,.match-player-count,#matchPlayers h4,.mp-identity small,.mp-tap-hint,.match-player .mp-step label{color:#9fc6ed!important}
+.match-side input{background:#071a35!important;border-color:#32689c!important}.match-vs{background:linear-gradient(145deg,#66c8ff,#247fe0)!important;color:#062047!important;box-shadow:0 0 22px #278cff45!important}
+.match-player,.mp-card{background:linear-gradient(100deg,#122e51,#0b1f3c)!important;border-color:#28558b!important}.mp-card{border-color:#3c78ad!important}.mp-no-card{color:#65c2ff!important}.mp-identity b{color:#f2f7ff!important}.check-label input{accent-color:#278cff!important}
+.result-win,.result-draw,.result-loss{color:#8bcfff!important}.donut-center{background:#10294b!important;color:#f2f7ff!important}.bar-track{background:#24466f!important}.bar-fill{background:linear-gradient(90deg,#176bd0,#65c2ff)!important}.trend-bars i,.trend-bars i.draw,.trend-bars i.loss{background:#55b9ff!important}.legend span{color:#c4d9ef!important}
+.settings-symbol{border-color:#2b5686;background:#10294b}.sound-setting,.volume-setting{background:#0b2141!important;border-color:#28558b!important}.sound-setting input,.volume-setting input{accent-color:#278cff!important}
+.modal{background:#020b1bc9!important}.modal-card{background:linear-gradient(145deg,#15365d,#091a34)!important;border-color:#32689c!important}.close{background:#174477!important;border-color:#3c78ad!important;color:#fff!important}.pick-player{background:#10294b!important;border-color:#28558b!important;color:#eaf4ff!important}.pick-player:hover{border-color:#55b9ff!important}
+footer{background:#061329!important;border-top-color:#24466f!important;color:#8daaca!important}
+/* Cartões de jogador: ações Arquivar/Retornar e Excluir */
+.player{align-items:center}.player-actions{display:flex;flex-direction:column;align-items:stretch;gap:6px;flex:0 0 auto;position:relative;z-index:2}.player-actions .tiny{white-space:nowrap;min-width:65px}.player-actions .delete-player{background:#1b3454!important;border-color:#587da5!important;color:#e8f4ff!important}.danger-action{border-radius:10px;padding:10px 13px;font-weight:800}
+@media(max-width:520px){#jogadores .player{align-items:stretch}.player-actions{flex-direction:row;justify-content:flex-end;flex-wrap:wrap}.player-actions .tiny{min-width:0}.danger-action{width:100%}}
+/* Correções de especificidade para os antigos estilos do Elenco Completo */
+#jogadores #addPlayerBtn{background:linear-gradient(135deg,#45b2ff,#176bd0)!important;border:1px solid #67c3ff!important;box-shadow:0 8px 22px #1688ff35!important;color:#fff!important}
+#jogadores .roster-summary{background:linear-gradient(115deg,#122c4e,#0b1d39 60%,#10294b)!important;border-color:#28558b!important}
+#jogadores .roster-summary .roster-stat-main strong{color:#65c2ff!important}
+#jogadores .player:before{background:linear-gradient(180deg,#65c2ff,#176bd0)!important}
+#jogadores .player:hover{border-color:#55b9ff!important}
+#jogadores .player.selected-player{border-color:#3c9eff!important;background:linear-gradient(145deg,#153d69,#0b2343)!important}
+#jogadores .player-info .is-starter{border-color:#3b91d0!important;background:#174b7b!important;color:#c8eaff!important}
+#jogadores .player-info .mini{color:#65c2ff!important}
+#jogadores .player .tiny.archive,#jogadores .player .tiny.return{background:#164578!important;border-color:#3c8bd0!important;color:#fff!important}
+#jogadores .player .tiny.delete-player{background:#1b3454!important;border-color:#587da5!important;color:#e8f4ff!important}

@@ -1,10 +1,10 @@
 {
-  "name": "JM FC Tracker 3.7",
+  "name": "JM FC Tracker 3.8",
   "short_name": "JM FC",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#09090b",
-  "theme_color": "#09090b",
+  "background_color": "#07152d",
+  "theme_color": "#07152d",
   "icons": [
     {
       "src": "icon.svg",
