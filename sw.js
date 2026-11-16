@@ -1,26 +1,25 @@
-const CACHE_VERSION = 'jm-football-hub-v1.0.0';
+const CACHE_VERSION = 'jm-football-hub-v1.0.2';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './assets/icons/icon-192.png',
-  './assets/icons/icon-512.png',
-  './assets/icons/favicon.svg',
-  './assets/images/card-placeholder.svg',
-  './css/style.css',
-  './css/components.css',
-  './css/responsive.css',
-  './js/utils.js',
-  './js/database.js',
-  './js/images.js',
-  './js/navigation.js',
-  './js/cards.js',
-  './js/squad.js',
-  './js/backup.js',
-  './js/app.js'
+  './icon-192.png',
+  './icon-512.png',
+  './favicon.svg',
+  './card-placeholder.svg',
+  './style.css',
+  './components.css',
+  './responsive.css',
+  './utils.js',
+  './database.js',
+  './images.js',
+  './navigation.js',
+  './cards.js',
+  './squad.js',
+  './backup.js',
+  './app.js'
 ];
 
-// Install: Cache static shell without touching IndexedDB
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_VERSION)
@@ -29,7 +28,6 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate: Clean only old static caches, preserving IndexedDB untouched
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -42,10 +40,8 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Network-first for HTML/JS/CSS to ensure updates apply smoothly, fallback to cache offline
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-
   const url = new URL(event.request.url);
   if (url.origin !== location.origin) return;
 

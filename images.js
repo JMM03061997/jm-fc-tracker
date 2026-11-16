@@ -7,7 +7,7 @@
 const HubImages = (() => {
   const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
   const MAX_SIZE_BYTES = 8 * 1024 * 1024; // 8 MB
-  const PLACEHOLDER_PATH = './assets/images/card-placeholder.svg';
+  const PLACEHOLDER_PATH = './card-placeholder.svg';
 
   // Cache em memória de ObjectURLs para evitar vazamento de memória e acelerar renderização
   const objectUrlCache = new Map();
