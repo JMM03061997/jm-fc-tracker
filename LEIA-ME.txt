@@ -1,1 +1,0 @@
-Coloque aqui as suas imagens (animadas, estáticas e atributos) conforme os nomes configurados no script.js!
