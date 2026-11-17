@@ -1,5 +1,5 @@
-// sw.js - Service Worker JM Football Hub v2.0
-const CACHE_NAME = 'jm-football-hub-v2.0.0';
+// sw.js - Service Worker JM Football Hub v2.1
+const CACHE_NAME = 'jm-football-hub-v2.1.0';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,7 @@ const ASSETS = [
   './cards.js',
   './squad.js',
   './formations.js',
+  './smart-import.js',
   './backup.js',
   './app.js',
   './manifest.webmanifest',
