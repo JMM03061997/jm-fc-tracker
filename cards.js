@@ -1,240 +1,139 @@
-// cards.js - Cadastro e Gerenciamento de Cartas v2.0
-const HubCards = (() => {
-  let selectedFile = null;
-  let editingCardId = null;
-  let editingImageId = null;
+// cards.js - Cadastro, edição e prévia de cartas com proporção preservada
+const HubCards = {
+  pendingImageDataUrl: null,
 
-  const init = () => {
+  init() {
     const form = document.getElementById('card-form');
     const dropArea = document.getElementById('upload-drop-area');
     const fileInput = document.getElementById('card-image-input');
     const cancelBtn = document.getElementById('btn-cancel-edit');
 
-    if (dropArea && fileInput) {
-      dropArea.addEventListener('click', () => fileInput.click());
-      fileInput.addEventListener('change', handleFileSelect);
-    }
+    dropArea.addEventListener('click', () => fileInput.click());
 
-    if (form) {
-      form.addEventListener('submit', handleFormSubmit);
-      ['card-player-name', 'card-overall', 'card-position', 'card-type', 'card-club'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('input', updateLivePreview);
-      });
-    }
+    fileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      if (file.size > 8 * 1024 * 1024) {
+        HubUtils.showModal('Imagem muito grande', '<p>Escolha uma imagem de até 8MB.</p>');
+        return;
+      }
+      this.pendingImageDataUrl = await HubImages.processUploadFile(file);
+      this.updateLivePreview();
+    });
 
-    if (cancelBtn) {
-      cancelBtn.addEventListener('click', resetForm);
-    }
+    ['card-player-name', 'card-overall', 'card-position', 'card-type', 'card-club'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => this.updateLivePreview());
+    });
 
-    updateLivePreview();
-  };
+    cancelBtn.addEventListener('click', () => this.resetForm());
 
-  const handleFileSelect = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await this.saveCard();
+    });
 
-    const check = HubImages.validateFile(file);
-    if (!check.valid) {
-      HubUtils.showToast(check.error);
-      return;
-    }
+    this.updateLivePreview();
+  },
 
-    selectedFile = file;
-    updateLivePreview();
-  };
-
-  const updateLivePreview = async () => {
+  async updateLivePreview() {
     const previewContainer = document.getElementById('live-card-preview');
-    if (!previewContainer) return;
+    const name = document.getElementById('card-player-name').value.trim() || 'Nome do Jogador';
+    const ovr = parseInt(document.getElementById('card-overall').value, 10) || 99;
+    const pos = document.getElementById('card-position').value || 'CA';
+    const type = document.getElementById('card-type').value || 'Epic';
+    const club = document.getElementById('card-club').value.trim() || 'Clube / Seleção';
 
-    const name = document.getElementById('card-player-name').value || 'Nome do Jogador';
-    const overall = document.getElementById('card-overall').value || '99';
-    const position = document.getElementById('card-position').value || 'CA';
-    const cardType = document.getElementById('card-type').value || 'Epic';
-    const club = document.getElementById('card-club').value || '';
-
-    let imgSrc = 'card-placeholder.svg';
-    if (selectedFile) {
-      imgSrc = URL.createObjectURL(selectedFile);
-    } else if (editingImageId) {
-      imgSrc = await HubImages.getImageUrl(editingImageId);
+    let imgUrl = 'card-placeholder.svg';
+    const editId = document.getElementById('card-id').value;
+    if (this.pendingImageDataUrl) {
+      imgUrl = this.pendingImageDataUrl;
+    } else if (editId) {
+      const existing = await HubDB.getById('cards', editId);
+      if (existing && existing.imageId) {
+        imgUrl = await HubImages.getImageUrl(existing.imageId);
+      }
     }
 
     previewContainer.innerHTML = `
-      <div class="hub-card">
-        <div class="hub-card-media">
-          <img src="${imgSrc}" alt="${HubUtils.escapeHtml(name)}">
-          <div class="hub-card-badges">
-            <span class="badge-ovr">${HubUtils.escapeHtml(overall)}</span>
-            <span class="badge-pos">${HubUtils.escapeHtml(position)}</span>
+      <div class="player-card-item">
+        <div class="card-art-wrapper">
+          <img src="${imgUrl}" alt="${HubUtils.escapeHtml(name)}" class="card-art-img">
+          <div class="card-badges-overlay">
+            <span class="badge-ovr">${ovr}</span>
+            <span class="badge-pos">${HubUtils.escapeHtml(pos)}</span>
           </div>
         </div>
-        <div class="hub-card-body">
-          <div class="hub-card-name">${HubUtils.escapeHtml(name)}</div>
-          <div class="hub-card-meta">${HubUtils.escapeHtml(cardType)}${club ? ' • ' + HubUtils.escapeHtml(club) : ''}</div>
+        <div class="card-info-body">
+          <div class="card-player-title">${HubUtils.escapeHtml(name)}</div>
+          <div class="card-meta-line">${HubUtils.escapeHtml(type)} • ${HubUtils.escapeHtml(club)}</div>
         </div>
       </div>
     `;
-  };
+  },
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
+  async saveCard() {
+    const editId = document.getElementById('card-id').value;
     const playerName = document.getElementById('card-player-name').value.trim();
-    const overall = parseInt(document.getElementById('card-overall').value, 10);
+    const overall = parseInt(document.getElementById('card-overall').value, 10) || 90;
     const position = document.getElementById('card-position').value;
     const cardType = document.getElementById('card-type').value;
     const club = document.getElementById('card-club').value.trim();
 
-    if (!playerName || isNaN(overall) || overall < 40 || overall > 125) {
-      HubUtils.showToast('Preencha o nome e um Overall válido (40 a 125).');
-      return;
+    if (!playerName) return;
+
+    let existingCard = editId ? await HubDB.getById('cards', editId) : null;
+    let imageId = existingCard ? existingCard.imageId : null;
+
+    if (this.pendingImageDataUrl) {
+      imageId = await HubImages.saveImage(this.pendingImageDataUrl);
     }
 
-    try {
-      let imageId = editingImageId;
-      if (selectedFile) {
-        imageId = await HubImages.saveImageBlob(selectedFile, editingImageId);
-      }
+    const cardData = {
+      id: existingCard ? existingCard.id : HubUtils.generateId('card'),
+      playerName,
+      overall,
+      position,
+      cardType,
+      club,
+      imageId,
+      archived: existingCard ? Boolean(existingCard.archived) : false,
+      createdAt: existingCard ? existingCard.createdAt : Date.now(),
+      updatedAt: Date.now()
+    };
 
-      const existingCard = editingCardId ? await HubDatabase.getRecord('cards', editingCardId) : null;
+    await HubDB.put('cards', cardData);
+    this.resetForm();
+    await HubSquad.refreshAll();
+    HubNavigation.navigateTo('view-squad');
+  },
 
-      const cardRecord = {
-        id: editingCardId || HubUtils.generateId('card'),
-        playerName,
-        overall,
-        position,
-        cardType,
-        club,
-        imageId: imageId || null,
-        archived: existingCard ? Boolean(existingCard.archived) : false,
-        createdAt: existingCard ? existingCard.createdAt : new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-
-      await HubDatabase.putRecord('cards', cardRecord);
-      HubUtils.showToast(editingCardId ? 'Carta atualizada com sucesso!' : 'Carta cadastrada no elenco!');
-
-      resetForm();
-      HubNavigation.navigateTo('view-squad');
-    } catch (err) {
-      console.error('Erro ao salvar carta:', err);
-      HubUtils.showToast('Erro ao salvar carta.');
-    }
-  };
-
-  const startEdit = async (cardId) => {
-    const card = await HubDatabase.getRecord('cards', cardId);
+  async editCard(cardId) {
+    const card = await HubDB.getById('cards', cardId);
     if (!card) return;
 
-    editingCardId = card.id;
-    editingImageId = card.imageId;
-    selectedFile = null;
-
-    document.getElementById('card-form-title').textContent = 'Editar Carta';
     document.getElementById('card-id').value = card.id;
     document.getElementById('card-player-name').value = card.playerName;
     document.getElementById('card-overall').value = card.overall;
     document.getElementById('card-position').value = card.position;
-    document.getElementById('card-type').value = card.cardType;
+    document.getElementById('card-type').value = card.cardType || 'Epic';
     document.getElementById('card-club').value = card.club || '';
+
+    document.getElementById('card-form-title').textContent = 'Editar Carta';
     document.getElementById('btn-cancel-edit').classList.remove('hidden');
+    this.pendingImageDataUrl = null;
 
     HubNavigation.navigateTo('view-cards');
-    updateLivePreview();
-  };
+    await this.updateLivePreview();
+  },
 
-  const resetForm = () => {
-    editingCardId = null;
-    editingImageId = null;
-    selectedFile = null;
-
-    const form = document.getElementById('card-form');
-    if (form) form.reset();
-
+  resetForm() {
+    document.getElementById('card-form').reset();
+    document.getElementById('card-id').value = '';
+    document.getElementById('card-overall').value = 99;
     document.getElementById('card-form-title').textContent = 'Cadastrar Nova Carta';
     document.getElementById('btn-cancel-edit').classList.add('hidden');
-    updateLivePreview();
-  };
-
-  const toggleArchive = async (cardId) => {
-    const card = await HubDatabase.getRecord('cards', cardId);
-    if (!card) return;
-
-    card.archived = !card.archived;
-    await HubDatabase.putRecord('cards', card);
-    HubUtils.showToast(card.archived ? 'Carta arquivada.' : 'Carta restaurada ao elenco.');
-
-    if (typeof HubSquad !== 'undefined') HubSquad.renderSquad();
-    if (typeof HubApp !== 'undefined') HubApp.refreshDashboard();
-  };
-
-  const confirmDelete = (cardId) => {
-    HubUtils.openModal({
-      title: 'Excluir Carta',
-      bodyHtml: '<p>Tem certeza que deseja excluir esta carta permanentemente? Essa ação não pode ser desfeita.</p>',
-      buttons: [
-        { text: 'Cancelar', className: 'btn-outline' },
-        {
-          text: 'Excluir',
-          className: 'btn-danger',
-          onClick: async () => {
-            const card = await HubDatabase.getRecord('cards', cardId);
-            if (card && card.imageId) {
-              await HubImages.deleteImage(card.imageId);
-            }
-            await HubDatabase.deleteRecord('cards', cardId);
-            HubUtils.showToast('Carta excluída.');
-            if (typeof HubSquad !== 'undefined') HubSquad.renderSquad();
-            if (typeof HubApp !== 'undefined') HubApp.refreshDashboard();
-          }
-        }
-      ]
-    });
-  };
-
-  const createCardElement = async (card, options = {}) => {
-    const imgUrl = await HubImages.getImageUrl(card.imageId);
-    const el = document.createElement('div');
-    el.className = 'hub-card';
-
-    el.innerHTML = `
-      <div class="hub-card-media">
-        <img src="${imgUrl}" alt="${HubUtils.escapeHtml(card.playerName)}" loading="lazy">
-        <div class="hub-card-badges">
-          <span class="badge-ovr">${card.overall}</span>
-          <span class="badge-pos">${HubUtils.escapeHtml(card.position)}</span>
-        </div>
-      </div>
-      <div class="hub-card-body">
-        <div class="hub-card-name" title="${HubUtils.escapeHtml(card.playerName)}">${HubUtils.escapeHtml(card.playerName)}</div>
-        <div class="hub-card-meta">${HubUtils.escapeHtml(card.cardType)}${card.club ? ' • ' + HubUtils.escapeHtml(card.club) : ''}</div>
-        ${options.showActions ? `
-          <div class="hub-card-actions">
-            <button class="btn btn-outline" data-action="edit">Editar</button>
-            <button class="btn btn-outline" data-action="archive">${card.archived ? 'Restaurar' : 'Arquivar'}</button>
-            <button class="btn btn-danger" data-action="delete">🗑️</button>
-          </div>
-        ` : ''}
-      </div>
-    `;
-
-    if (options.showActions) {
-      el.querySelector('[data-action="edit"]').onclick = () => startEdit(card.id);
-      el.querySelector('[data-action="archive"]').onclick = () => toggleArchive(card.id);
-      el.querySelector('[data-action="delete"]').onclick = () => confirmDelete(card.id);
-    }
-
-    return el;
-  };
-
-  return {
-    init,
-    startEdit,
-    resetForm,
-    toggleArchive,
-    confirmDelete,
-    createCardElement
-  };
-})();
+    this.pendingImageDataUrl = null;
+    this.updateLivePreview();
+  }
+};

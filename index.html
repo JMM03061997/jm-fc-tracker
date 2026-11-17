@@ -5,23 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#07152B">
   <meta name="description" content="JM Football Hub - Seu time. Sua história. Seus números.">
-  <title>JM Football Hub v2.1.0</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="apple-touch-icon" href="icon-192.png">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="components.css">
-  <link rel="stylesheet" href="responsive.css">
+  <title>JM Football Hub v2.1.1</title>
+  <link rel="manifest" href="manifest.webmanifest?v=2.1.1">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2.1.1">
+  <link rel="apple-touch-icon" href="icon-192.png?v=2.1.1">
+  <link rel="stylesheet" href="style.css?v=2.1.1">
+  <link rel="stylesheet" href="components.css?v=2.1.1">
+  <link rel="stylesheet" href="responsive.css?v=2.1.1">
 </head>
 <body>
   <div class="app-shell">
-    <!-- Navegação Principal (Lateral Desktop / Inferior Mobile) -->
+    <!-- Navegação Principal -->
     <nav class="app-nav" id="app-nav">
       <div class="nav-brand">
-        <img src="favicon.svg" alt="Logo" class="brand-logo">
+        <img src="favicon.svg?v=2.1.1" alt="Logo" class="brand-logo">
         <div class="brand-text">
           <span class="brand-title">JM FOOTBALL HUB</span>
-          <span class="brand-sub">v2.0 • YOUR FOOTBALL UNIVERSE</span>
+          <span class="brand-sub">v2.1.1 • YOUR FOOTBALL UNIVERSE</span>
         </div>
       </div>
 
@@ -63,15 +63,14 @@
 
     <!-- Conteúdo Principal -->
     <main class="app-main">
-      <!-- VIEW 1: INÍCIO (DASHBOARD) -->
+      <!-- VIEW 1: INÍCIO -->
       <section id="view-home" class="app-view active">
         <header class="view-header">
           <div>
             <h1>JM Football Hub</h1>
             <p class="subtitle">Seu time. Sua história. Seus números.</p>
           </div>
-          <span class="version-badge">v2.0</span>
-  
+          <span class="version-badge">v2.1.1</span>
         </header>
 
         <div class="kpi-grid">
@@ -111,7 +110,7 @@
             <p class="subtitle">Gerencie suas cartas e versões de jogadores</p>
           </div>
           <div class="header-actions">
-  <button id="btn-open-import-modal" class="btn btn-outline btn-sm">📸 Importar por Print</button>
+            <button id="btn-open-import-modal-squad" class="btn btn-outline btn-sm js-open-import-modal">📸 Importar por Print</button>
             <button id="btn-toggle-archived" class="btn btn-outline btn-sm">📦 Ver Arquivadas (<span id="archived-count">0</span>)</button>
             <button class="btn btn-primary btn-sm" onclick="HubNavigation.navigateTo('view-cards')">+ Cadastrar</button>
           </div>
@@ -157,7 +156,7 @@
         <div id="squad-cards-grid" class="cards-grid"></div>
       </section>
 
-      <!-- VIEW 3: ESCALAÇÃO TÁTICA E CAMPO (VERSÃO 2.0) -->
+      <!-- VIEW 3: ESCALAÇÃO TÁTICA E CAMPO -->
       <section id="view-formations" class="app-view">
         <header class="view-header">
           <div>
@@ -165,13 +164,12 @@
             <p class="subtitle">Monte seu time titular, organize reservas e salve múltiplas escalações</p>
           </div>
           <div class="header-actions">
-  <button id="btn-open-import-modal" class="btn btn-outline btn-sm">📸 Importar por Print</button>
+            <button id="btn-open-import-modal-pitch" class="btn btn-outline btn-sm js-open-import-modal">📸 Importar por Print</button>
             <button id="btn-new-squad" class="btn btn-outline btn-sm">+ Nova Escalação</button>
             <button id="btn-save-squad" class="btn btn-primary btn-sm">💾 Salvar Escalação</button>
           </div>
         </header>
 
-        <!-- Barra de Controle da Escalação -->
         <div class="tactical-toolbar">
           <div class="toolbar-group">
             <label for="saved-squad-select">Escalação Ativa:</label>
@@ -201,9 +199,7 @@
           </div>
         </div>
 
-        <!-- Área Principal: Campo + Banco de Reservas -->
         <div class="tactical-workspace">
-          <!-- Campo de Futebol -->
           <div class="pitch-container">
             <div class="pitch-header-info">
               <span>Titulares: <strong id="pitch-starters-count">0/11</strong></span>
@@ -212,7 +208,6 @@
             </div>
 
             <div class="football-pitch" id="football-pitch">
-              <!-- Marcações do Gramado -->
               <div class="pitch-line-outer"></div>
               <div class="pitch-halfway-line"></div>
               <div class="pitch-center-circle"></div>
@@ -222,13 +217,11 @@
               <div class="pitch-penalty-bottom"></div>
               <div class="pitch-goal-area-bottom"></div>
 
-              <!-- Marcadores Oviais Dinâmicos das Posições -->
               <div id="pitch-slots-layer" class="pitch-slots-layer"></div>
             </div>
             <p class="pitch-hint">💡 Toque em uma posição para escalar ou trocar jogador. Toque na carta em campo para ver detalhes ou mover.</p>
           </div>
 
-          <!-- Banco de Reservas -->
           <aside class="bench-container">
             <div class="bench-header">
               <h3>Banco de Reservas (<span id="bench-count">0/12</span>)</h3>
@@ -240,7 +233,7 @@
         </div>
       </section>
 
-      <!-- VIEW 4: CENTRAL DE CARTAS (CADASTRO / EDIÇÃO) -->
+      <!-- VIEW 4: CENTRAL DE CARTAS -->
       <section id="view-cards" class="app-view">
         <header class="view-header">
           <div>
@@ -319,7 +312,6 @@
             <button type="submit" class="btn btn-primary btn-block" id="btn-save-card">💾 Salvar Carta</button>
           </form>
 
-          <!-- Prévia em Tempo Real -->
           <div class="card-preview-panel">
             <h3>Prévia da Carta</h3>
             <div id="live-card-preview" class="preview-wrapper"></div>
@@ -327,7 +319,7 @@
         </div>
       </section>
 
-      <!-- VIEW 5: PARTIDAS (PREPARADO PARA v3.0) -->
+      <!-- VIEW 5: PARTIDAS -->
       <section id="view-matches" class="app-view">
         <header class="view-header">
           <div>
@@ -344,7 +336,7 @@
         </div>
       </section>
 
-      <!-- VIEW 6: ESTATÍSTICAS (PREPARADO PARA v4.0) -->
+      <!-- VIEW 6: ESTATÍSTICAS -->
       <section id="view-stats" class="app-view">
         <header class="view-header">
           <div>
@@ -360,7 +352,7 @@
         </div>
       </section>
 
-      <!-- VIEW 7: CONFIGURAÇÕES & BACKUP -->
+      <!-- VIEW 7: CONFIGURAÇÕES -->
       <section id="view-settings" class="app-view">
         <header class="view-header">
           <div>
@@ -396,7 +388,7 @@
     </main>
   </div>
 
-  <!-- MODAL DE SELEÇÃO DE JOGADOR PARA O CAMPO / BANCO -->
+  <!-- MODAL DE SELEÇÃO DE JOGADOR -->
   <div id="player-picker-modal" class="modal-backdrop hidden">
     <div class="modal-box modal-lg">
       <div class="modal-header">
@@ -437,66 +429,60 @@
     </div>
   </div>
 
+  <!-- MODAL DE IMPORTAÇÃO INTELIGENTE POR PRINT -->
+  <div id="smart-import-modal" class="modal-backdrop hidden">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <h3>📸 Importação Inteligente por Print</h3>
+        <button class="btn-close-modal" id="btn-close-import-modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="import-step-upload" class="import-step">
+          <div class="upload-box" id="import-drop-area">
+            <input type="file" id="import-files-input" accept="image/png, image/jpeg, image/webp" multiple hidden>
+            <span class="upload-icon">📲</span>
+            <p>Toque para selecionar um ou mais prints do elenco</p>
+            <small>Suporta múltiplos prints simultâneos com detecção automática de cartas</small>
+          </div>
+        </div>
+
+        <div id="import-step-review" class="import-step hidden">
+          <div class="import-review-header">
+            <span>Cartas Detectadas: <strong id="import-detected-count">0</strong></span>
+            <button id="btn-add-more-prints" class="btn btn-outline btn-xs">+ Adicionar Mais Prints</button>
+          </div>
+          <p class="import-hint">Revise os dados, ajuste nomes ou overall se necessário e confirme a importação.</p>
+          <div id="import-cards-grid" class="import-cards-grid"></div>
+          <div class="import-footer-actions">
+            <button id="btn-cancel-import" class="btn btn-outline">Voltar</button>
+            <button id="btn-confirm-import" class="btn btn-primary">Confirmar Importação</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL GLOBAL DE CONFIRMAÇÃO -->
   <div id="global-modal" class="modal-backdrop hidden">
     <div class="modal-box">
       <div class="modal-header">
-        <h3 id="modal-title">Confirmação</h3>
-        <button class="btn-close-modal" onclick="HubUtils.closeModal()">✕</button>
+        <h3 id="global-modal-title">Aviso</h3>
+        <button class="btn-close-modal" id="btn-close-global-modal">✕</button>
       </div>
-      <div class="modal-body" id="modal-body"></div>
-      <div class="modal-footer" id="modal-footer"></div>
+      <div class="modal-body" id="global-modal-body"></div>
+      <div class="modal-footer" id="global-modal-footer"></div>
     </div>
   </div>
 
-  <!-- CONTÊINER DE TOASTS -->
-  <div id="toast-container" class="toast-container"></div>
-
-  <!-- SCRIPTS MODULARES -->
-  <script src="utils.js"></script>
-  <script src="database.js"></script>
-  <script src="images.js"></script>
-  <script src="navigation.js"></script>
-  <script src="cards.js"></script>
-  <script src="squad.js"></script>
-  <script src="formations.js"></script>
-  <script src="backup.js"></script>
-  <script src="app.js"></script>
-
-    <!-- Modal de Importação Inteligente por Print (v2.1) -->
-    <div id="smart-import-modal" class="modal-backdrop hidden">
-      <div class="modal-box modal-lg">
-        <div class="modal-header">
-          <h3 id="import-modal-title">Importação Inteligente por Print</h3>
-          <button class="btn-close-modal" id="btn-close-import">✕</button>
-        </div>
-        <div class="modal-body">
-          <div id="import-step-1">
-            <p class="subtitle">Selecione um ou vários prints do seu time no eFootball Mobile.</p>
-            <div class="upload-box" id="import-drop-area" style="margin-top: 1rem; border: 2px dashed var(--primary); padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer;">
-              <input type="file" id="import-file-input" accept="image/png, image/jpeg, image/webp" multiple hidden>
-              <span class="upload-icon" style="font-size: 2rem;">📸</span>
-              <p>Toque ou arraste os prints do seu elenco aqui</p>
-              <small>Suporta múltiplos arquivos simultâneos (Titulares e Reservas)</small>
-            </div>
-            <div id="import-selected-thumbs" class="cards-grid" style="margin-top: 1rem;"></div>
-          </div>
-          <div id="import-step-2" class="hidden">
-            <div class="pitch-header-info" style="display: flex; justify-content: space-between; align-items: center;">
-              <span>Cartas Detectadas: <strong id="import-detected-count">0</strong></span>
-              <button id="btn-add-more-prints" class="btn btn-outline btn-xs">+ Adicionar Mais Prints</button>
-            </div>
-            <p class="pitch-hint" style="margin-top: 0.5rem; color: var(--text-muted);">Revise os dados, ajuste nomes ou overall se necessário, e verifique avisos de duplicidade.</p>
-            <div id="import-review-grid" class="cards-grid" style="margin-top: 1rem; max-height: 400px; overflow-y: auto;"></div>
-          </div>
-        </div>
-        <div class="modal-footer" style="display: flex; justify-content: space-between; margin-top: 1rem;">
-          <button id="btn-import-back" class="btn btn-outline hidden">Voltar</button>
-          <button id="btn-import-action" class="btn btn-primary" style="margin-left: auto;">Analisar Elenco 🔍</button>
-        </div>
-      </div>
-    </div>
-    <script src="smart-import.js"></script>
-    </body>
-    
+  <script src="utils.js?v=2.1.1"></script>
+  <script src="database.js?v=2.1.1"></script>
+  <script src="images.js?v=2.1.1"></script>
+  <script src="navigation.js?v=2.1.1"></script>
+  <script src="cards.js?v=2.1.1"></script>
+  <script src="squad.js?v=2.1.1"></script>
+  <script src="formations.js?v=2.1.1"></script>
+  <script src="smart-import.js?v=2.1.1"></script>
+  <script src="backup.js?v=2.1.1"></script>
+  <script src="app.js?v=2.1.1"></script>
+</body>
 </html>

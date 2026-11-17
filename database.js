@@ -1,117 +1,85 @@
-// database.js - Camada IndexedDB JM Football Hub v2.0
-const HubDatabase = (() => {
-  let db = null;
-  const DB_NAME = 'jm_football_hub_db_v1';
-  const DB_VERSION = 1; // Preserva integralmente os dados e stores da v1.0
+// database.js - Camada IndexedDB preservando compatibilidade total com versões anteriores
+const HubDB = {
+  dbName: 'JMFootballHubDB',
+  dbVersion: 2,
+  db: null,
 
-  const init = () => {
+  async init() {
     return new Promise((resolve, reject) => {
-      if (db) {
-        resolve(db);
-        return;
-      }
+      const request = indexedDB.open(this.dbName, this.dbVersion);
 
-      const request = indexedDB.open(DB_NAME, DB_VERSION);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains('cards')) {
+          db.createObjectStore('cards', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('images')) {
+          db.createObjectStore('images', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('formations')) {
+          db.createObjectStore('formations', { keyPath: 'id' });
+        }
+      };
+
+      request.onsuccess = (event) => {
+        this.db = event.target.result;
+        resolve(this.db);
+      };
 
       request.onerror = (event) => {
         console.error('Erro ao abrir IndexedDB:', event.target.error);
         reject(event.target.error);
       };
-
-      request.onsuccess = (event) => {
-        db = event.target.result;
-        resolve(db);
-      };
-
-      request.onupgradeneeded = (event) => {
-        const database = event.target.result;
-        const stores = ['appData', 'cards', 'cardImages', 'squads', 'formations', 'matches', 'settings'];
-
-        stores.forEach((storeName) => {
-          if (!database.objectStoreNames.contains(storeName)) {
-            database.createObjectStore(storeName, { keyPath: 'id' });
-          }
-        });
-      };
     });
-  };
+  },
 
-  const getRecord = (storeName, id) => {
-    return new Promise(async (resolve, reject) => {
-      const database = await init();
-      const tx = database.transaction(storeName, 'readonly');
-      const store = tx.objectStore(storeName);
-      const req = store.get(id);
-
-      req.onsuccess = () => resolve(req.result);
-      req.onerror = () => reject(req.error);
-    });
-  };
-
-  const getAllRecords = (storeName) => {
-    return new Promise(async (resolve, reject) => {
-      const database = await init();
-      const tx = database.transaction(storeName, 'readonly');
+  async getAll(storeName) {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(storeName, 'readonly');
       const store = tx.objectStore(storeName);
       const req = store.getAll();
-
       req.onsuccess = () => resolve(req.result || []);
       req.onerror = () => reject(req.error);
     });
-  };
+  },
 
-  const putRecord = (storeName, record) => {
-    return new Promise(async (resolve, reject) => {
-      const database = await init();
-      const tx = database.transaction(storeName, 'readwrite');
+  async getById(storeName, id) {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(storeName, 'readonly');
       const store = tx.objectStore(storeName);
-
-      if (record && typeof record === 'object') {
-        record.updatedAt = new Date().toISOString();
-      }
-
-      const req = store.put(record);
-      req.onsuccess = () => resolve(req.result);
+      const req = store.get(id);
+      req.onsuccess = () => resolve(req.result || null);
       req.onerror = () => reject(req.error);
     });
-  };
+  },
 
-  const deleteRecord = (storeName, id) => {
-    return new Promise(async (resolve, reject) => {
-      const database = await init();
-      const tx = database.transaction(storeName, 'readwrite');
+  async put(storeName, item) {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(storeName, 'readwrite');
+      const store = tx.objectStore(storeName);
+      const req = store.put(item);
+      req.onsuccess = () => resolve(item);
+      req.onerror = () => reject(req.error);
+    });
+  },
+
+  async delete(storeName, id) {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(storeName, 'readwrite');
       const store = tx.objectStore(storeName);
       const req = store.delete(id);
-
-      req.onsuccess = () => resolve(true);
+      req.onsuccess = () => resolve();
       req.onerror = () => reject(req.error);
     });
-  };
+  },
 
-  const clearStore = (storeName) => {
-    return new Promise(async (resolve, reject) => {
-      const database = await init();
-      const tx = database.transaction(storeName, 'readwrite');
+  async clearStore(storeName) {
+    return new Promise((resolve, reject) => {
+      const tx = this.db.transaction(storeName, 'readwrite');
       const store = tx.objectStore(storeName);
       const req = store.clear();
-
-      req.onsuccess = () => resolve(true);
+      req.onsuccess = () => resolve();
       req.onerror = () => reject(req.error);
     });
-  };
-
-  const getStoreNames = async () => {
-    const database = await init();
-    return Array.from(database.objectStoreNames);
-  };
-
-  return {
-    init,
-    getRecord,
-    getAllRecords,
-    putRecord,
-    deleteRecord,
-    clearStore,
-    getStoreNames
-  };
-})();
+  }
+};

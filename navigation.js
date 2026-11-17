@@ -1,47 +1,31 @@
-// navigation.js - Roteador SPA JM Football Hub v2.0
-const HubNavigation = (() => {
-  const init = () => {
-    const buttons = document.querySelectorAll('.nav-btn[data-view]');
-    buttons.forEach((btn) => {
+// navigation.js - Navegação entre abas
+const HubNavigation = {
+  init() {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const targetView = btn.getAttribute('data-view');
-        navigateTo(targetView);
+        const target = btn.getAttribute('data-view');
+        this.navigateTo(target);
       });
     });
-  };
+  },
 
-  const navigateTo = (viewId) => {
-    document.querySelectorAll('.app-view').forEach((view) => {
-      view.classList.remove('active');
-    });
+  navigateTo(viewId) {
+    document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-    document.querySelectorAll('.nav-btn').forEach((btn) => {
-      btn.classList.remove('active');
-      if (btn.getAttribute('data-view') === viewId) {
-        btn.classList.add('active');
-      }
-    });
+    const targetView = document.getElementById(viewId);
+    if (targetView) targetView.classList.add('active');
 
-    const target = document.getElementById(viewId);
-    if (target) {
-      target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    const activeBtn = document.querySelector(`.nav-btn[data-view="${viewId}"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    if (viewId === 'view-home' || viewId === 'view-squad') {
+      HubSquad.refreshAll();
+    } else if (viewId === 'view-formations') {
+      HubFormations.renderPitch();
+      HubFormations.renderBench();
+    } else if (viewId === 'view-settings') {
+      HubBackup.updateStats();
     }
-
-    // Gatilhos de atualização automática por tela
-    if (viewId === 'view-home' && typeof HubApp !== 'undefined') {
-      HubApp.refreshDashboard();
-    } else if (viewId === 'view-squad' && typeof HubSquad !== 'undefined') {
-      HubSquad.renderSquad();
-    } else if (viewId === 'view-formations' && typeof HubFormations !== 'undefined') {
-      HubFormations.refresh();
-    } else if (viewId === 'view-settings' && typeof HubBackup !== 'undefined') {
-      HubBackup.updateStorageSummary();
-    }
-  };
-
-  return {
-    init,
-    navigateTo
-  };
-})();
+  }
+};
