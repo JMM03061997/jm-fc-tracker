@@ -1,129 +1,81 @@
-/**
- * JM Football Hub - Utilitários Compartilhados (js/utils.js)
- * Centraliza geração de IDs, formatação, validações, notificações e modais.
- */
-
+// utils.js - Utilitários Globais JM Football Hub v2.0
 const HubUtils = (() => {
-  /**
-   * Gera identificador único seguro para cartas, imagens e registros futuros
-   */
-  function generateId(prefix = 'id') {
-    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
-      return `${prefix}_${crypto.randomUUID()}`;
-    }
-    const timestamp = Date.now().toString(36);
-    const randomPart = Math.random().toString(36).substring(2, 10);
-    return `${prefix}_${timestamp}_${randomPart}`;
-  }
+  const generateId = (prefix = 'id') => {
+    const rand = Math.random().toString(36).substring(2, 9);
+    return `${prefix}_${Date.now()}_${rand}`;
+  };
 
-  /**
-   * Normaliza texto para buscas e comparações sem diferenciar acentos ou maiúsculas
-   */
-  function normalizeText(value) {
-    if (!value) return '';
-    return String(value)
+  const normalizeText = (text) => {
+    if (!text) return '';
+    return text
+      .toString()
       .normalize('NFD')
       .replace(/[̀-ͯ]/g, '')
       .toLowerCase()
       .trim();
-  }
+  };
 
-  /**
-   * Escapa caracteres HTML para evitar injeção ao renderizar strings dinâmicas
-   */
-  function escapeHtml(text) {
-    if (text === null || text === undefined) return '';
-    return String(text)
+  const escapeHtml = (str) => {
+    if (!str) return '';
+    return str
+      .toString()
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
-  }
+  };
 
-  /**
-   * Formata data ISO para padrão brasileiro legível
-   */
-  function formatDate(isoString) {
-    if (!isoString) return '—';
-    try {
-      const date = new Date(isoString);
-      return date.toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-    } catch {
-      return '—';
-    }
-  }
+  const formatDate = (isoString) => {
+    if (!isoString) return '-';
+    const d = new Date(isoString);
+    return d.toLocaleDateString('pt-BR');
+  };
 
-  /**
-   * Exibe notificação temporária (Toast)
-   */
-  function showToast(message, type = 'info', duration = 3400) {
+  const showToast = (message, duration = 3000) => {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
     const toast = document.createElement('div');
-    toast.className = `toast ${type === 'error' ? 'toast-error' : ''}`;
+    toast.className = 'toast';
     toast.textContent = message;
     container.appendChild(toast);
 
     setTimeout(() => {
       toast.style.opacity = '0';
       toast.style.transition = 'opacity 0.25s ease';
-      setTimeout(() => toast.remove(), 260);
+      setTimeout(() => toast.remove(), 250);
     }, duration);
-  }
+  };
 
-  /**
-   * Abre modal genérico reutilizável com botões customizados
-   */
-  function openModal({ title, bodyHtml, buttons = [] }) {
-    const backdrop = document.getElementById('app-modal');
+  const openModal = ({ title, bodyHtml, buttons = [] }) => {
+    const modal = document.getElementById('global-modal');
     const titleEl = document.getElementById('modal-title');
     const bodyEl = document.getElementById('modal-body');
     const footerEl = document.getElementById('modal-footer');
-    const closeBtn = document.getElementById('modal-close-btn');
 
-    if (!backdrop || !titleEl || !bodyEl || !footerEl) return;
-
-    titleEl.textContent = title || 'Confirmação';
-    bodyEl.innerHTML = bodyHtml || '';
+    titleEl.textContent = title;
+    bodyEl.innerHTML = bodyHtml;
     footerEl.innerHTML = '';
 
-    buttons.forEach((btnCfg) => {
+    buttons.forEach((btnConfig) => {
       const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = `btn ${btnCfg.className || 'btn-secondary'}`;
-      btn.textContent = btnCfg.label;
-      btn.addEventListener('click', () => {
-        if (typeof btnCfg.onClick === 'function') {
-          btnCfg.onClick();
-        }
-        if (btnCfg.closeOnClick !== false) {
-          closeModal();
-        }
-      });
+      btn.className = `btn ${btnConfig.className || 'btn-outline'}`;
+      btn.textContent = btnConfig.text;
+      btn.onclick = () => {
+        if (btnConfig.onClick) btnConfig.onClick();
+        if (btnConfig.closeAfter !== false) closeModal();
+      };
       footerEl.appendChild(btn);
     });
 
-    const handleClose = () => closeModal();
-    closeBtn.onclick = handleClose;
-    backdrop.onclick = (e) => {
-      if (e.target === backdrop) closeModal();
-    };
+    modal.classList.remove('hidden');
+  };
 
-    backdrop.classList.remove('hidden');
-  }
-
-  function closeModal() {
-    const backdrop = document.getElementById('app-modal');
-    if (backdrop) {
-      backdrop.classList.add('hidden');
-    }
-  }
+  const closeModal = () => {
+    const modal = document.getElementById('global-modal');
+    if (modal) modal.classList.add('hidden');
+  };
 
   return {
     generateId,
