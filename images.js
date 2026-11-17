@@ -1,141 +1,91 @@
-/**
- * JM Football Hub - Gerenciamento Independente de Imagens (js/images.js)
- * Valida formatos e tamanhos, gera prévias, armazena e recupera Blobs no IndexedDB
- * mantendo proporção e qualidade originais.
- */
-
+// images.js - Gerenciamento de Imagens e Blobs JM Football Hub v2.0
 const HubImages = (() => {
+  const urlCache = new Map();
+  const MAX_SIZE = 8 * 1024 * 1024; // 8MB
   const ALLOWED_TYPES = ['image/png', 'image/jpeg', 'image/webp'];
-  const MAX_SIZE_BYTES = 8 * 1024 * 1024; // 8 MB
-  const PLACEHOLDER_PATH = './card-placeholder.svg';
 
-  // Cache em memória de ObjectURLs para evitar vazamento de memória e acelerar renderização
-  const objectUrlCache = new Map();
-
-  /**
-   * Valida arquivo de imagem selecionado pelo usuário
-   */
-  function validateImageFile(file) {
-    if (!file) {
-      return { valid: false, error: 'Nenhum arquivo selecionado.' };
-    }
+  const validateFile = (file) => {
+    if (!file) return { valid: false, error: 'Nenhum arquivo selecionado.' };
     if (!ALLOWED_TYPES.includes(file.type)) {
-      return {
-        valid: false,
-        error: 'Formato inválido. Utilize apenas imagens PNG, JPG ou WebP.'
-      };
+      return { valid: false, error: 'Formato inválido. Use PNG, JPG ou WebP.' };
     }
-    if (file.size > MAX_SIZE_BYTES) {
-      return {
-        valid: false,
-        error: 'A imagem ultrapassa o limite máximo permitido de 8 MB.'
-      };
+    if (file.size > MAX_SIZE) {
+      return { valid: false, error: 'Imagem muito grande. Máximo de 8MB.' };
     }
     return { valid: true };
-  }
+  };
 
-  /**
-   * Gera URL de prévia temporária a partir de um File/Blob sem alterar proporções
-   */
-  function createPreviewUrl(fileOrBlob) {
-    if (!fileOrBlob) return PLACEHOLDER_PATH;
-    return URL.createObjectURL(fileOrBlob);
-  }
-
-  /**
-   * Salva Blob de imagem no IndexedDB com identificador próprio
-   */
-  async function saveImageBlob(fileOrBlob, existingId = null) {
-    const imageId = existingId || HubUtils.generateId('img');
+  const saveImageBlob = async (fileBlob, existingId = null) => {
+    const id = existingId || HubUtils.generateId('img');
     const record = {
-      id: imageId,
-      blob: fileOrBlob,
-      mimeType: fileOrBlob.type || 'image/png',
-      size: fileOrBlob.size || 0,
+      id,
+      blob: fileBlob,
+      mimeType: fileBlob.type || 'image/png',
+      size: fileBlob.size,
       updatedAt: new Date().toISOString()
     };
+    await HubDatabase.putRecord('cardImages', record);
 
-    await HubDatabase.putRecord(HubDatabase.STORES.CARD_IMAGES, record);
-
-    // Atualiza cache de ObjectURL caso já existisse
-    if (objectUrlCache.has(imageId)) {
-      URL.revokeObjectURL(objectUrlCache.get(imageId));
-      objectUrlCache.delete(imageId);
+    if (urlCache.has(id)) {
+      URL.revokeObjectURL(urlCache.get(id));
+      urlCache.delete(id);
     }
+    return id;
+  };
 
-    return imageId;
-  }
-
-  /**
-   * Recupera URL exibível de uma imagem armazenada no IndexedDB
-   */
-  async function getImageUrl(imageId) {
-    if (!imageId) return PLACEHOLDER_PATH;
-
-    if (objectUrlCache.has(imageId)) {
-      return objectUrlCache.get(imageId);
-    }
+  const getImageUrl = async (imageId) => {
+    if (!imageId) return 'card-placeholder.svg';
+    if (urlCache.has(imageId)) return urlCache.get(imageId);
 
     try {
-      const record = await HubDatabase.getRecord(HubDatabase.STORES.CARD_IMAGES, imageId);
-      if (record && record.blob instanceof Blob) {
-        const url = URL.createObjectURL(record.blob);
-        objectUrlCache.set(imageId, url);
-        return url;
+      const record = await HubDatabase.getRecord('cardImages', imageId);
+      if (record && record.blob) {
+        const objectUrl = URL.createObjectURL(record.blob);
+        urlCache.set(imageId, objectUrl);
+        return objectUrl;
       }
-      return PLACEHOLDER_PATH;
-    } catch (err) {
-      console.error('Erro ao carregar imagem do IndexedDB:', err);
-      return PLACEHOLDER_PATH;
+    } catch (e) {
+      console.warn('Falha ao carregar imagem:', imageId, e);
     }
-  }
+    return 'card-placeholder.svg';
+  };
 
-  /**
-   * Remove imagem do IndexedDB e limpa cache de URL
-   */
-  async function deleteImage(imageId) {
+  const deleteImage = async (imageId) => {
     if (!imageId) return;
-    if (objectUrlCache.has(imageId)) {
-      URL.revokeObjectURL(objectUrlCache.get(imageId));
-      objectUrlCache.delete(imageId);
+    if (urlCache.has(imageId)) {
+      URL.revokeObjectURL(urlCache.get(imageId));
+      urlCache.delete(imageId);
     }
-    await HubDatabase.deleteRecord(HubDatabase.STORES.CARD_IMAGES, imageId);
-  }
+    await HubDatabase.deleteRecord('cardImages', imageId);
+  };
 
-  /**
-   * Converte Blob para DataURL (Base64) apenas durante exportação de backup
-   */
-  function blobToDataUrl(blob) {
+  const blobToDataUrl = (blob) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onloadend = () => resolve(reader.result);
-      reader.onerror = () => reject(new Error('Falha ao converter imagem para backup.'));
+      reader.onerror = reject;
       reader.readAsDataURL(blob);
     });
-  }
+  };
 
-  /**
-   * Converte DataURL (Base64) de volta para Blob nativo durante restauração de backup
-   */
-  async function dataUrlToBlob(dataUrl) {
-    const response = await fetch(dataUrl);
-    return await response.blob();
-  }
-
-  function clearMemoryCache() {
-    objectUrlCache.forEach((url) => URL.revokeObjectURL(url));
-    objectUrlCache.clear();
-  }
+  const dataUrlToBlob = (dataUrl) => {
+    const arr = dataUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  };
 
   return {
-    PLACEHOLDER_PATH,
-    validateImageFile,
-    createPreviewUrl,
+    validateFile,
     saveImageBlob,
     getImageUrl,
     deleteImage,
     blobToDataUrl,
-    dataUrlToBlob,
-    clearMemoryCache
+    dataUrlToBlob
   };
 })();

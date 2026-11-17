@@ -1,221 +1,160 @@
-/**
- * JM Football Hub - Módulo de Backup e Restauração (js/backup.js)
- * Exporta banco completo com imagens em Blob convertidas para Base64 e restaura com validação.
- */
-
+// backup.js - Exportação e Restauração Completa v2.0
 const HubBackup = (() => {
-  function init() {
-    const exportBtn = document.getElementById('btn-export-backup');
-    const importInput = document.getElementById('backup-file-input');
+  const init = () => {
+    document.getElementById('btn-export-backup')?.addEventListener('click', exportBackup);
+    const importInput = document.getElementById('input-import-backup');
+    document.getElementById('btn-trigger-import')?.addEventListener('click', () => importInput?.click());
+    importInput?.addEventListener('change', handleImportFileSelection);
+  };
 
-    if (exportBtn) {
-      exportBtn.addEventListener('click', exportBackup);
-    }
+  const updateStorageSummary = async () => {
+    const cards = await HubDatabase.getAllRecords('cards');
+    const images = await HubDatabase.getAllRecords('cardImages');
+    const formations = await HubDatabase.getAllRecords('formations');
 
-    if (importInput) {
-      importInput.addEventListener('change', handleImportFileSelection);
-    }
-  }
+    const cEl = document.getElementById('settings-cards-count');
+    const iEl = document.getElementById('settings-images-count');
+    const fEl = document.getElementById('settings-formations-count');
 
-  async function updateSummary() {
-    const cardsCountEl = document.getElementById('settings-cards-count');
-    const imagesCountEl = document.getElementById('settings-images-count');
+    if (cEl) cEl.textContent = cards.length;
+    if (iEl) iEl.textContent = images.length;
+    if (fEl) fEl.textContent = formations.length;
+  };
 
+  const exportBackup = async () => {
     try {
-      const cards = await HubDatabase.getAllRecords(HubDatabase.STORES.CARDS);
-      const images = await HubDatabase.getAllRecords(HubDatabase.STORES.CARD_IMAGES);
+      HubUtils.showToast('Preparando backup completo...');
+      const storeNames = await HubDatabase.getStoreNames();
+      const exportedData = {};
 
-      if (cardsCountEl) cardsCountEl.textContent = cards.length;
-      if (imagesCountEl) imagesCountEl.textContent = images.length;
-    } catch (err) {
-      console.error('Erro ao atualizar sumário de configurações:', err);
-    }
-  }
-
-  async function exportBackup() {
-    try {
-      HubUtils.showToast('Preparando backup completo...', 'info');
-
-      const cards = await HubDatabase.getAllRecords(HubDatabase.STORES.CARDS);
-      const rawImages = await HubDatabase.getAllRecords(HubDatabase.STORES.CARD_IMAGES);
-      const squads = await HubDatabase.getAllRecords(HubDatabase.SQUADS);
-      const formations = await HubDatabase.getAllRecords(HubDatabase.FORMATIONS);
-      const matches = await HubDatabase.getAllRecords(HubDatabase.MATCHES);
-      const settings = await HubDatabase.getAllRecords(HubDatabase.SETTINGS);
-      const appData = await HubDatabase.getAllRecords(HubDatabase.APP_DATA);
-
-      // Converte Blobs de imagens para DataURL (Base64) para inclusão segura no JSON
-      const imagesWithBase64 = [];
-      for (const imgRecord of rawImages) {
-        let base64Data = null;
-        if (imgRecord.blob instanceof Blob) {
-          base64Data = await HubImages.blobToDataUrl(imgRecord.blob);
+      for (const storeName of storeNames) {
+        const records = await HubDatabase.getAllRecords(storeName);
+        if (storeName === 'cardImages') {
+          const serializedImages = [];
+          for (const imgRec of records) {
+            if (imgRec.blob) {
+              const dataUrl = await HubImages.blobToDataUrl(imgRec.blob);
+              serializedImages.push({
+                id: imgRec.id,
+                mimeType: imgRec.mimeType,
+                size: imgRec.size,
+                updatedAt: imgRec.updatedAt,
+                dataUrl
+              });
+            }
+          }
+          exportedData[storeName] = serializedImages;
+        } else {
+          exportedData[storeName] = records;
         }
-        imagesWithBase64.push({
-          id: imgRecord.id,
-          dataUrl: base64Data,
-          mimeType: imgRecord.mimeType,
-          size: imgRecord.size,
-          updatedAt: imgRecord.updatedAt
-        });
       }
 
-      const backupPayload = {
+      const payload = {
         app: 'JM Football Hub',
-        version: '1.0',
+        version: '2.0',
         exportedAt: new Date().toISOString(),
-        database: HubDatabase.DB_NAME,
-        data: {
-          appData,
-          cards,
-          cardImages: imagesWithBase64,
-          squads,
-          formations,
-          matches,
-          settings
-        }
+        data: exportedData
       };
 
-      const jsonString = JSON.stringify(backupPayload, null, 2);
-      const blob = new Blob([jsonString], { type: 'application/json' });
+      const jsonStr = JSON.stringify(payload);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-
-      const dateStr = new Date().toISOString().slice(0, 10);
-      const filename = `jm-football-hub-backup-${dateStr}.json`;
 
       const a = document.createElement('a');
       a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
+      a.download = `jm-football-hub-backup-${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
-      document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
       HubUtils.showToast('Backup exportado com sucesso!');
-      await updateSummary();
     } catch (err) {
-      console.error('Erro na exportação de backup:', err);
-      HubUtils.showToast('Erro ao gerar arquivo de backup.', 'error');
+      console.error('Erro ao exportar backup:', err);
+      HubUtils.showToast('Erro ao gerar arquivo de backup.');
     }
-  }
+  };
 
-  function handleImportFileSelection(event) {
-    const file = event.target.files && event.target.files[0];
+  const handleImportFileSelection = (e) => {
+    const file = e.target.files[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = async (e) => {
+    reader.onload = (event) => {
       try {
-        const jsonContent = e.target.result;
-        const backupData = JSON.parse(jsonContent);
-
-        // Validação estrita do arquivo
-        if (!backupData || backupData.app !== 'JM Football Hub' || !backupData.data) {
-          throw new Error('Arquivo de backup inválido ou incompatível.');
+        const parsed = JSON.parse(event.target.result);
+        if (parsed.app !== 'JM Football Hub' || !parsed.data) {
+          HubUtils.showToast('Arquivo de backup inválido ou incompatível.');
+          return;
         }
 
-        const cardsCount = (backupData.data.cards || []).length;
-        const imagesCount = (backupData.data.cardImages || []).length;
-
         HubUtils.openModal({
-          title: 'Restaurar Backup do JM Football Hub',
+          title: 'Restaurar Backup',
           bodyHtml: `
-            <p>O arquivo selecionado contém:</p>
-            <ul style="margin: 10px 0 15px 20px; color: var(--text-primary);">
-              <li><strong>${cardsCount}</strong> cartas cadastradas</li>
-              <li><strong>${imagesCount}</strong> imagens de cartas</li>
-            </ul>
-            <p>Deseja <strong>substituir</strong> todos os dados atuais ou <strong>mesclar</strong> com os dados existentes no dispositivo?</p>
+            <p>Backup válido encontrado (Versão ${HubUtils.escapeHtml(parsed.version || '1.0')}).</p>
+            <p style="margin-top:8px;">Como deseja importar os dados?</p>
           `,
           buttons: [
+            { text: 'Cancelar', className: 'btn-outline' },
             {
-              label: 'Cancelar',
-              className: 'btn-secondary',
-              onClick: () => { event.target.value = ''; }
+              text: 'Mesclar Dados',
+              className: 'btn-primary',
+              onClick: () => executeRestore(parsed.data, false)
             },
             {
-              label: 'Mesclar Dados',
-              className: 'btn-outline',
-              onClick: () => executeRestore(backupData, false)
-            },
-            {
-              label: 'Substituir Tudo',
+              text: 'Substituir Tudo',
               className: 'btn-danger',
-              onClick: () => executeRestore(backupData, true)
+              onClick: () => executeRestore(parsed.data, true)
             }
           ]
         });
       } catch (err) {
-        console.error('Erro ao ler JSON de backup:', err);
-        HubUtils.showToast('Arquivo JSON corrompido ou inválido.', 'error');
-        event.target.value = '';
+        HubUtils.showToast('Erro ao ler o arquivo JSON.');
       }
+      e.target.value = '';
     };
     reader.readAsText(file);
-  }
+  };
 
-  async function executeRestore(backupData, replaceExisting) {
+  const executeRestore = async (data, replaceAll) => {
     try {
-      HubUtils.showToast('Restaurando dados...', 'info');
-      const storesData = backupData.data;
+      const storeNames = await HubDatabase.getStoreNames();
 
-      if (replaceExisting) {
-        await HubDatabase.clearStore(HubDatabase.STORES.CARDS);
-        await HubDatabase.clearStore(HubDatabase.STORES.CARD_IMAGES);
-        await HubDatabase.clearStore(HubDatabase.STORES.SQUADS);
-        await HubDatabase.clearStore(HubDatabase.STORES.FORMATIONS);
-        await HubDatabase.clearStore(HubDatabase.STORES.MATCHES);
+      if (replaceAll) {
+        for (const sName of storeNames) {
+          await HubDatabase.clearStore(sName);
+        }
       }
 
-      // Restaura imagens (converte DataURL de volta para Blob)
-      if (storesData.cardImages && Array.isArray(storesData.cardImages)) {
-        for (const imgRec of storesData.cardImages) {
-          let blob = null;
-          if (imgRec.dataUrl) {
-            blob = await HubImages.dataUrlToBlob(imgRec.dataUrl);
-          }
-          if (blob) {
-            await HubDatabase.putRecord(HubDatabase.STORES.CARD_IMAGES, {
-              id: imgRec.id,
-              blob: blob,
-              mimeType: imgRec.mimeType || 'image/png',
-              size: imgRec.size || blob.size,
-              updatedAt: imgRec.updatedAt || new Date().toISOString()
+      for (const [storeName, records] of Object.entries(data)) {
+        if (!storeNames.includes(storeName) || !Array.isArray(records)) continue;
+
+        for (const rec of records) {
+          if (storeName === 'cardImages' && rec.dataUrl) {
+            const blob = HubImages.dataUrlToBlob(rec.dataUrl);
+            await HubDatabase.putRecord('cardImages', {
+              id: rec.id,
+              blob,
+              mimeType: rec.mimeType,
+              size: rec.size,
+              updatedAt: rec.updatedAt || new Date().toISOString()
             });
+          } else {
+            await HubDatabase.putRecord(storeName, rec);
           }
         }
       }
 
-      // Restaura cartas
-      if (storesData.cards && Array.isArray(storesData.cards)) {
-        for (const card of storesData.cards) {
-          await HubDatabase.putRecord(HubDatabase.STORES.CARDS, card);
-        }
-      }
-
-      // Restaura demais stores caso existam
-      const optionalStores = ['squads', 'formations', 'matches', 'settings', 'appData'];
-      for (const storeName of optionalStores) {
-        if (storesData[storeName] && Array.isArray(storesData[storeName])) {
-          for (const item of storesData[storeName]) {
-            await HubDatabase.putRecord(HubDatabase.STORES[storeName.toUpperCase()] || storeName, item);
-          }
-        }
-      }
-
-      HubUtils.showToast('Restauração concluída com sucesso!');
-      await updateSummary();
-      await HubApp.refreshDashboard();
-      HubNavigation.goTo('home');
+      HubUtils.showToast('Backup restaurado com sucesso!');
+      await updateStorageSummary();
+      if (typeof HubApp !== 'undefined') await HubApp.refreshDashboard();
+      if (typeof HubFormations !== 'undefined') await HubFormations.refresh();
     } catch (err) {
-      console.error('Erro ao executar restauração:', err);
-      HubUtils.showToast('Erro ao gravar dados restaurados.', 'error');
+      console.error('Erro na restauração:', err);
+      HubUtils.showToast('Falha ao restaurar dados.');
     }
-  }
+  };
 
   return {
     init,
-    updateSummary,
-    exportBackup
+    updateStorageSummary
   };
 })();

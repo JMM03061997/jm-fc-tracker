@@ -1,18 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#102442"/>
+      <stop offset="0%" stop-color="#12294D"/>
       <stop offset="100%" stop-color="#07152B"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1479FF" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#58C7F5" stop-opacity="0.05"/>
-    </linearGradient>
   </defs>
-  <rect width="300" height="420" rx="18" fill="url(#bg)" stroke="#15345B" stroke-width="3"/>
-  <rect x="14" y="14" width="272" height="392" rx="12" fill="url(#accent)" stroke="#2864D8" stroke-width="1.5" stroke-dasharray="6 4"/>
-  <circle cx="150" cy="165" r="46" fill="#15345B" stroke="#58C7F5" stroke-width="2"/>
-  <path d="M150 138c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20zm0 50c-22 0-40 12-40 26v6h80v-6c0-14-18-26-40-26z" fill="#A8C5E8" opacity="0.75"/>
-  <text x="150" y="275" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">SEM IMAGEM DA CARTA</text>
-  <text x="150" y="298" font-family="system-ui, sans-serif" font-size="12" fill="#A8C5E8" text-anchor="middle">JM FOOTBALL HUB</text>
+  <rect width="300" height="400" rx="16" fill="url(#bg)" stroke="#58C7F5" stroke-width="2" stroke-opacity="0.3"/>
+  <circle cx="150" cy="145" r="52" fill="#1479FF" fill-opacity="0.2" stroke="#58C7F5" stroke-width="2"/>
+  <path d="M85 295 C85 245, 215 245, 215 295" fill="#1479FF" fill-opacity="0.2" stroke="#58C7F5" stroke-width="2"/>
+  <text x="150" y="345" font-family="Arial, sans-serif" font-weight="700" font-size="16" fill="#94A3B8" text-anchor="middle">JM FOOTBALL HUB</text>
 </svg>

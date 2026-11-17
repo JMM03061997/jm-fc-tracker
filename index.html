@@ -1,525 +1,463 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <meta name="theme-color" content="#07152B" />
-  <meta name="description" content="JM Football Hub — Seu time. Sua história. Seus números. Plataforma de gerenciamento e estatísticas de futebol virtual." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>JM Football Hub | Your Football Universe</title>
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-  <link rel="apple-touch-icon" href="./icon-192.png" />
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./components.css" />
-  <link rel="stylesheet" href="./responsive.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#07152B">
+  <meta name="description" content="JM Football Hub - Seu time. Sua história. Seus números.">
+  <title>JM Football Hub v2.0</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="responsive.css">
 </head>
 <body>
   <div class="app-shell">
-    <!-- Top Header -->
-    <header class="app-header">
-      <div class="brand-area" data-nav="home" role="button" tabindex="0">
-        <div class="brand-logo">
-          <svg viewBox="0 0 100 100" width="36" height="36" aria-hidden="true">
-            <rect width="100" height="100" rx="22" fill="#102442" stroke="#1479FF" stroke-width="4"/>
-            <polygon points="50,18 78,34 78,66 50,82 22,66 22,34" fill="#15345B" stroke="#58C7F5" stroke-width="3"/>
-            <text x="50" y="60" font-family="system-ui, sans-serif" font-weight="800" font-size="30" fill="#FFFFFF" text-anchor="middle">JM</text>
-          </svg>
-        </div>
+    <!-- Navegação Principal (Lateral Desktop / Inferior Mobile) -->
+    <nav class="app-nav" id="app-nav">
+      <div class="nav-brand">
+        <img src="favicon.svg" alt="Logo" class="brand-logo">
         <div class="brand-text">
           <span class="brand-title">JM FOOTBALL HUB</span>
-          <span class="brand-subtitle">YOUR FOOTBALL UNIVERSE</span>
+          <span class="brand-sub">v2.0 • YOUR FOOTBALL UNIVERSE</span>
         </div>
       </div>
 
-      <div class="header-actions">
-        <span class="game-badge" title="Modo atual ativo">eFootball Mobile</span>
-        <button id="btn-install-pwa" class="btn btn-outline btn-sm hidden" type="button">
-          Instalar App
-        </button>
-        <button id="btn-quick-add-card" class="btn btn-primary btn-sm" type="button">
-          + Nova Carta
-        </button>
-      </div>
-    </header>
-
-    <!-- Main Layout (Sidebar Desktop + Content Area) -->
-    <div class="app-body">
-      <nav class="app-nav" aria-label="Navegação principal">
-        <button class="nav-item active" data-nav="home" type="button">
+      <div class="nav-links">
+        <button class="nav-btn active" data-view="view-home">
           <span class="nav-icon">🏠</span>
           <span class="nav-label">Início</span>
         </button>
-        <button class="nav-item" data-nav="squad" type="button">
-          <span class="nav-icon">🛡️</span>
+        <button class="nav-btn" data-view="view-squad">
+          <span class="nav-icon">📋</span>
           <span class="nav-label">Meu Elenco</span>
         </button>
-        <button class="nav-item" data-nav="cards" type="button">
+        <button class="nav-btn" data-view="view-formations">
+          <span class="nav-icon">⚽</span>
+          <span class="nav-label">Escalação</span>
+        </button>
+        <button class="nav-btn" data-view="view-cards">
           <span class="nav-icon">🃏</span>
           <span class="nav-label">Cartas</span>
         </button>
-        <button class="nav-item" data-nav="formations" type="button">
-          <span class="nav-icon">📋</span>
-          <span class="nav-label">Formações</span>
-          <span class="nav-tag">Em breve</span>
-        </button>
-        <button class="nav-item" data-nav="matches" type="button">
-          <span class="nav-icon">⚽</span>
+        <button class="nav-btn" data-view="view-matches">
+          <span class="nav-icon">🏆</span>
           <span class="nav-label">Partidas</span>
-          <span class="nav-tag">Em breve</span>
         </button>
-        <button class="nav-item" data-nav="stats" type="button">
+        <button class="nav-btn" data-view="view-stats">
           <span class="nav-icon">📊</span>
-          <span class="nav-label">Estatísticas</span>
-          <span class="nav-tag">Em breve</span>
+          <span class="nav-label">Stats</span>
         </button>
-        <button class="nav-item" data-nav="settings" type="button">
+        <button class="nav-btn" data-view="view-settings">
           <span class="nav-icon">⚙️</span>
-          <span class="nav-label">Configurações</span>
+          <span class="nav-label">Config</span>
         </button>
-      </nav>
+      </div>
 
-      <main id="main-content" class="main-content">
-        <!-- VIEW 1: INÍCIO (DASHBOARD) -->
-        <section id="view-home" class="view active">
-          <div class="hero-banner">
-            <div class="hero-content">
-              <p class="hero-eyebrow">YOUR FOOTBALL UNIVERSE • v1.0</p>
-              <h1 class="hero-title">JM Football Hub</h1>
-              <p class="hero-slogan">Seu time. Sua história. Seus números.</p>
-            </div>
-            <div class="hero-cta">
-              <button class="btn btn-primary" data-action="open-card-modal" type="button">
-                + Cadastrar Nova Carta
-              </button>
-              <button class="btn btn-secondary" data-nav="squad" type="button">
-                Ver Meu Elenco
-              </button>
-            </div>
+      <div class="nav-footer">
+        <button id="btn-install-pwa" class="btn btn-primary btn-sm hidden">📲 Instalar App</button>
+      </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="app-main">
+      <!-- VIEW 1: INÍCIO (DASHBOARD) -->
+      <section id="view-home" class="app-view active">
+        <header class="view-header">
+          <div>
+            <h1>JM Football Hub</h1>
+            <p class="subtitle">Seu time. Sua história. Seus números.</p>
           </div>
+          <span class="version-badge">v2.0</span>
+        </header>
 
-          <!-- KPI Summary Cards -->
-          <div class="stats-grid">
-            <div class="stat-card">
-              <span class="stat-label">Cartas Ativas no Elenco</span>
-              <strong id="dash-total-cards" class="stat-value">0</strong>
-              <span id="dash-archived-info" class="stat-hint">0 arquivadas</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Overall Médio</span>
-              <strong id="dash-avg-ovr" class="stat-value">—</strong>
-              <span class="stat-hint">Baseado nas cartas ativas</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Maior Overall</span>
-              <strong id="dash-max-ovr" class="stat-value">—</strong>
-              <span id="dash-top-player" class="stat-hint">Nenhum jogador cadastrado</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-label">Jogadores Únicos</span>
-              <strong id="dash-unique-players" class="stat-value">0</strong>
-              <span class="stat-hint">Múltiplas cartas permitidas</span>
-            </div>
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-label">Cartas Ativas</span>
+            <strong class="kpi-value" id="kpi-total-cards">0</strong>
           </div>
-
-          <!-- Empty State or Recent Cards -->
-          <div id="dash-empty-state" class="panel empty-state-panel">
-            <div class="empty-icon">🏟️</div>
-            <h2>Seu universo de futebol começa aqui.</h2>
-            <p>
-              Você ainda não possui cartas cadastradas no JM Football Hub. Adicione sua primeira carta do eFootball Mobile com imagem, overall, posição e tipo para começar a construir seu elenco.
-            </p>
-            <button class="btn btn-primary" data-action="open-card-modal" type="button">
-              Cadastrar Primeira Carta
-            </button>
+          <div class="kpi-card">
+            <span class="kpi-label">Overall Médio</span>
+            <strong class="kpi-value" id="kpi-avg-ovr">0</strong>
           </div>
-
-          <div id="dash-recent-section" class="panel hidden">
-            <div class="panel-header">
-              <div>
-                <h2 class="panel-title">Últimas Cartas Adicionadas</h2>
-                <p class="panel-subtitle">Adições mais recentes ao seu elenco do eFootball</p>
-              </div>
-              <button class="btn btn-outline btn-sm" data-nav="squad" type="button">Ver todas</button>
-            </div>
-            <div id="dash-recent-grid" class="cards-grid compact-grid"></div>
+          <div class="kpi-card">
+            <span class="kpi-label">Maior Overall</span>
+            <strong class="kpi-value" id="kpi-max-ovr">-</strong>
+            <span class="kpi-sub" id="kpi-max-player">Nenhum jogador</span>
           </div>
-
-          <!-- Future Modules Preview -->
-          <div class="panel future-preview-panel">
-            <div class="panel-header">
-              <div>
-                <h2 class="panel-title">Evolução da Plataforma</h2>
-                <p class="panel-subtitle">Espaços preparados na arquitetura para as próximas versões</p>
-              </div>
-            </div>
-            <div class="roadmap-grid">
-              <div class="roadmap-item">
-                <span class="badge badge-info">Versão 2.0</span>
-                <h3>Campo e Escalação</h3>
-                <p>Montagem tática com marcadores ovais dinâmicos, troca rápida de posições e preservação total do formato das cartas.</p>
-              </div>
-              <div class="roadmap-item">
-                <span class="badge badge-info">Versão 3.0</span>
-                <h3>Registro de Partidas</h3>
-                <p>Histórico detalhado de confrontos Online e contra IA registrando exatamente qual carta foi utilizada em campo.</p>
-              </div>
-              <div class="roadmap-item">
-                <span class="badge badge-info">Versão 4.0</span>
-                <h3>Estatísticas Avançadas</h3>
-                <p>Desempenho separado por jogador e por versão específica de carta (gols, assistências, MVPs e aproveitamento).</p>
-              </div>
-            </div>
+          <div class="kpi-card">
+            <span class="kpi-label">Escalações Salvas</span>
+            <strong class="kpi-value" id="kpi-total-formations">0</strong>
           </div>
-        </section>
+        </div>
 
-        <!-- VIEW 2: MEU ELENCO -->
-        <section id="view-squad" class="view">
+        <div class="section-block">
           <div class="section-header">
-            <div>
-              <h1 class="section-title">Meu Elenco</h1>
-              <p class="section-subtitle">Gerencie, pesquise e organize todas as suas cartas ativas do eFootball</p>
-            </div>
-            <div class="section-actions">
-              <button id="btn-toggle-archived-view" class="btn btn-secondary" type="button">
-                Ver Arquivadas (<span id="squad-archived-count">0</span>)
-              </button>
-              <button class="btn btn-primary" data-action="open-card-modal" type="button">
-                + Adicionar Carta
-              </button>
-            </div>
+            <h2>Últimas Cartas Adicionadas</h2>
+            <button class="btn btn-outline btn-sm" onclick="HubNavigation.navigateTo('view-cards')">+ Nova Carta</button>
+          </div>
+          <div id="home-recent-cards" class="cards-grid"></div>
+        </div>
+      </section>
+
+      <!-- VIEW 2: MEU ELENCO -->
+      <section id="view-squad" class="app-view">
+        <header class="view-header">
+          <div>
+            <h1>Meu Elenco</h1>
+            <p class="subtitle">Gerencie suas cartas e versões de jogadores</p>
+          </div>
+          <div class="header-actions">
+            <button id="btn-toggle-archived" class="btn btn-outline btn-sm">📦 Ver Arquivadas (<span id="archived-count">0</span>)</button>
+            <button class="btn btn-primary btn-sm" onclick="HubNavigation.navigateTo('view-cards')">+ Cadastrar</button>
+          </div>
+        </header>
+
+        <div class="filters-bar">
+          <input type="text" id="filter-search" class="form-input" placeholder="Buscar por nome ou clube...">
+          <select id="filter-position" class="form-select">
+            <option value="">Todas Posições</option>
+            <option value="GO">GO - Goleiro</option>
+            <option value="ZAG">ZAG - Zagueiro</option>
+            <option value="LE">LE - Lateral Esquerdo</option>
+            <option value="LD">LD - Lateral Direito</option>
+            <option value="VOL">VOL - Volante</option>
+            <option value="MLG">MLG - Meia Ligação</option>
+            <option value="MLE">MLE - Meia Esquerda</option>
+            <option value="MLD">MLD - Meia Direita</option>
+            <option value="MAT">MAT - Meia Atacante</option>
+            <option value="PTE">PTE - Ponta Esquerda</option>
+            <option value="PTD">PTD - Ponta Direita</option>
+            <option value="SA">SA - Segundo Atacante</option>
+            <option value="CA">CA - Centroavante</option>
+          </select>
+          <select id="filter-type" class="form-select">
+            <option value="">Todos Tipos</option>
+            <option value="Epic">Epic</option>
+            <option value="Big Time">Big Time</option>
+            <option value="Show Time">Show Time</option>
+            <option value="POTW">POTW</option>
+            <option value="Highlight">Highlight</option>
+            <option value="Trending">Trending</option>
+            <option value="Standard">Standard</option>
+            <option value="Outro">Outro</option>
+          </select>
+          <select id="filter-sort" class="form-select">
+            <option value="ovr-desc">Maior Overall</option>
+            <option value="ovr-asc">Menor Overall</option>
+            <option value="name-asc">Nome (A-Z)</option>
+            <option value="date-desc">Mais Recentes</option>
+          </select>
+        </div>
+
+        <div id="squad-cards-grid" class="cards-grid"></div>
+      </section>
+
+      <!-- VIEW 3: ESCALAÇÃO TÁTICA E CAMPO (VERSÃO 2.0) -->
+      <section id="view-formations" class="app-view">
+        <header class="view-header">
+          <div>
+            <h1>Campo & Escalação Tática</h1>
+            <p class="subtitle">Monte seu time titular, organize reservas e salve múltiplas escalações</p>
+          </div>
+          <div class="header-actions">
+            <button id="btn-new-squad" class="btn btn-outline btn-sm">+ Nova Escalação</button>
+            <button id="btn-save-squad" class="btn btn-primary btn-sm">💾 Salvar Escalação</button>
+          </div>
+        </header>
+
+        <!-- Barra de Controle da Escalação -->
+        <div class="tactical-toolbar">
+          <div class="toolbar-group">
+            <label for="saved-squad-select">Escalação Ativa:</label>
+            <select id="saved-squad-select" class="form-select"></select>
+            <button id="btn-delete-squad" class="btn btn-danger btn-sm" title="Excluir escalação atual">🗑️</button>
           </div>
 
-          <!-- Filters Bar -->
-          <div class="panel filter-panel">
-            <div class="filter-grid">
+          <div class="toolbar-group">
+            <label for="squad-name-input">Nome do Time:</label>
+            <input type="text" id="squad-name-input" class="form-input" placeholder="Ex: Time Principal">
+          </div>
+
+          <div class="toolbar-group">
+            <label for="formation-preset-select">Formação Tática:</label>
+            <select id="formation-preset-select" class="form-select">
+              <option value="4-3-3">4-3-3 (Clássica)</option>
+              <option value="4-2-1-3">4-2-1-3 (Contra-Ataque)</option>
+              <option value="4-1-2-3">4-1-2-3 (Posse de Bola)</option>
+              <option value="4-4-2">4-4-2 (Linhas de 4)</option>
+              <option value="4-2-2-2">4-2-2-2 (2 MATs)</option>
+              <option value="4-3-1-2">4-3-1-2 (Losango)</option>
+              <option value="3-2-3-2">3-2-3-2 (3 Zagueiros)</option>
+              <option value="3-1-4-2">3-1-4-2 (Ofensiva)</option>
+              <option value="5-3-2">5-3-2 (Defensiva)</option>
+              <option value="custom">Personalizada (Livre)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Área Principal: Campo + Banco de Reservas -->
+        <div class="tactical-workspace">
+          <!-- Campo de Futebol -->
+          <div class="pitch-container">
+            <div class="pitch-header-info">
+              <span>Titulares: <strong id="pitch-starters-count">0/11</strong></span>
+              <span>Overall Médio Titular: <strong id="pitch-avg-ovr">0</strong></span>
+              <button id="btn-clear-pitch" class="btn btn-outline btn-xs">Limpar Campo</button>
+            </div>
+
+            <div class="football-pitch" id="football-pitch">
+              <!-- Marcações do Gramado -->
+              <div class="pitch-line-outer"></div>
+              <div class="pitch-halfway-line"></div>
+              <div class="pitch-center-circle"></div>
+              <div class="pitch-center-spot"></div>
+              <div class="pitch-penalty-top"></div>
+              <div class="pitch-goal-area-top"></div>
+              <div class="pitch-penalty-bottom"></div>
+              <div class="pitch-goal-area-bottom"></div>
+
+              <!-- Marcadores Oviais Dinâmicos das Posições -->
+              <div id="pitch-slots-layer" class="pitch-slots-layer"></div>
+            </div>
+            <p class="pitch-hint">💡 Toque em uma posição para escalar ou trocar jogador. Toque na carta em campo para ver detalhes ou mover.</p>
+          </div>
+
+          <!-- Banco de Reservas -->
+          <aside class="bench-container">
+            <div class="bench-header">
+              <h3>Banco de Reservas (<span id="bench-count">0/12</span>)</h3>
+              <button id="btn-add-bench" class="btn btn-primary btn-xs">+ Adicionar Reserva</button>
+            </div>
+            <p class="bench-desc">Jogadores relacionados para o banco (não afeta cartas arquivadas).</p>
+            <div id="bench-slots-grid" class="bench-slots-grid"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- VIEW 4: CENTRAL DE CARTAS (CADASTRO / EDIÇÃO) -->
+      <section id="view-cards" class="app-view">
+        <header class="view-header">
+          <div>
+            <h1 id="card-form-title">Cadastrar Nova Carta</h1>
+            <p class="subtitle">Adicione múltiplas versões do mesmo jogador com suas imagens</p>
+          </div>
+          <button id="btn-cancel-edit" class="btn btn-outline btn-sm hidden">Cancelar Edição</button>
+        </header>
+
+        <div class="card-editor-layout">
+          <form id="card-form" class="card-form">
+            <input type="hidden" id="card-id">
+
+            <div class="form-group">
+              <label for="card-player-name">Nome do Jogador *</label>
+              <input type="text" id="card-player-name" class="form-input" placeholder="Ex: Lionel Messi" required>
+            </div>
+
+            <div class="form-row">
               <div class="form-group">
-                <label for="filter-search">Pesquisar Jogador ou Clube</label>
-                <input type="search" id="filter-search" class="form-control" placeholder="Ex: Messi, Neymar, Barcelona..." />
+                <label for="card-overall">Overall (40 - 125) *</label>
+                <input type="number" id="card-overall" class="form-input" min="40" max="125" value="99" required>
               </div>
+
               <div class="form-group">
-                <label for="filter-position">Posição</label>
-                <select id="filter-position" class="form-control">
-                  <option value="">Todas as posições</option>
-                  <option value="PT">PT (Goleiro)</option>
-                  <option value="ZAG">ZAG (Zagueiro)</option>
-                  <option value="LE">LE (Lateral Esquerdo)</option>
-                  <option value="LD">LD (Lateral Direito)</option>
-                  <option value="VOL">VOL (Volante)</option>
-                  <option value="MLG">MLG (Meia de Ligação)</option>
-                  <option value="MLE">MLE (Meia Esquerda)</option>
-                  <option value="MLD">MLD (Meia Direita)</option>
-                  <option value="MAT">MAT (Meia Atacante)</option>
-                  <option value="PTE">PTE (Ponta Esquerda)</option>
-                  <option value="PTD">PTD (Ponta Direita)</option>
-                  <option value="SA">SA (Segundo Atacante)</option>
-                  <option value="CA">CA (Centroavante)</option>
+                <label for="card-position">Posição Principal *</label>
+                <select id="card-position" class="form-select" required>
+                  <option value="CA">CA - Centroavante</option>
+                  <option value="SA">SA - Segundo Atacante</option>
+                  <option value="PTE">PTE - Ponta Esquerda</option>
+                  <option value="PTD">PTD - Ponta Direita</option>
+                  <option value="MAT">MAT - Meia Atacante</option>
+                  <option value="MLG">MLG - Meia Ligação</option>
+                  <option value="MLE">MLE - Meia Esquerda</option>
+                  <option value="MLD">MLD - Meia Direita</option>
+                  <option value="VOL">VOL - Volante</option>
+                  <option value="ZAG">ZAG - Zagueiro</option>
+                  <option value="LE">LE - Lateral Esquerdo</option>
+                  <option value="LD">LD - Lateral Direito</option>
+                  <option value="GO">GO - Goleiro</option>
                 </select>
               </div>
+            </div>
+
+            <div class="form-row">
               <div class="form-group">
-                <label for="filter-card-type">Tipo de Carta</label>
-                <select id="filter-card-type" class="form-control">
-                  <option value="">Todos os tipos</option>
+                <label for="card-type">Tipo de Carta *</label>
+                <select id="card-type" class="form-select" required>
                   <option value="Epic">Epic</option>
                   <option value="Big Time">Big Time</option>
                   <option value="Show Time">Show Time</option>
                   <option value="POTW">POTW</option>
-                  <option value="Highlight">Highlight / Destaque</option>
+                  <option value="Highlight">Highlight</option>
                   <option value="Trending">Trending</option>
-                  <option value="Standard">Standard / Padrão</option>
+                  <option value="Standard">Standard</option>
                   <option value="Outro">Outro</option>
                 </select>
               </div>
+
               <div class="form-group">
-                <label for="filter-min-ovr">Overall Mínimo</label>
-                <input type="number" id="filter-min-ovr" class="form-control" min="40" max="120" placeholder="Ex: 95" />
-              </div>
-              <div class="form-group">
-                <label for="filter-sort">Ordenar por</label>
-                <select id="filter-sort" class="form-control">
-                  <option value="ovr-desc">Maior Overall</option>
-                  <option value="ovr-asc">Menor Overall</option>
-                  <option value="name-asc">Nome (A - Z)</option>
-                  <option value="name-desc">Nome (Z - A)</option>
-                  <option value="newest">Mais Recentes</option>
-                </select>
+                <label for="card-club">Clube / Seleção</label>
+                <input type="text" id="card-club" class="form-input" placeholder="Ex: Inter Miami / Argentina">
               </div>
             </div>
-            <div class="filter-footer">
-              <span id="squad-results-label" class="results-count">Mostrando 0 cartas</span>
-              <button id="btn-clear-filters" class="btn-link" type="button">Limpar filtros</button>
-            </div>
-          </div>
 
-          <!-- Squad Banner when viewing Archived -->
-          <div id="archived-mode-banner" class="alert alert-info hidden">
-            <span>📦 Você está visualizando suas <strong>Cartas Arquivadas</strong>. Elas não aparecem no elenco principal, mas mantêm todos os seus dados intactos.</span>
-            <button id="btn-exit-archived-view" class="btn btn-sm btn-outline" type="button">Voltar ao Elenco Ativo</button>
-          </div>
-
-          <!-- Cards Grid -->
-          <div id="squad-cards-grid" class="cards-grid"></div>
-
-          <!-- Empty Filter/Squad State -->
-          <div id="squad-empty-state" class="panel empty-state-panel hidden">
-            <div class="empty-icon">🔍</div>
-            <h3 id="squad-empty-title">Nenhuma carta encontrada</h3>
-            <p id="squad-empty-desc">Tente ajustar os filtros de pesquisa ou cadastre uma nova carta.</p>
-            <button class="btn btn-primary" data-action="open-card-modal" type="button">+ Cadastrar Carta</button>
-          </div>
-        </section>
-
-        <!-- VIEW 3: CARTAS (CADASTRO E GERENCIAMENTO) -->
-        <section id="view-cards" class="view">
-          <div class="section-header">
-            <div>
-              <h1 class="section-title">Central de Cartas</h1>
-              <p class="section-subtitle">Cadastre novas cartas do eFootball com preservação total da imagem original</p>
-            </div>
-          </div>
-
-          <div class="two-col-layout">
-            <!-- Form Panel -->
-            <div class="panel">
-              <div class="panel-header">
-                <h2 id="card-form-title" class="panel-title">Cadastrar Nova Carta</h2>
-                <span class="badge badge-primary">Manual • eFootball</span>
+            <div class="form-group">
+              <label for="card-image-input">Imagem da Carta (PNG, JPG, WebP - Máx 8MB)</label>
+              <div class="upload-box" id="upload-drop-area">
+                <input type="file" id="card-image-input" accept="image/png, image/jpeg, image/webp" hidden>
+                <span class="upload-icon">🖼️</span>
+                <p>Toque para escolher a imagem da carta</p>
+                <small>Proporção original 3:4 preservada sem cortes</small>
               </div>
-
-              <form id="card-form" novalidate>
-                <input type="hidden" id="card-id" />
-                <input type="hidden" id="card-existing-image-id" />
-
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="card-player-name">Nome do Jogador *</label>
-                    <input type="text" id="card-player-name" class="form-control" placeholder="Ex: Lionel Messi" required maxlength="60" />
-                  </div>
-                  <div class="form-group">
-                    <label for="card-overall">Overall *</label>
-                    <input type="number" id="card-overall" class="form-control" placeholder="Ex: 105" min="40" max="125" required />
-                  </div>
-                </div>
-
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="card-type">Tipo de Carta *</label>
-                    <select id="card-type" class="form-control" required>
-                      <option value="Epic">Epic</option>
-                      <option value="Big Time">Big Time</option>
-                      <option value="Show Time">Show Time</option>
-                      <option value="POTW">POTW</option>
-                      <option value="Highlight">Highlight / Destaque</option>
-                      <option value="Trending">Trending</option>
-                      <option value="Standard">Standard / Padrão</option>
-                      <option value="Outro">Outro</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="card-position">Posição Principal *</label>
-                    <select id="card-position" class="form-control" required>
-                      <option value="CA">CA — Centroavante</option>
-                      <option value="SA">SA — Segundo Atacante</option>
-                      <option value="PTD">PTD — Ponta Direita</option>
-                      <option value="PTE">PTE — Ponta Esquerda</option>
-                      <option value="MAT">MAT — Meia Atacante</option>
-                      <option value="MLD">MLD — Meia Direita</option>
-                      <option value="MLE">MLE — Meia Esquerda</option>
-                      <option value="MLG">MLG — Meia de Ligação</option>
-                      <option value="VOL">VOL — Volante</option>
-                      <option value="LD">LD — Lateral Direito</option>
-                      <option value="LE">LE — Lateral Esquerdo</option>
-                      <option value="ZAG">ZAG — Zagueiro</option>
-                      <option value="PT">PT — Goleiro</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="card-club">Clube / Seleção</label>
-                  <input type="text" id="card-club" class="form-control" placeholder="Ex: FC Barcelona, Inter Miami, Argentina..." maxlength="60" />
-                </div>
-
-                <div class="form-group">
-                  <label for="card-image-input">Imagem da Carta (PNG, JPG ou WebP)</label>
-                  <div class="file-upload-box">
-                    <input type="file" id="card-image-input" accept="image/png, image/jpeg, image/webp" class="file-input" />
-                    <div class="file-upload-prompt">
-                      <span class="upload-icon">🖼️</span>
-                      <span>Toque para selecionar a imagem da carta no seu dispositivo</span>
-                      <small>Formatos aceitos: PNG, JPG, WebP (máx. 8 MB). Sem cortes ou distorções.</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-actions">
-                  <button type="submit" id="btn-save-card" class="btn btn-primary">
-                    Salvar Carta
-                  </button>
-                  <button type="button" id="btn-cancel-edit" class="btn btn-secondary hidden">
-                    Cancelar Edição
-                  </button>
-                </div>
-              </form>
             </div>
 
-            <!-- Live Preview Panel -->
-            <div class="panel preview-panel">
-              <div class="panel-header">
-                <h2 class="panel-title">Prévia da Carta</h2>
-                <span class="panel-subtitle">Proporção original preservada</span>
-              </div>
-              <div class="card-preview-stage">
-                <div class="hub-card preview-card">
-                  <div class="hub-card-media">
-                    <img id="card-preview-img" src="./card-placeholder.svg" alt="Prévia da carta" />
-                  </div>
-                  <div class="hub-card-info">
-                    <div class="hub-card-top">
-                      <span id="preview-pos" class="pos-badge">CA</span>
-                      <span id="preview-ovr" class="ovr-badge">99</span>
-                    </div>
-                    <h3 id="preview-name" class="hub-card-name">Nome do Jogador</h3>
-                    <div class="hub-card-meta">
-                      <span id="preview-type" class="type-tag">Epic</span>
-                      <span id="preview-club" class="club-tag">Clube</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p class="preview-note">
-                💡 Você pode cadastrar várias cartas do mesmo jogador (ex: Messi Epic 103 e Messi Big Time 105). Cada carta recebe um identificador único no banco de dados.
-              </p>
-            </div>
-          </div>
-        </section>
+            <button type="submit" class="btn btn-primary btn-block" id="btn-save-card">💾 Salvar Carta</button>
+          </form>
 
-        <!-- VIEW 4: FORMAÇÕES (EM DESENVOLVIMENTO) -->
-        <section id="view-formations" class="view">
-          <div class="panel dev-placeholder-panel">
-            <span class="badge badge-warning">Em desenvolvimento • Roadmap v2.0</span>
-            <div class="dev-icon">📋</div>
-            <h1>Formações e Escalação Tática</h1>
-            <p>
-              Este módulo está previsto para a <strong>Versão 2.0</strong> do JM Football Hub. Permitirá montar seu time em campo com formações nativas do eFootball, formações personalizadas e marcadores ovais dinâmicos que preservam integralmente o formato das suas cartas.
-            </p>
+          <!-- Prévia em Tempo Real -->
+          <div class="card-preview-panel">
+            <h3>Prévia da Carta</h3>
+            <div id="live-card-preview" class="preview-wrapper"></div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <!-- VIEW 5: PARTIDAS (EM DESENVOLVIMENTO) -->
-        <section id="view-matches" class="view">
-          <div class="panel dev-placeholder-panel">
-            <span class="badge badge-warning">Em desenvolvimento • Roadmap v3.0</span>
-            <div class="dev-icon">⚽</div>
+      <!-- VIEW 5: PARTIDAS (PREPARADO PARA v3.0) -->
+      <section id="view-matches" class="app-view">
+        <header class="view-header">
+          <div>
             <h1>Registro de Partidas</h1>
-            <p>
-              Este módulo está previsto para a <strong>Versão 3.0</strong> do JM Football Hub. Você poderá registrar partidas Online e contra IA, placares, gols, assistências, MVP e exatamente quais cartas entraram em campo, mantendo o histórico protegido mesmo se uma carta for editada ou arquivada depois.
-            </p>
+            <p class="subtitle">Histórico detalhado de confrontos online e contra a IA</p>
           </div>
-        </section>
+          <span class="roadmap-tag">Roadmap v3.0</span>
+        </header>
+        <div class="empty-state-card">
+          <div class="empty-icon">🏆</div>
+          <h2>Módulo de Partidas em Preparação (v3.0)</h2>
+          <p>A arquitetura de eventos, salvamento progressivo e snapshots históricos já foi fechada e será ativada na próxima atualização.</p>
+          <p class="text-muted">Monte suas escalações na aba <strong>Escalação</strong> para já deixar seus times prontos!</p>
+        </div>
+      </section>
 
-        <!-- VIEW 6: ESTATÍSTICAS (EM DESENVOLVIMENTO) -->
-        <section id="view-stats" class="view">
-          <div class="panel dev-placeholder-panel">
-            <span class="badge badge-warning">Em desenvolvimento • Roadmap v4.0</span>
-            <div class="dev-icon">📊</div>
-            <h1>Estatísticas Gerais e por Carta</h1>
-            <p>
-              Este módulo está previsto para a <strong>Versão 4.0</strong> do JM Football Hub. Apresentará aproveitamento, média de gols, artilheiros, assistências e comparação detalhada entre o desempenho geral de um jogador e cada uma de suas cartas específicas.
-            </p>
+      <!-- VIEW 6: ESTATÍSTICAS (PREPARADO PARA v4.0) -->
+      <section id="view-stats" class="app-view">
+        <header class="view-header">
+          <div>
+            <h1>Estatísticas & Desempenho</h1>
+            <p class="subtitle">Análise comparativa por jogador e versão de carta</p>
           </div>
-        </section>
+          <span class="roadmap-tag">Roadmap v4.0</span>
+        </header>
+        <div class="empty-state-card">
+          <div class="empty-icon">📊</div>
+          <h2>Motor Estatístico (v4.0)</h2>
+          <p>Disponível após a ativação do registro de partidas na v3.0 para calcular artilharia, assistências, MVPs e comparar diferentes versões do mesmo atleta.</p>
+        </div>
+      </section>
 
-        <!-- VIEW 7: CONFIGURAÇÕES E BACKUP -->
-        <section id="view-settings" class="view">
-          <div class="section-header">
-            <div>
-              <h1 class="section-title">Configurações e Backup</h1>
-              <p class="section-subtitle">Proteja seus dados, exporte backups completos com imagens e restaure com segurança</p>
-            </div>
+      <!-- VIEW 7: CONFIGURAÇÕES & BACKUP -->
+      <section id="view-settings" class="app-view">
+        <header class="view-header">
+          <div>
+            <h1>Configurações & Backup</h1>
+            <p class="subtitle">Segurança local, exportação e restauração de dados</p>
           </div>
+        </header>
 
-          <div class="two-col-layout">
-            <!-- Export Backup -->
-            <div class="panel">
-              <div class="panel-header">
-                <h2 class="panel-title">Exportar Backup Completo</h2>
-                <span class="badge badge-primary">JSON + Imagens</span>
-              </div>
-              <p class="panel-text">
-                Gera um arquivo de segurança contendo todas as suas cartas cadastradas (ativas e arquivadas), as imagens originais armazenadas no IndexedDB e a estrutura completa do aplicativo.
-              </p>
-              <div class="backup-summary-box">
-                <div><strong>Banco de Dados:</strong> <code>jm_football_hub_db_v1</code></div>
-                <div><strong>Cartas registradas:</strong> <span id="settings-cards-count">0</span></div>
-                <div><strong>Imagens armazenadas:</strong> <span id="settings-images-count">0</span></div>
-              </div>
-              <button id="btn-export-backup" class="btn btn-primary" type="button">
-                ⬇️ Exportar Backup Agora
-              </button>
-            </div>
-
-            <!-- Import Backup -->
-            <div class="panel">
-              <div class="panel-header">
-                <h2 class="panel-title">Restaurar Backup</h2>
-                <span class="badge badge-info">Validação Segura</span>
-              </div>
-              <p class="panel-text">
-                Selecione um arquivo <code>.json</code> exportado anteriormente pelo JM Football Hub. O sistema validará a integridade do arquivo antes de aplicar qualquer alteração.
-              </p>
-              <div class="form-group">
-                <label for="backup-file-input" class="btn btn-secondary file-btn-label">
-                  📂 Selecionar Arquivo de Backup (.json)
-                </label>
-                <input type="file" id="backup-file-input" accept=".json,application/json" class="hidden" />
-              </div>
-              <p class="helper-note">
-                ⚠️ O IndexedDB armazena dados localmente neste dispositivo. Faça backups regulares para transferir seus dados entre celular e computador.
-              </p>
-            </div>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h3>Resumo do Armazenamento Local</h3>
+            <ul class="storage-summary-list">
+              <li>Cartas cadastradas: <strong id="settings-cards-count">0</strong></li>
+              <li>Imagens armazenadas: <strong id="settings-images-count">0</strong></li>
+              <li>Escalações salvas: <strong id="settings-formations-count">0</strong></li>
+            </ul>
           </div>
 
-          <!-- App Info Panel -->
-          <div class="panel">
-            <div class="panel-header">
-              <h2 class="panel-title">Sobre o JM Football Hub</h2>
-              <span class="badge badge-outline">Versão 1.0</span>
-            </div>
-            <p class="panel-text">
-              <strong>JM Football Hub</strong> — <em>Seu time. Sua história. Seus números.</em><br />
-              Arquitetura modular independente preparada para evolução contínua no ecossistema de futebol virtual.
-            </p>
+          <div class="settings-card">
+            <h3>Exportar Backup Completo</h3>
+            <p>Gera um arquivo JSON contendo todas as suas cartas, imagens e escalações táticas.</p>
+            <button id="btn-export-backup" class="btn btn-primary">⬇️ Exportar Backup (.json)</button>
           </div>
-        </section>
-      </main>
-    </div>
+
+          <div class="settings-card">
+            <h3>Restaurar Backup</h3>
+            <p>Importe um arquivo de backup gerado anteriormente pelo JM Football Hub.</p>
+            <input type="file" id="input-import-backup" accept=".json" hidden>
+            <button id="btn-trigger-import" class="btn btn-outline">⬆️ Selecionar Arquivo de Backup</button>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <!-- MODAL DE CONFIRMAÇÃO (EXCLUSÃO / RESTAURAÇÃO DE BACKUP) -->
-  <div id="app-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal-dialog">
+  <!-- MODAL DE SELEÇÃO DE JOGADOR PARA O CAMPO / BANCO -->
+  <div id="player-picker-modal" class="modal-backdrop hidden">
+    <div class="modal-box modal-lg">
       <div class="modal-header">
-        <h3 id="modal-title" class="modal-title">Confirmação</h3>
-        <button id="modal-close-btn" class="modal-close" type="button" aria-label="Fechar">&times;</button>
+        <h3 id="picker-modal-title">Selecionar Jogador</h3>
+        <button class="btn-close-modal" id="btn-close-picker">✕</button>
       </div>
-      <div id="modal-body" class="modal-body"></div>
-      <div id="modal-footer" class="modal-footer"></div>
+      <div class="modal-body">
+        <div class="picker-filters">
+          <input type="text" id="picker-search" class="form-input" placeholder="Buscar jogador pelo nome...">
+          <select id="picker-pos-filter" class="form-select">
+            <option value="">Todas Posições</option>
+            <option value="GO">GO</option>
+            <option value="ZAG">ZAG</option>
+            <option value="LE">LE</option>
+            <option value="LD">LD</option>
+            <option value="VOL">VOL</option>
+            <option value="MLG">MLG</option>
+            <option value="MLE">MLE</option>
+            <option value="MLD">MLD</option>
+            <option value="MAT">MAT</option>
+            <option value="PTE">PTE</option>
+            <option value="PTD">PTD</option>
+            <option value="SA">SA</option>
+            <option value="CA">CA</option>
+          </select>
+        </div>
+
+        <div id="picker-current-slot-actions" class="picker-slot-actions hidden">
+          <div id="picker-current-player-info"></div>
+          <div class="slot-action-buttons">
+            <button id="btn-slot-move" class="btn btn-outline btn-sm">🔄 Trocar de Posição</button>
+            <button id="btn-slot-remove" class="btn btn-danger btn-sm">Remover da Posição</button>
+          </div>
+        </div>
+
+        <div id="picker-cards-list" class="picker-cards-grid"></div>
+      </div>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATIONS -->
-  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+  <!-- MODAL GLOBAL DE CONFIRMAÇÃO -->
+  <div id="global-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title">Confirmação</h3>
+        <button class="btn-close-modal" onclick="HubUtils.closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer" id="modal-footer"></div>
+    </div>
+  </div>
 
-  <!-- MODULAR SCRIPTS -->
-  <script src="./utils.js"></script>
-  <script src="./database.js"></script>
-  <script src="./images.js"></script>
-  <script src="./navigation.js"></script>
-  <script src="./cards.js"></script>
-  <script src="./squad.js"></script>
-  <script src="./backup.js"></script>
-  <script src="./app.js"></script>
+  <!-- CONTÊINER DE TOASTS -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- SCRIPTS MODULARES -->
+  <script src="utils.js"></script>
+  <script src="database.js"></script>
+  <script src="images.js"></script>
+  <script src="navigation.js"></script>
+  <script src="cards.js"></script>
+  <script src="squad.js"></script>
+  <script src="formations.js"></script>
+  <script src="backup.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
